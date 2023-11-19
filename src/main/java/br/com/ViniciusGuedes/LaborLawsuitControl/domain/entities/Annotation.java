@@ -1,0 +1,117 @@
+package br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities;
+
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "annotation")
+public class Annotation {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "annotation_date", nullable = false)
+    private LocalDate annotationDate;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false, name = "created_at", columnDefinition = "TIMESTAMP")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+    private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "lawsuit_id")
+    private Lawsuit lawsuitId;
+
+    public Annotation() {
+    }
+
+    public Annotation(LocalDate annotationDate, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Lawsuit lawsuitId) {
+        this.annotationDate = annotationDate;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.lawsuitId = lawsuitId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getAnnotationDate() {
+        return annotationDate;
+    }
+
+    public void setAnnotationDate(LocalDate annotationDate) {
+        this.annotationDate = annotationDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Lawsuit getLawsuitId() {
+        return lawsuitId;
+    }
+
+    public void setLawsuitId(Lawsuit lawsuitId) {
+        this.lawsuitId = lawsuitId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Annotation)) return false;
+
+        Annotation that = (Annotation) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (annotationDate != null ? !annotationDate.equals(that.annotationDate) : that.annotationDate != null)
+            return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
+        if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
+        return lawsuitId != null ? lawsuitId.equals(that.lawsuitId) : that.lawsuitId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (annotationDate != null ? annotationDate.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + (lawsuitId != null ? lawsuitId.hashCode() : 0);
+        return result;
+    }
+}
