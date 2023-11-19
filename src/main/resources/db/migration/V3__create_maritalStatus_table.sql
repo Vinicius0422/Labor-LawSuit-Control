@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS marital_status (
+	id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    marital_status VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE (marital_status)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS nationality(
+	id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    nationality VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE(nationality)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

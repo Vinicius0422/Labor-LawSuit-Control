@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS account_type (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+   	account_type VARCHAR(50) NOT NULL,
+   	created_at TIMESTAMP NOT NULL,
+   	updated_at TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE (account_type)
+)ENGINE=InnoDB DEFAULT CHARSET=UTF8;

@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS attorney (
+	id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    attorney_name VARCHAR(150) NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
+    oab_number VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE (cpf),
+    UNIQUE (oab_number)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
