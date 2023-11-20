@@ -51,7 +51,7 @@ class MaritalStatusServiceImplTest {
 
     @Test
     void whenFindAllThenReturnAnListEmpty() {
-        when(maritalStatusRepository.findAll()).thenReturn(new ArrayList<>());
+        when(maritalStatusRepository.findAllMaritalStatus()).thenReturn(new ArrayList<>());
         List<MaritalStatusResponseDto> response = maritalStatusService.getAllMaritalStatus();
 
         assertTrue(response.isEmpty());

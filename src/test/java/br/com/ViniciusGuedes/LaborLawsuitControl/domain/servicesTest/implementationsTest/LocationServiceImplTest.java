@@ -48,7 +48,7 @@ class LocationServiceImplTest {
 
     @Test
     void whenFindAllThenReturnAnListEmpty() {
-        when(locationRepository.findAll()).thenReturn(new ArrayList<>());
+        when(locationRepository.findAllLocations()).thenReturn(new ArrayList<>());
         List<LocationResponseDto> response = locationService.getAllLocations();
 
         assertTrue(response.isEmpty());
