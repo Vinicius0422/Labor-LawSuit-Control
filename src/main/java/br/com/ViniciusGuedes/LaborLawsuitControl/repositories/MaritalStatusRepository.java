@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface MaritalStatusRepository extends JpaRepository<MaritalStatus, Long> {
 
-    @Query(value = "SELECT br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.maritalStatus.MaritalStatusResponseDto(m.id, m.maritalStatus) FROM MaritalStatus m")
+    @Query(value = "SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.maritalStatus.MaritalStatusResponseDto(m.id, m.maritalStatus) FROM MaritalStatus m")
     List<MaritalStatusResponseDto> findAllMaritalStatus();
 }
