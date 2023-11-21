@@ -12,7 +12,7 @@ import java.util.List;
 public class AccountTypeServiceImpl implements AccountTypeService {
 
     @Autowired
-    AccountTypeRepository accountTypeRepository;
+    private AccountTypeRepository accountTypeRepository;
 
     @Override
     public List<AccountTypeReponseDto> getAllAccountsType() {

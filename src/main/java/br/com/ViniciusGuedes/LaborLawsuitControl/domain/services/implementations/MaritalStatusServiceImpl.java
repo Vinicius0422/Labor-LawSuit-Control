@@ -10,7 +10,7 @@ import java.util.List;
 public class MaritalStatusServiceImpl implements MaritalStatusService {
 
     @Autowired
-    MaritalStatusRepository maritalStatusRepository;
+    private MaritalStatusRepository maritalStatusRepository;
 
     @Override
     public List<MaritalStatusResponseDto> getAllMaritalStatus() {
