@@ -4,9 +4,10 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitPhase.Lawsui
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.LawsuitPhaseService;
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.LawsuitPhaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class LawsuitPhaseServiceImpl implements LawsuitPhaseService {
 
     @Autowired

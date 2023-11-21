@@ -4,9 +4,11 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.nationality.Nationa
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.NationalityService;
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.NationalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class NationalityServiceImpl implements NationalityService {
 
     @Autowired
