@@ -26,9 +26,6 @@ public class Progress {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false, name = "creation_date", columnDefinition = "TIMESTAMP")
-    private LocalDateTime creationDate;
-
     @Column(nullable = false, name = "created_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
@@ -46,13 +43,12 @@ public class Progress {
     public Progress() {
     }
 
-    public Progress(LocalDate progressDate, LocalDate expectedDate, LocalTime expectedTime, String description, LocalDateTime creationDate,
+    public Progress(LocalDate progressDate, LocalDate expectedDate, LocalTime expectedTime, String description,
                     LocalDateTime createdAt, LocalDateTime updatedAt, LawsuitPhase lawsuitPhaseId, Lawsuit lawsuitId) {
         this.progressDate = progressDate;
         this.expectedDate = expectedDate;
         this.expectedTime = expectedTime;
         this.description = description;
-        this.creationDate = creationDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.lawsuitPhaseId = lawsuitPhaseId;
@@ -97,14 +93,6 @@ public class Progress {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -155,8 +143,6 @@ public class Progress {
             return false;
         if (description != null ? !description.equals(progress.description) : progress.description != null)
             return false;
-        if (creationDate != null ? !creationDate.equals(progress.creationDate) : progress.creationDate != null)
-            return false;
         if (createdAt != null ? !createdAt.equals(progress.createdAt) : progress.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(progress.updatedAt) : progress.updatedAt != null) return false;
         if (lawsuitPhaseId != null ? !lawsuitPhaseId.equals(progress.lawsuitPhaseId) : progress.lawsuitPhaseId != null)
@@ -171,7 +157,6 @@ public class Progress {
         result = 31 * result + (expectedDate != null ? expectedDate.hashCode() : 0);
         result = 31 * result + (expectedTime != null ? expectedTime.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         result = 31 * result + (lawsuitPhaseId != null ? lawsuitPhaseId.hashCode() : 0);
