@@ -4,7 +4,7 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.PersonType;
 
 public class DefendantForLawsuitResponseDto {
 
-    private Long id;
+    private Long defendantId;
     private String defendantName;
     private PersonType personType;
     private String cpfCnpj;
@@ -12,19 +12,19 @@ public class DefendantForLawsuitResponseDto {
     public DefendantForLawsuitResponseDto() {
     }
 
-    public DefendantForLawsuitResponseDto(Long id, String defendantName, PersonType personType, String cpfCnpj) {
-        this.id = id;
+    public DefendantForLawsuitResponseDto(Long defendantId, String defendantName, PersonType personType, String cpfCnpj) {
+        this.defendantId = defendantId;
         this.defendantName = defendantName;
         this.personType = personType;
         this.cpfCnpj = cpfCnpj;
     }
 
     public Long getId() {
-        return id;
+        return defendantId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long defendantId) {
+        this.defendantId = defendantId;
     }
 
     public String getDefendantName() {

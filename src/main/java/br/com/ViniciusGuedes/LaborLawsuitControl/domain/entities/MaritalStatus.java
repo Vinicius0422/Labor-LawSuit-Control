@@ -10,7 +10,8 @@ public class MaritalStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long maritalStatusId;
 
     @Column(length = 50, nullable = false, unique = true, name = "marital_status")
     private String maritalStatus;
@@ -31,11 +32,11 @@ public class MaritalStatus {
     }
 
     public Long getId() {
-        return id;
+        return maritalStatusId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long maritalStatusId) {
+        this.maritalStatusId = maritalStatusId;
     }
 
     public String getMaritalStatus() {
@@ -69,7 +70,7 @@ public class MaritalStatus {
 
         MaritalStatus that = (MaritalStatus) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (maritalStatusId != null ? !maritalStatusId.equals(that.maritalStatusId) : that.maritalStatusId != null) return false;
         if (maritalStatus != null ? !maritalStatus.equals(that.maritalStatus) : that.maritalStatus != null)
             return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
@@ -78,7 +79,7 @@ public class MaritalStatus {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = maritalStatusId != null ? maritalStatusId.hashCode() : 0;
         result = 31 * result + (maritalStatus != null ? maritalStatus.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);

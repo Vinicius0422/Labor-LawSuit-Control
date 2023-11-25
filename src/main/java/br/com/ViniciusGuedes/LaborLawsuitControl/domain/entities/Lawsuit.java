@@ -13,7 +13,8 @@ public class Lawsuit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id" )
+    private Long lawsuitId;
 
     @Column(length = 22, nullable = false, unique = true, name = "lawsuit_number")
     private String lawsuitNumber;
@@ -90,11 +91,11 @@ public class Lawsuit {
     }
 
     public Long getId() {
-        return id;
+        return lawsuitId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long lawsuitId) {
+        this.lawsuitId = lawsuitId;
     }
 
     public String getLawsuitNumber() {
@@ -216,7 +217,7 @@ public class Lawsuit {
 
         Lawsuit lawsuit = (Lawsuit) o;
 
-        if (id != null ? !id.equals(lawsuit.id) : lawsuit.id != null) return false;
+        if (lawsuitId != null ? !lawsuitId.equals(lawsuit.lawsuitId) : lawsuit.lawsuitId != null) return false;
         if (lawsuitNumber != null ? !lawsuitNumber.equals(lawsuit.lawsuitNumber) : lawsuit.lawsuitNumber != null)
             return false;
         if (civilCourt != null ? !civilCourt.equals(lawsuit.civilCourt) : lawsuit.civilCourt != null) return false;
@@ -238,7 +239,7 @@ public class Lawsuit {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = lawsuitId != null ? lawsuitId.hashCode() : 0;
         result = 31 * result + (lawsuitNumber != null ? lawsuitNumber.hashCode() : 0);
         result = 31 * result + (civilCourt != null ? civilCourt.hashCode() : 0);
         result = 31 * result + (distributionDate != null ? distributionDate.hashCode() : 0);

@@ -10,7 +10,8 @@ public class LawsuitPhase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long lawsuitPhaseId;
 
     @Column(length = 50, nullable = false, unique = true)
     private String phase;
@@ -31,11 +32,11 @@ public class LawsuitPhase {
     }
 
     public Long getId() {
-        return id;
+        return lawsuitPhaseId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long lawsuitPhaseId) {
+        this.lawsuitPhaseId = lawsuitPhaseId;
     }
 
     public String getPhase() {
@@ -69,7 +70,7 @@ public class LawsuitPhase {
 
         LawsuitPhase that = (LawsuitPhase) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (lawsuitPhaseId != null ? !lawsuitPhaseId.equals(that.lawsuitPhaseId) : that.lawsuitPhaseId != null) return false;
         if (phase != null ? !phase.equals(that.phase) : that.phase != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         return updatedAt != null ? updatedAt.equals(that.updatedAt) : that.updatedAt == null;
@@ -77,7 +78,7 @@ public class LawsuitPhase {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = lawsuitPhaseId != null ? lawsuitPhaseId.hashCode() : 0;
         result = 31 * result + (phase != null ? phase.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);

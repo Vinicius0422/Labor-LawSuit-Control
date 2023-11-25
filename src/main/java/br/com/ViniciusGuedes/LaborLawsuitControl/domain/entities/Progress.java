@@ -12,7 +12,8 @@ public class Progress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long progressId;
 
     @Column(nullable = false, name = "progress_date", columnDefinition = "DATE")
     private LocalDate progressDate;
@@ -56,11 +57,11 @@ public class Progress {
     }
 
     public Long getId() {
-        return id;
+        return progressId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long progressId) {
+        this.progressId = progressId;
     }
 
     public LocalDate getProgressDate() {
@@ -134,7 +135,7 @@ public class Progress {
 
         Progress progress = (Progress) o;
 
-        if (id != null ? !id.equals(progress.id) : progress.id != null) return false;
+        if (progressId != null ? !progressId.equals(progress.progressId) : progress.progressId != null) return false;
         if (progressDate != null ? !progressDate.equals(progress.progressDate) : progress.progressDate != null)
             return false;
         if (expectedDate != null ? !expectedDate.equals(progress.expectedDate) : progress.expectedDate != null)
@@ -152,7 +153,7 @@ public class Progress {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = progressId != null ? progressId.hashCode() : 0;
         result = 31 * result + (progressDate != null ? progressDate.hashCode() : 0);
         result = 31 * result + (expectedDate != null ? expectedDate.hashCode() : 0);
         result = 31 * result + (expectedTime != null ? expectedTime.hashCode() : 0);

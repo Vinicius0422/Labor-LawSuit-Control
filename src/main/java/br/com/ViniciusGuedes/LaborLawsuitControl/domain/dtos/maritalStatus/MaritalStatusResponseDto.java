@@ -2,23 +2,23 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.maritalStatus;
 
 public class MaritalStatusResponseDto {
 
-    private Long id;
+    private Long maritalStatusId;
     private String maritalStatus;
 
     public MaritalStatusResponseDto() {
     }
 
-    public MaritalStatusResponseDto(Long id, String maritalStatus) {
-        this.id = id;
+    public MaritalStatusResponseDto(Long maritalStatusId, String maritalStatus) {
+        this.maritalStatusId = maritalStatusId;
         this.maritalStatus = maritalStatus;
     }
 
     public Long getId() {
-        return id;
+        return maritalStatusId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long maritalStatusId) {
+        this.maritalStatusId = maritalStatusId;
     }
 
     public String getMaritalStatus() {

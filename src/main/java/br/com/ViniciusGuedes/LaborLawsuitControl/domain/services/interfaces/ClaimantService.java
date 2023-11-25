@@ -13,7 +13,7 @@ public interface ClaimantService {
 
     List<OnlyClaimantResponseDto> getAllClaimants();
 
-    ClaimantResponseDto getById(Long id);
+    ClaimantResponseDto getById(Long claimantId);
 
     ClaimantResponseDto getByCpf(String cpf);
 

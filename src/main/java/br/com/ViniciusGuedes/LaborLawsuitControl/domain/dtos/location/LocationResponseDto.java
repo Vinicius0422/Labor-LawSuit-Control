@@ -2,23 +2,23 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.location;
 
 public class LocationResponseDto {
 
-    private Long id;
+    private Long locationId;
     private String location;
 
     public LocationResponseDto() {
     }
 
-    public LocationResponseDto(Long id, String location) {
-        this.id = id;
+    public LocationResponseDto(Long locationId, String location) {
+        this.locationId = locationId;
         this.location = location;
     }
 
     public Long getId() {
-        return id;
+        return locationId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long locationId) {
+        this.locationId = locationId;
     }
 
     public String getLocation() {

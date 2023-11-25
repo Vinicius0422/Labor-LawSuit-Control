@@ -10,7 +10,8 @@ public class Nationality {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long nationalityId;
 
     @Column(length = 50, nullable = false, unique = true)
     private String nationality;
@@ -31,11 +32,11 @@ public class Nationality {
     }
 
     public Long getId() {
-        return id;
+        return nationalityId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long nationalityId) {
+        this.nationalityId = nationalityId;
     }
 
     public String getNationality() {
@@ -69,7 +70,7 @@ public class Nationality {
 
         Nationality that = (Nationality) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (nationalityId != null ? !nationalityId.equals(that.nationalityId) : that.nationalityId != null) return false;
         if (nationality != null ? !nationality.equals(that.nationality) : that.nationality != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         return updatedAt != null ? updatedAt.equals(that.updatedAt) : that.updatedAt == null;
@@ -77,7 +78,7 @@ public class Nationality {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = nationalityId != null ? nationalityId.hashCode() : 0;
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);

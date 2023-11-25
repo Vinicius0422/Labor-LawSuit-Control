@@ -11,7 +11,8 @@ public class Annotation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long annotationId;
 
     @Column(name = "annotation_date", nullable = false)
     private LocalDate annotationDate;
@@ -41,11 +42,11 @@ public class Annotation {
     }
 
     public Long getId() {
-        return id;
+        return annotationId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAnnotationId(Long annotationId) {
+        this.annotationId = annotationId;
     }
 
     public LocalDate getAnnotationDate() {
@@ -95,7 +96,7 @@ public class Annotation {
 
         Annotation that = (Annotation) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (annotationId != null ? !annotationId.equals(that.annotationId) : that.annotationId != null) return false;
         if (annotationDate != null ? !annotationDate.equals(that.annotationDate) : that.annotationDate != null)
             return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
@@ -106,7 +107,7 @@ public class Annotation {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = annotationId != null ? annotationId.hashCode() : 0;
         result = 31 * result + (annotationDate != null ? annotationDate.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);

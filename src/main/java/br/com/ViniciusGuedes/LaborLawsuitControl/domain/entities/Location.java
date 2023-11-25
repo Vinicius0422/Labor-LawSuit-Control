@@ -11,7 +11,8 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long locationId;
 
     @Column(length = 50, nullable = false, unique = true)
     private String location;
@@ -32,11 +33,11 @@ public class Location {
     }
 
     public Long getId() {
-        return id;
+        return locationId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long locationId) {
+        this.locationId = locationId;
     }
 
     public String getLocation() {
@@ -70,7 +71,7 @@ public class Location {
 
         Location location1 = (Location) o;
 
-        if (id != null ? !id.equals(location1.id) : location1.id != null) return false;
+        if (locationId != null ? !locationId.equals(location1.locationId) : location1.locationId != null) return false;
         if (location != null ? !location.equals(location1.location) : location1.location != null) return false;
         if (createdAt != null ? !createdAt.equals(location1.createdAt) : location1.createdAt != null) return false;
         return updatedAt != null ? updatedAt.equals(location1.updatedAt) : location1.updatedAt == null;
@@ -78,7 +79,7 @@ public class Location {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = locationId != null ? locationId.hashCode() : 0;
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);

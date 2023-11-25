@@ -10,7 +10,8 @@ public class LawsuitStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long lawsuitStatusId;
 
     @Column(length = 50, nullable = false, unique = true)
     private String status;
@@ -31,11 +32,11 @@ public class LawsuitStatus {
     }
 
     public Long getId() {
-        return id;
+        return lawsuitStatusId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long lawsuitStatusId) {
+        this.lawsuitStatusId = lawsuitStatusId;
     }
 
     public String getStatus() {
@@ -69,7 +70,7 @@ public class LawsuitStatus {
 
         LawsuitStatus that = (LawsuitStatus) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (lawsuitStatusId != null ? !lawsuitStatusId.equals(that.lawsuitStatusId) : that.lawsuitStatusId != null) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         return updatedAt != null ? updatedAt.equals(that.updatedAt) : that.updatedAt == null;
@@ -77,7 +78,7 @@ public class LawsuitStatus {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = lawsuitStatusId != null ? lawsuitStatusId.hashCode() : 0;
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);

@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 public class ProgressResponseDto {
 
-    private Long id;
+    private Long progressId;
     private LocalDate progressDate;
     private LocalDate expectedDate;
     private LocalTime expectedTime;
@@ -19,9 +19,9 @@ public class ProgressResponseDto {
     public ProgressResponseDto() {
     }
 
-    public ProgressResponseDto(Long id, LocalDate progressDate, LocalDate expectedDate, LocalTime expectedTime, String description,
+    public ProgressResponseDto(Long progressId, LocalDate progressDate, LocalDate expectedDate, LocalTime expectedTime, String description,
                                LocalDateTime createdAt, LocalDateTime updatedAt, Long lawsuitPhaseId, Long lawsuitId) {
-        this.id = id;
+        this.progressId = progressId;
         this.progressDate = progressDate;
         this.expectedDate = expectedDate;
         this.expectedTime = expectedTime;
@@ -33,11 +33,11 @@ public class ProgressResponseDto {
     }
 
     public Long getId() {
-        return id;
+        return progressId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long progressId) {
+        this.progressId = progressId;
     }
 
     public LocalDate getProgressDate() {

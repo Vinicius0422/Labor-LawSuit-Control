@@ -13,7 +13,8 @@ public class Claimant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long claimantId;
 
     @Column(length = 150, nullable = false, name = "claimant_name")
     private String claimantName;
@@ -132,11 +133,11 @@ public class Claimant {
     }
 
     public Long getId() {
-        return id;
+        return claimantId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long claimantId) {
+        this.claimantId = claimantId;
     }
 
     public String getClaimantName() {
@@ -354,7 +355,7 @@ public class Claimant {
 
         Claimant claimant = (Claimant) o;
 
-        if (id != null ? !id.equals(claimant.id) : claimant.id != null) return false;
+        if (claimantId != null ? !claimantId.equals(claimant.claimantId) : claimant.claimantId != null) return false;
         if (claimantName != null ? !claimantName.equals(claimant.claimantName) : claimant.claimantName != null)
             return false;
         if (birthDate != null ? !birthDate.equals(claimant.birthDate) : claimant.birthDate != null) return false;
@@ -390,7 +391,7 @@ public class Claimant {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = claimantId != null ? claimantId.hashCode() : 0;
         result = 31 * result + (claimantName != null ? claimantName.hashCode() : 0);
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
         result = 31 * result + (occupation != null ? occupation.hashCode() : 0);

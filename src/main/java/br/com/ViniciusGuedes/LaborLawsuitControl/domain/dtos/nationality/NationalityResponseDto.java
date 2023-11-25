@@ -2,23 +2,23 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.nationality;
 
 public class NationalityResponseDto {
 
-    private Long id;
+    private Long nationalityId;
     private String nationality;
 
     public NationalityResponseDto() {
     }
 
-    public NationalityResponseDto(Long id, String nationality) {
-        this.id = id;
+    public NationalityResponseDto(Long nationalityId, String nationality) {
+        this.nationalityId = nationalityId;
         this.nationality = nationality;
     }
 
     public Long getId() {
-        return id;
+        return nationalityId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long nationalityId) {
+        this.nationalityId = nationalityId;
     }
 
     public String getNationality() {

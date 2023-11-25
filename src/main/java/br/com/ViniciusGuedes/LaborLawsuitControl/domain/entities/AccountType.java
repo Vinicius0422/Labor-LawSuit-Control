@@ -10,7 +10,8 @@ public class AccountType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long accountTypeId;
 
     @Column(length = 50, nullable = false, unique = true, name = "account_type")
     private String accountType;
@@ -31,11 +32,11 @@ public class AccountType {
     }
 
     public Long getId() {
-        return id;
+        return accountTypeId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.accountTypeId = id;
     }
 
     public String getAccountType() {
@@ -69,7 +70,7 @@ public class AccountType {
 
         AccountType that = (AccountType) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (accountTypeId != null ? !accountTypeId.equals(that.accountTypeId) : that.accountTypeId != null) return false;
         if (accountType != null ? !accountType.equals(that.accountType) : that.accountType != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         return updatedAt != null ? updatedAt.equals(that.updatedAt) : that.updatedAt == null;
@@ -77,7 +78,7 @@ public class AccountType {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = accountTypeId != null ? accountTypeId.hashCode() : 0;
         result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);

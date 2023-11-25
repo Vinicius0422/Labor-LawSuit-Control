@@ -2,23 +2,23 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitStatus;
 
 public class LawsuitStatusResponseDto {
 
-    private Long id;
+    private Long lawsuitStatusId;
     private String status;
 
     public LawsuitStatusResponseDto() {
     }
 
-    public LawsuitStatusResponseDto(Long id, String status) {
-        this.id = id;
+    public LawsuitStatusResponseDto(Long lawsuitStatusId, String status) {
+        this.lawsuitStatusId = lawsuitStatusId;
         this.status = status;
     }
 
     public Long getId() {
-        return id;
+        return lawsuitStatusId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long lawsuitStatusId) {
+        this.lawsuitStatusId = lawsuitStatusId;
     }
 
     public String getStatus() {

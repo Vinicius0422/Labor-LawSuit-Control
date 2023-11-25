@@ -2,7 +2,7 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney;
 
 public class AttorneyResponseDto {
 
-    private Long id;
+    private Long attorneyId;
     private String attorneyName;
     private String cpf;
     private String oabNumber;
@@ -10,19 +10,19 @@ public class AttorneyResponseDto {
     public AttorneyResponseDto() {
     }
 
-    public AttorneyResponseDto(Long id, String attorneyName, String cpf, String oabNumber) {
-        this.id = id;
+    public AttorneyResponseDto(Long attorneyId, String attorneyName, String cpf, String oabNumber) {
+        this.attorneyId = attorneyId;
         this.attorneyName = attorneyName;
         this.cpf = cpf;
         this.oabNumber = oabNumber;
     }
 
     public Long getId() {
-        return id;
+        return attorneyId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long attorneyId) {
+        this.attorneyId = attorneyId;
     }
 
     public String getAttorneyName() {

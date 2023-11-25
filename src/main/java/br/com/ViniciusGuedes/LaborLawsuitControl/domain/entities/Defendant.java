@@ -12,7 +12,8 @@ public class Defendant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long defendantId;
 
     @Column(length = 150, nullable = false, name = "defendant_name")
     private String defendantName;
@@ -73,11 +74,11 @@ public class Defendant {
     }
 
     public Long getId() {
-        return id;
+        return defendantId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long defendantId) {
+        this.defendantId = defendantId;
     }
 
     public String getDefendantName() {
@@ -191,7 +192,7 @@ public class Defendant {
 
         Defendant defendant = (Defendant) o;
 
-        if (id != null ? !id.equals(defendant.id) : defendant.id != null) return false;
+        if (defendantId != null ? !defendantId.equals(defendant.defendantId) : defendant.defendantId != null) return false;
         if (defendantName != null ? !defendantName.equals(defendant.defendantName) : defendant.defendantName != null)
             return false;
         if (personType != defendant.personType) return false;
@@ -211,7 +212,7 @@ public class Defendant {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = defendantId != null ? defendantId.hashCode() : 0;
         result = 31 * result + (defendantName != null ? defendantName.hashCode() : 0);
         result = 31 * result + (personType != null ? personType.hashCode() : 0);
         result = 31 * result + (cpfCnpj != null ? cpfCnpj.hashCode() : 0);

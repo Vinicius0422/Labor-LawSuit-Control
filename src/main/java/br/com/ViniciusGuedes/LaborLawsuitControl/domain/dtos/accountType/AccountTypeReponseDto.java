@@ -4,23 +4,23 @@ import jakarta.persistence.Column;
 
 public class AccountTypeReponseDto {
 
-    private Long id;
+    private Long accountTypeId;
     private String accountType;
 
     public AccountTypeReponseDto() {
     }
 
-    public AccountTypeReponseDto(Long id, String accountType) {
-        this.id = id;
+    public AccountTypeReponseDto(Long accountTypeId, String accountType) {
+        this.accountTypeId = accountTypeId;
         this.accountType = accountType;
     }
 
     public Long getId() {
-        return id;
+        return accountTypeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long accountTypeId) {
+        this.accountTypeId = accountTypeId;
     }
 
     public String getAccountType() {

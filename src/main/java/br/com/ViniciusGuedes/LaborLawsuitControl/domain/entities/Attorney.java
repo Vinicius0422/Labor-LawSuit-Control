@@ -10,7 +10,8 @@ public class Attorney {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long attorneyId;
 
     @Column(length = 150, nullable = false, name = "attorney_name")
     private String attorneyName;
@@ -39,11 +40,11 @@ public class Attorney {
     }
 
     public Long getId() {
-        return id;
+        return attorneyId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long attorneyId) {
+        this.attorneyId = attorneyId;
     }
 
     public String getAttorneyName() {
@@ -93,7 +94,7 @@ public class Attorney {
 
         Attorney attorney = (Attorney) o;
 
-        if (id != null ? !id.equals(attorney.id) : attorney.id != null) return false;
+        if (attorneyId != null ? !attorneyId.equals(attorney.attorneyId) : attorney.attorneyId != null) return false;
         if (attorneyName != null ? !attorneyName.equals(attorney.attorneyName) : attorney.attorneyName != null)
             return false;
         if (cpf != null ? !cpf.equals(attorney.cpf) : attorney.cpf != null) return false;
@@ -104,7 +105,7 @@ public class Attorney {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = attorneyId != null ? attorneyId.hashCode() : 0;
         result = 31 * result + (attorneyName != null ? attorneyName.hashCode() : 0);
         result = 31 * result + (cpf != null ? cpf.hashCode() : 0);
         result = 31 * result + (oabNumber != null ? oabNumber.hashCode() : 0);

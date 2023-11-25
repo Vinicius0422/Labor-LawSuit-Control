@@ -1,7 +1,7 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.accountType.AccountTypeReponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitClaimantResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.maritalStatus.MaritalStatusResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.nationality.NationalityResponseDto;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ClaimantResponseDto {
 
-    private Long id;
+    private Long claimantId;
     private String claimantName;
     private LocalDate birthDate;
     private String occupation;
@@ -38,16 +38,16 @@ public class ClaimantResponseDto {
     private NationalityResponseDto nationalityId;
     private MaritalStatusResponseDto maritalStatusId;
     private AccountTypeReponseDto accountTypeId;
-    private List<LawsuitResponseDto> lawsuits = new ArrayList<>();
+    private List<LawsuitClaimantResponseDto> lawsuits = new ArrayList<>();
 
     public ClaimantResponseDto() {
     }
 
-    public ClaimantResponseDto(Long id, String claimantName, LocalDate birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg, String cpf,
+    public ClaimantResponseDto(Long claimantId, String claimantName, LocalDate birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg, String cpf,
                                String pis, String address, String city, String neighborhood, String uf, String cep, String bank, String agency, String operation,
                                String account, String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, NationalityResponseDto nationalityId,
-                               MaritalStatusResponseDto maritalStatusId, AccountTypeReponseDto accountTypeId, List<LawsuitResponseDto> lawsuits) {
-        this.id = id;
+                               MaritalStatusResponseDto maritalStatusId, AccountTypeReponseDto accountTypeId, List<LawsuitClaimantResponseDto> lawsuits) {
+        this.claimantId = claimantId;
         this.claimantName = claimantName;
         this.birthDate = birthDate;
         this.occupation = occupation;
@@ -77,11 +77,11 @@ public class ClaimantResponseDto {
     }
 
     public Long getId() {
-        return id;
+        return claimantId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long claimantId) {
+        this.claimantId = claimantId;
     }
 
     public String getClaimantName() {
@@ -284,11 +284,11 @@ public class ClaimantResponseDto {
         this.accountTypeId = accountTypeId;
     }
 
-    public List<LawsuitResponseDto> getLawsuits() {
+    public List<LawsuitClaimantResponseDto> getLawsuits() {
         return lawsuits;
     }
 
-    public void setLawsuits(List<LawsuitResponseDto> lawsuits) {
+    public void setLawsuits(List<LawsuitClaimantResponseDto> lawsuits) {
         this.lawsuits = lawsuits;
     }
 }

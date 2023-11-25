@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class AnnotationResponseDto {
 
-    private Long id;
+    private Long annotationId;
     private LocalDate annotationDate;
     private String description;
     private LocalDateTime createdAt;
@@ -15,8 +15,8 @@ public class AnnotationResponseDto {
     public AnnotationResponseDto() {
     }
 
-    public AnnotationResponseDto(Long id, LocalDate annotationDate, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Long lawsuitId) {
-        this.id = id;
+    public AnnotationResponseDto(Long annotationId, LocalDate annotationDate, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Long lawsuitId) {
+        this.annotationId = annotationId;
         this.annotationDate = annotationDate;
         this.description = description;
         this.createdAt = createdAt;
@@ -25,11 +25,11 @@ public class AnnotationResponseDto {
     }
 
     public Long getId() {
-        return id;
+        return annotationId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long annotationId) {
+        this.annotationId = annotationId;
     }
 
     public LocalDate getAnnotationDate() {

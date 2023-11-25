@@ -2,7 +2,7 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant;
 
 public class OnlyClaimantResponseDto {
 
-    private Long id;
+    private Long claimantId;
     private String claimantName;
     private String rg;
     private String orgaoRg;
@@ -16,9 +16,9 @@ public class OnlyClaimantResponseDto {
     public OnlyClaimantResponseDto() {
     }
 
-    public OnlyClaimantResponseDto(Long id, String claimantName, String rg, String orgaoRg, String cpf, String address,
+    public OnlyClaimantResponseDto(Long claimantId, String claimantName, String rg, String orgaoRg, String cpf, String address,
                                    String city, String neighborhood, String uf, String cep) {
-        this.id = id;
+        this.claimantId = claimantId;
         this.claimantName = claimantName;
         this.rg = rg;
         this.orgaoRg = orgaoRg;
@@ -31,11 +31,11 @@ public class OnlyClaimantResponseDto {
     }
 
     public Long getId() {
-        return id;
+        return claimantId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long claimantId) {
+        this.claimantId = claimantId;
     }
 
     public String getClaimantName() {

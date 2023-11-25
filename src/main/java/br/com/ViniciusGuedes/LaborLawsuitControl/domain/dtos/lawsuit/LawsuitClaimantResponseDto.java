@@ -2,7 +2,6 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantForLawsuitResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitPhase.LawsuitPhaseResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitStatus.LawsuitStatusResponseDto;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LawsuitResponseDto {
+public class LawsuitClaimantResponseDto {
 
     private Long lawsuitId;
     private String lawsuitNumber;
@@ -26,19 +25,18 @@ public class LawsuitResponseDto {
     private LawsuitPhaseResponseDto lawsuitPhaseId;
     private LawsuitStatusResponseDto statusId;
     private LocationResponseDto locationId;
-    private OnlyClaimantResponseDto claimant;
     private List<ProgressResponseDto> progress = new ArrayList<>();
     private List<AnnotationResponseDto> annotations = new ArrayList<>();
     private List<DefendantForLawsuitResponseDto> defendants = new ArrayList<>();
     private List<AttorneyResponseDto> attorneys = new ArrayList<>();
 
-    public LawsuitResponseDto() {
+    public LawsuitClaimantResponseDto() {
     }
 
-    public LawsuitResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt,
-                              LocalDateTime updatedAt, LawsuitPhaseResponseDto lawsuitPhaseId, LawsuitStatusResponseDto statusId, LocationResponseDto locationId, OnlyClaimantResponseDto claimant,
-                              List<ProgressResponseDto> progress, List<AnnotationResponseDto> annotations, List<DefendantForLawsuitResponseDto> defendants,
-                              List<AttorneyResponseDto> attorneys) {
+    public LawsuitClaimantResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt,
+                                      LocalDateTime updatedAt, LawsuitPhaseResponseDto lawsuitPhaseId, LawsuitStatusResponseDto statusId, LocationResponseDto locationId,
+                                      List<ProgressResponseDto> progress, List<AnnotationResponseDto> annotations, List<DefendantForLawsuitResponseDto> defendants,
+                                      List<AttorneyResponseDto> attorneys) {
         this.lawsuitId = lawsuitId;
         this.lawsuitNumber = lawsuitNumber;
         this.civilCourt = civilCourt;
@@ -49,7 +47,6 @@ public class LawsuitResponseDto {
         this.lawsuitPhaseId = lawsuitPhaseId;
         this.statusId = statusId;
         this.locationId = locationId;
-        this.claimant = claimant;
         this.progress = progress;
         this.annotations = annotations;
         this.defendants = defendants;
@@ -134,14 +131,6 @@ public class LawsuitResponseDto {
 
     public void setLocationId(LocationResponseDto locationId) {
         this.locationId = locationId;
-    }
-
-    public OnlyClaimantResponseDto getClaimant() {
-        return claimant;
-    }
-
-    public void setClaimant(OnlyClaimantResponseDto claimant) {
-        this.claimant = claimant;
     }
 
     public List<ProgressResponseDto> getProgress() {
