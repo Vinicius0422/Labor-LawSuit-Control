@@ -10,19 +10,18 @@ public class AnnotationResponseDto {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long lawsuitId;
 
     public AnnotationResponseDto() {
     }
 
-    public AnnotationResponseDto(Long annotationId, LocalDate annotationDate, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Long lawsuitId) {
+    public AnnotationResponseDto(Long annotationId, LocalDate annotationDate, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.annotationId = annotationId;
         this.annotationDate = annotationDate;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.lawsuitId = lawsuitId;
     }
+
 
     public Long getId() {
         return annotationId;
@@ -64,11 +63,4 @@ public class AnnotationResponseDto {
         this.updatedAt = updatedAt;
     }
 
-    public Long getLawsuitId() {
-        return lawsuitId;
-    }
-
-    public void setLawsuitId(Long lawsuitId) {
-        this.lawsuitId = lawsuitId;
-    }
 }

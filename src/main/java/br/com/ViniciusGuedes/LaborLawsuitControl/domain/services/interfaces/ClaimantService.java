@@ -1,8 +1,9 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces;
 
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.ResponseDefault;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.SaveOrUpdateResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantRequestDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantResponseDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantServiceResponse;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +12,15 @@ import java.util.List;
 @Service
 public interface ClaimantService {
 
-    List<OnlyClaimantResponseDto> getAllClaimants();
+    ClaimantServiceResponse<List<OnlyClaimantResponseDto>> getAllClaimants();
 
-    ClaimantResponseDto getById(Long claimantId);
+    ClaimantServiceResponse getClaimantById(Long claimantId);
 
-    ClaimantResponseDto getByCpf(String cpf);
+    ClaimantServiceResponse getByCpf(String cpf);
 
-    List<ClaimantResponseDto> getByName(String name);
+    ClaimantServiceResponse<List<ClaimantResponseDto>> getByName(String claimantName);
 
-    ResponseDefault saveClaimant(ClaimantRequestDto claimantRequestDto);
+    SaveOrUpdateResponseDefault saveClaimant(ClaimantRequestDto claimantRequestDto);
 
-    ResponseDefault updateClaimant(Long id, ClaimantRequestDto claimantRequestDto);
+    SaveOrUpdateResponseDefault updateClaimant(Long id, ClaimantRequestDto claimantRequestDto);
 }

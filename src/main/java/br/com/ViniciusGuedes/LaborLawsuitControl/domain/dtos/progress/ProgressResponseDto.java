@@ -13,14 +13,12 @@ public class ProgressResponseDto {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long lawsuitPhaseId;
-    private Long lawsuitId;
 
     public ProgressResponseDto() {
     }
 
     public ProgressResponseDto(Long progressId, LocalDate progressDate, LocalDate expectedDate, LocalTime expectedTime, String description,
-                               LocalDateTime createdAt, LocalDateTime updatedAt, Long lawsuitPhaseId, Long lawsuitId) {
+                               LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.progressId = progressId;
         this.progressDate = progressDate;
         this.expectedDate = expectedDate;
@@ -28,8 +26,6 @@ public class ProgressResponseDto {
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.lawsuitPhaseId = lawsuitPhaseId;
-        this.lawsuitId = lawsuitId;
     }
 
     public Long getId() {
@@ -86,21 +82,5 @@ public class ProgressResponseDto {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Long getLawsuitPhaseId() {
-        return lawsuitPhaseId;
-    }
-
-    public void setLawsuitPhaseId(Long lawsuitPhaseId) {
-        this.lawsuitPhaseId = lawsuitPhaseId;
-    }
-
-    public Long getLawsuitId() {
-        return lawsuitId;
-    }
-
-    public void setLawsuitId(Long lawsuitId) {
-        this.lawsuitId = lawsuitId;
     }
 }

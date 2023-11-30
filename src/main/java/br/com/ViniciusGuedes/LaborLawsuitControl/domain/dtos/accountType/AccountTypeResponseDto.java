@@ -1,16 +1,14 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.accountType;
 
-import jakarta.persistence.Column;
-
-public class AccountTypeReponseDto {
+public class AccountTypeResponseDto {
 
     private Long accountTypeId;
     private String accountType;
 
-    public AccountTypeReponseDto() {
+    public AccountTypeResponseDto() {
     }
 
-    public AccountTypeReponseDto(Long accountTypeId, String accountType) {
+    public AccountTypeResponseDto(Long accountTypeId, String accountType) {
         this.accountTypeId = accountTypeId;
         this.accountType = accountType;
     }

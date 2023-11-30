@@ -4,15 +4,15 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-public class ResponseDefault {
+public class SaveOrUpdateResponseDefault {
 
     private HttpStatus statusCode;
     private List<String> message;
 
-    public ResponseDefault() {
+    public SaveOrUpdateResponseDefault() {
     }
 
-    public ResponseDefault(HttpStatus statusCode, List<String> message) {
+    public SaveOrUpdateResponseDefault(HttpStatus statusCode, List<String> message) {
         this.statusCode = statusCode;
         this.message = message;
     }

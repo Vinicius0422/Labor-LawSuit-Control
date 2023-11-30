@@ -1,6 +1,6 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementations;
 
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.ResponseDefault;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.SaveOrUpdateResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.progress.ProgressRequestDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Lawsuit;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.LawsuitPhase;
@@ -34,26 +34,26 @@ public class ProgressServiceImpl implements ProgressService {
     private LawsuitPhaseRepository lawsuitPhaseRepository;
 
     @Override
-    public ResponseDefault saveProgress(ProgressRequestDto progressRequestDto) {
+    public SaveOrUpdateResponseDefault saveProgress(ProgressRequestDto progressRequestDto) {
         var validation = validateProgressRequest(progressRequestDto);
         if(!validation.isEmpty()){
-            return new ResponseDefault(HttpStatus.BAD_REQUEST, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, validation);
         }
         var newProgress = formatProgressDtoToEntity(progressRequestDto);
         newProgress.setCreatedAt(LocalDateTime.now());
         progressRepository.save(newProgress);
-        return new ResponseDefault(HttpStatus.CREATED, Collections.singletonList("Saved successfully!"));
+        return new SaveOrUpdateResponseDefault(HttpStatus.CREATED, Collections.singletonList("Saved successfully!"));
     }
 
     @Override
-    public ResponseDefault updateProgress(Long id, ProgressRequestDto progressRequestDto) {
+    public SaveOrUpdateResponseDefault updateProgress(Long id, ProgressRequestDto progressRequestDto) {
         Progress progressToUpdate = progressRepository.findById(id).orElse(null);
         if(progressToUpdate == null){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No results for this ID!"));
+            return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No results for this ID!"));
         }
         var validation = validateProgressRequest(progressRequestDto);
         if(!validation.isEmpty()){
-            return new ResponseDefault(HttpStatus.BAD_REQUEST, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, validation);
         }
         var progress = formatProgressDtoToEntity(progressRequestDto);
         progressToUpdate.setProgressDate(progress.getProgressDate());
@@ -62,7 +62,7 @@ public class ProgressServiceImpl implements ProgressService {
         progressToUpdate.setDescription(progress.getDescription());
         progressToUpdate.setUpdatedAt(LocalDateTime.now());
         progressRepository.save(progressToUpdate);
-        return new ResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
+        return new SaveOrUpdateResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
     }
 
 

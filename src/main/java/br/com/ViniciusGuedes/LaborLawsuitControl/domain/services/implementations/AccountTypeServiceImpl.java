@@ -1,6 +1,6 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementations;
 
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.accountType.AccountTypeReponseDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.accountType.AccountTypeResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.AccountTypeService;
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.AccountTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class AccountTypeServiceImpl implements AccountTypeService {
     private AccountTypeRepository accountTypeRepository;
 
     @Override
-    public List<AccountTypeReponseDto> getAllAccountsType() {
+    public List<AccountTypeResponseDto> getAllAccountsType() {
         return accountTypeRepository.findAllAccountsType();
     }
 }

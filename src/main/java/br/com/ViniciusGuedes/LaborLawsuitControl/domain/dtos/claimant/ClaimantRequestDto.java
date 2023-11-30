@@ -1,8 +1,5 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ClaimantRequestDto {
 
     private String claimantName;
@@ -28,14 +25,13 @@ public class ClaimantRequestDto {
     private Long nationalityId;
     private Long maritalStatusId;
     private Long accountTypeId;
-    private List<Long> lawsuits = new ArrayList<>();
 
     public ClaimantRequestDto() {
     }
 
     public ClaimantRequestDto(String claimantName, String birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg, String cpf,
                               String pis, String address, String city, String neighborhood, String uf, String cep, String bank, String agency, String operation,
-                              String account, String contact, String email, Long nationalityId, Long maritalStatusId, Long accountTypeId, List<Long> lawsuits) {
+                              String account, String contact, String email, Long nationalityId, Long maritalStatusId, Long accountTypeId) {
         this.claimantName = claimantName;
         this.birthDate = birthDate;
         this.occupation = occupation;
@@ -59,7 +55,6 @@ public class ClaimantRequestDto {
         this.nationalityId = nationalityId;
         this.maritalStatusId = maritalStatusId;
         this.accountTypeId = accountTypeId;
-        this.lawsuits = lawsuits;
     }
 
     public String getClaimantName() {
@@ -246,11 +241,4 @@ public class ClaimantRequestDto {
         this.accountTypeId = accountTypeId;
     }
 
-    public List<Long> getLawsuits() {
-        return lawsuits;
-    }
-
-    public void setLawsuits(List<Long> lawsuits) {
-        this.lawsuits = lawsuits;
-    }
 }

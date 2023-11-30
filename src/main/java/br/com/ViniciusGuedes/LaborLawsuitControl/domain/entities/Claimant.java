@@ -102,8 +102,7 @@ public class Claimant {
 
     public Claimant(String claimantName, LocalDate birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg, String cpf, String pis,
                     String address, String city, String neighborhood, String uf, String cep, String bank, String agency, String operation, String account, String contact,
-                    String email, LocalDateTime createdAt, LocalDateTime updatedAt, Nationality nationalityId, MaritalStatus maritalStatusId, AccountType accountTypeId,
-                    List<Lawsuit> lawsuits) {
+                    String email, LocalDateTime createdAt, LocalDateTime updatedAt, Nationality nationalityId, MaritalStatus maritalStatusId, AccountType accountTypeId) {
         this.claimantName = claimantName;
         this.birthDate = birthDate;
         this.occupation = occupation;
@@ -129,8 +128,29 @@ public class Claimant {
         this.nationalityId = nationalityId;
         this.maritalStatusId = maritalStatusId;
         this.accountTypeId = accountTypeId;
-        this.lawsuits = lawsuits;
     }
+
+//    public Claimant(ClaimantRequestDto claimantRequestDto) {
+//        this.claimantName = claimantRequestDto.getClaimantName();
+//        this.occupation = claimantRequestDto.getOccupation();
+//        this.ctps = claimantRequestDto.getCtps();
+//        this.serieCtps = claimantRequestDto.getSerieCtps();
+//        this.rg = claimantRequestDto.getRg();
+//        this.orgaoRg = claimantRequestDto.getOrgaoRg();
+//        this.cpf = claimantRequestDto.getCpf();
+//        this.pis = claimantRequestDto.getPis();
+//        this.address = claimantRequestDto.getAddress();
+//        this.city = claimantRequestDto.getCity();
+//        this.neighborhood = claimantRequestDto.getNeighborhood();
+//        this.uf = claimantRequestDto.getUf();
+//        this.cep = claimantRequestDto.getCep();
+//        this.bank = claimantRequestDto.getBank();
+//        this.agency = claimantRequestDto.getAgency();
+//        this.operation = claimantRequestDto.getOperation();
+//        this.account = claimantRequestDto.getAccount();
+//        this.contact = claimantRequestDto.getContact();
+//        this.email = claimantRequestDto.getEmail();
+//    }
 
     public Long getId() {
         return claimantId;
