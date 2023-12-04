@@ -33,7 +33,7 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
             "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto(" +
             "an.annotationId, an.annotationDate, an.description, an.createdAt, an.updatedAt), " +
 
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantForLawsuitResponseDto(" +
+            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
             "def.defendantId, def.defendantName, def.personType, def.cpfCnpj), " +
 
             "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto(" +
@@ -69,7 +69,7 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
             "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto(" +
             "an.annotationId, an.annotationDate, an.description, an.createdAt, an.updatedAt), " +
 
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantForLawsuitResponseDto(" +
+            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
             "def.defendantId, def.defendantName, def.personType, def.cpfCnpj), " +
 
             "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto(" +
@@ -105,7 +105,7 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
             "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto(" +
             "an.annotationId, an.annotationDate, an.description, an.createdAt, an.updatedAt), " +
 
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantForLawsuitResponseDto(" +
+            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
             "def.defendantId, def.defendantName, def.personType, def.cpfCnpj), " +
 
             "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto(" +

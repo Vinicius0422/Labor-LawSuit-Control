@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS defendant (
     id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
     defendant_name VARCHAR(150) NOT NULL,
-    person_type ENUM ('Fisica', 'Juridica') NOT NULL,
+    person_type ENUM ('Fisica', 'Juridica') NOT NULL DEFAULT 'Juridica',
     cpf_cnpj VARCHAR(14) NOT NULL,
     address VARCHAR(255),
     city VARCHAR(50),

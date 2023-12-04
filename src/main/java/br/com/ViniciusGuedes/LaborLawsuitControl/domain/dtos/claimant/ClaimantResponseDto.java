@@ -120,39 +120,6 @@ public class ClaimantResponseDto {
         this.lawsuits = lawsuits;
     }
 
-//    public ClaimantResponseDto(String claimantName, LocalDate birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg, String cpf, String pis,
-//                    String address, String city, String neighborhood, String uf, String cep, String bank, String agency, String operation, String account, String contact,
-//                    String email, LocalDateTime createdAt, LocalDateTime updatedAt, Nationality nationalityId, MaritalStatus maritalStatusId, AccountType accountTypeId,
-//                    List<Lawsuit> lawsuits) {
-//        this.claimantName = claimantName;
-//        this.birthDate = birthDate;
-//        this.occupation = occupation;
-//        this.ctps = ctps;
-//        this.serieCtps = serieCtps;
-//        this.rg = rg;
-//        this.orgaoRg = orgaoRg;
-//        this.cpf = cpf;
-//        this.pis = pis;
-//        this.address = address;
-//        this.city = city;
-//        this.neighborhood = neighborhood;
-//        this.uf = uf;
-//        this.cep = cep;
-//        this.bank = bank;
-//        this.agency = agency;
-//        this.operation = operation;
-//        this.account = account;
-//        this.contact = contact;
-//        this.email = email;
-//        this.createdAt = createdAt;
-//        this.updatedAt = updatedAt;
-//        this.nationalityId = nationalityId.getId();
-//        this.maritalStatusId = maritalStatusId;
-//        this.accountTypeId = accountTypeId;
-//        this.lawsuits = lawsuits;
-//    }
-//
-
     public Long getClaimantId() {
         return claimantId;
     }

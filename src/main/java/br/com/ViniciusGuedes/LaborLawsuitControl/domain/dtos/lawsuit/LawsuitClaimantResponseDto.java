@@ -2,7 +2,7 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantForLawsuitResponseDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.progress.ProgressResponseDto;
 
 import java.time.LocalDate;
@@ -27,7 +27,7 @@ public class LawsuitClaimantResponseDto {
     private String location;
     private List<ProgressResponseDto> progress = new ArrayList<>();
     private List<AnnotationResponseDto> annotations = new ArrayList<>();
-    private List<DefendantForLawsuitResponseDto> defendants = new ArrayList<>();
+    private List<DefendantSomeFieldsResponseDto> defendants = new ArrayList<>();
     private List<AttorneyResponseDto> attorneys = new ArrayList<>();
 
     public LawsuitClaimantResponseDto() {
@@ -52,7 +52,7 @@ public class LawsuitClaimantResponseDto {
 
     public LawsuitClaimantResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt,
                                       LocalDateTime updatedAt, Long lawsuitPhaseId, String phase, Long lawsuitStatusId, String status, Long locationId, String location,
-                                      List<ProgressResponseDto> progress, List<AnnotationResponseDto> annotations, List<DefendantForLawsuitResponseDto> defendants,
+                                      List<ProgressResponseDto> progress, List<AnnotationResponseDto> annotations, List<DefendantSomeFieldsResponseDto> defendants,
                                       List<AttorneyResponseDto> attorneys) {
         this.lawsuitId = lawsuitId;
         this.lawsuitNumber = lawsuitNumber;
@@ -193,11 +193,11 @@ public class LawsuitClaimantResponseDto {
         this.annotations = annotations;
     }
 
-    public List<DefendantForLawsuitResponseDto> getDefendants() {
+    public List<DefendantSomeFieldsResponseDto> getDefendants() {
         return defendants;
     }
 
-    public void setDefendants(List<DefendantForLawsuitResponseDto> defendants) {
+    public void setDefendants(List<DefendantSomeFieldsResponseDto> defendants) {
         this.defendants = defendants;
     }
 

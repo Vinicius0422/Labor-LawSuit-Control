@@ -130,28 +130,6 @@ public class Claimant {
         this.accountTypeId = accountTypeId;
     }
 
-//    public Claimant(ClaimantRequestDto claimantRequestDto) {
-//        this.claimantName = claimantRequestDto.getClaimantName();
-//        this.occupation = claimantRequestDto.getOccupation();
-//        this.ctps = claimantRequestDto.getCtps();
-//        this.serieCtps = claimantRequestDto.getSerieCtps();
-//        this.rg = claimantRequestDto.getRg();
-//        this.orgaoRg = claimantRequestDto.getOrgaoRg();
-//        this.cpf = claimantRequestDto.getCpf();
-//        this.pis = claimantRequestDto.getPis();
-//        this.address = claimantRequestDto.getAddress();
-//        this.city = claimantRequestDto.getCity();
-//        this.neighborhood = claimantRequestDto.getNeighborhood();
-//        this.uf = claimantRequestDto.getUf();
-//        this.cep = claimantRequestDto.getCep();
-//        this.bank = claimantRequestDto.getBank();
-//        this.agency = claimantRequestDto.getAgency();
-//        this.operation = claimantRequestDto.getOperation();
-//        this.account = claimantRequestDto.getAccount();
-//        this.contact = claimantRequestDto.getContact();
-//        this.email = claimantRequestDto.getEmail();
-//    }
-
     public Long getId() {
         return claimantId;
     }

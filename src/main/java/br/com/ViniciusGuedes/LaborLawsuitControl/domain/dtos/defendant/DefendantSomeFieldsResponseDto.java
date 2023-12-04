@@ -2,17 +2,17 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.PersonType;
 
-public class DefendantForLawsuitResponseDto {
+public class DefendantSomeFieldsResponseDto {
 
     private Long defendantId;
     private String defendantName;
     private PersonType personType;
     private String cpfCnpj;
 
-    public DefendantForLawsuitResponseDto() {
+    public DefendantSomeFieldsResponseDto() {
     }
 
-    public DefendantForLawsuitResponseDto(Long defendantId, String defendantName, PersonType personType, String cpfCnpj) {
+    public DefendantSomeFieldsResponseDto(Long defendantId, String defendantName, PersonType personType, String cpfCnpj) {
         this.defendantId = defendantId;
         this.defendantName = defendantName;
         this.personType = personType;

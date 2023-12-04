@@ -1,9 +1,8 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementations;
 
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.ResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.SaveOrUpdateResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantRequestDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantServiceResponse;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.AccountType;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Claimant;
@@ -41,48 +40,49 @@ public class ClaimantServiceImpl implements ClaimantService {
     private AccountTypeRepository accountTypeRepository;
 
     @Override
-    public ClaimantServiceResponse<List<OnlyClaimantResponseDto>> getAllClaimants() {
-        List<OnlyClaimantResponseDto> claimantResponseDtos = claimantRepository.findAllClaimants();
-        return new ClaimantServiceResponse<>(HttpStatus.OK, "Search carried out!", claimantResponseDtos);
-    }
-
-    @Override
-    public ClaimantServiceResponse getClaimantById(Long claimantId) {
-        var claimant = claimantRepository.findClaimantById(claimantId);
-        return new ClaimantServiceResponse(HttpStatus.OK, "Search carried out!", claimant.orElse(null));
-    }
-
-    @Override
-    public ClaimantServiceResponse getByCpf(String cpf) {
-        if(! claimantCpfFormatValidation(cpf)){
-            return new ClaimantServiceResponse(HttpStatus.BAD_REQUEST, "The CPF provided does not meet the requirements");
+    public ResponseDefault getAllClaimants() {
+        List<OnlyClaimantResponseDto> claimants = claimantRepository.findAllClaimants();
+        if(claimants == null){
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
-        String cpfFormatted = cpf.replaceAll("[^0-9]", "");
-        var claimant = claimantRepository.findClaimantByCpf(cpfFormatted);
-        return new ClaimantServiceResponse<>(HttpStatus.OK, "Search carried out!", claimant.orElse(null));
-    }
-
-    public boolean claimantCpfFormatValidation(String cpf){
-        //Checks if the CPF meets the regular expression;
-        return cpf.matches("\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}");
+        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", claimants);
     }
 
     @Override
-    public ClaimantServiceResponse<List<ClaimantResponseDto>> getByName(String claimantName) {
-        if(!claimantNameFormatValidation(claimantName)){
-            return new ClaimantServiceResponse<>(HttpStatus.BAD_REQUEST,
-                    "The name must contain only letters, spaces and accents, and be at least 3 characters long!", null);
+    public ResponseDefault getClaimantById(Long claimantId) {
+        var claimant = claimantRepository.findClaimantById(claimantId);
+        if(claimant == null){
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this ID!", null);
+        }
+        return new ResponseDefault(HttpStatus.OK, "Search carried out!", claimant.orElse(null));
+    }
+
+    @Override
+    public ResponseDefault getByCpf(String cpf) {
+        if(cpf.length() < 11 && cpf.length() > 14){
+            return new ResponseDefault(HttpStatus.BAD_REQUEST, "The CPF provided does not meet the requirements");
+        }
+        String cpfFormatted = cleanseNumericInput(cpf);
+        var claimant = claimantRepository.findClaimantByCpf(cpfFormatted);
+        if(claimant == null){
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this CPF!", null);
+        }
+        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", claimant.orElse(null));
+    }
+
+    @Override
+    public ResponseDefault getByName(String claimantName) {
+        if(claimantName.length() < 3){
+            return new ResponseDefault<>(HttpStatus.BAD_REQUEST,
+                    "Enter a name with at least 3 characters!", null);
         }
         var claimants = claimantRepository.findClaimantByNameContains(claimantName);
-        return new ClaimantServiceResponse<>(HttpStatus.OK, "Search carried out!", claimants);
+        if(claimants == null){
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this name!", null);
+        }
+        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", claimants);
     }
 
-    public boolean claimantNameFormatValidation(String claimantName){
-        //Defines a regular expression that allows only letters (upper or lower case) and spaces and at least 3 letters;
-        String regex = "^[\\p{L} \\s]{3,}$";
-        //Checks if the name matches the regular expression;
-        return claimantName.matches(regex);
-    }
 
     @Override
     public SaveOrUpdateResponseDefault saveClaimant(ClaimantRequestDto claimantRequestDto) {
@@ -112,27 +112,31 @@ public class ClaimantServiceImpl implements ClaimantService {
         claimantRepository.save(existingClaimant);
         return new SaveOrUpdateResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
     }
+
+    public String cleanseNumericInput(String input){
+        return input.replaceAll("[^0-9]", "");
+    }
+
     public void updateClaimantFields(Claimant existingClaimant, ClaimantRequestDto claimantRequestDto){
-        String cpfFormatted = claimantRequestDto.getCpf().replaceAll("[^0-9]", "");
         existingClaimant.setClaimantName(claimantRequestDto.getClaimantName());
         existingClaimant.setBirthDate(parseLocalDate(claimantRequestDto.getBirthDate()));
         existingClaimant.setOccupation(claimantRequestDto.getOccupation());
         existingClaimant.setCtps(claimantRequestDto.getCtps());
         existingClaimant.setSerieCtps(claimantRequestDto.getSerieCtps());
-        existingClaimant.setRg(claimantRequestDto.getRg());
+        existingClaimant.setRg(cleanseNumericInput(claimantRequestDto.getRg()));
         existingClaimant.setOrgaoRg(claimantRequestDto.getOrgaoRg());
-        existingClaimant.setCpf(cpfFormatted);
+        existingClaimant.setCpf(cleanseNumericInput(claimantRequestDto.getCpf()));
         existingClaimant.setPis(claimantRequestDto.getPis());
         existingClaimant.setAddress(claimantRequestDto.getAddress());
         existingClaimant.setCity(claimantRequestDto.getCity());
         existingClaimant.setNeighborhood(claimantRequestDto.getNeighborhood());
         existingClaimant.setUf(claimantRequestDto.getUf());
-        existingClaimant.setCep(claimantRequestDto.getCep());
+        existingClaimant.setCep(cleanseNumericInput(claimantRequestDto.getCep()));
         existingClaimant.setBank(claimantRequestDto.getBank());
-        existingClaimant.setAgency(claimantRequestDto.getAgency());
+        existingClaimant.setAgency(cleanseNumericInput(claimantRequestDto.getAgency()));
         existingClaimant.setOperation(claimantRequestDto.getOperation());
-        existingClaimant.setAccount(claimantRequestDto.getAccount());
-        existingClaimant.setContact(claimantRequestDto.getContact());
+        existingClaimant.setAccount(cleanseNumericInput(claimantRequestDto.getAccount()));
+        existingClaimant.setContact(cleanseNumericInput(claimantRequestDto.getContact()));
         existingClaimant.setEmail(claimantRequestDto.getEmail());
         // Setar outras propriedades conforme necessário
         existingClaimant.setNationalityId(nationalityRepository.findById(claimantRequestDto.getNationalityId()).orElse(null));
@@ -148,6 +152,9 @@ public class ClaimantServiceImpl implements ClaimantService {
         List<String> errors = new ArrayList<>();
         if(claimantRequestDto.getClaimantName().isBlank()){
             errors.add("The name field is required!");
+        }
+        if(claimantRequestDto.getClaimantName().length() < 3){
+            errors.add("Enter a name with at least 3 characters!");
         }
         if(claimantRequestDto.getCtps().isBlank()){
             errors.add("The CTPS field is required!");
@@ -182,14 +189,18 @@ public class ClaimantServiceImpl implements ClaimantService {
         if (claimantRequestDto.getContact().isBlank()) {
             errors.add("The contact field is required!");
         }
-        String cpfFormatted = claimantRequestDto.getCpf().replaceAll("[^0-9]", "");
+        String cpfFormatted = cleanseNumericInput(claimantRequestDto.getCpf());
         if (claimantRepository.existsByCpf(cpfFormatted)){
             errors.add("This CPF already registered!");
         }
-        if(claimantRepository.existsByRg(claimantRequestDto.getRg())){
+        String rgFormatted = cleanseNumericInput(claimantRequestDto.getRg());
+        if(claimantRepository.existsByRg(rgFormatted)){
             errors.add("This RG already registered!");
         }
-        if(claimantRepository.existsByBankAndAgencyAndAccount(claimantRequestDto.getBank(), claimantRequestDto.getAgency(), claimantRequestDto.getAccount())){
+        String bank = claimantRequestDto.getBank();
+        String agencyFormatted = cleanseNumericInput(claimantRequestDto.getAgency());
+        String accountFormatted = cleanseNumericInput(claimantRequestDto.getAccount());
+        if(claimantRepository.existsByBankAndAgencyAndAccount(bank, agencyFormatted, accountFormatted)){
             errors.add("This bank account already registered!");
         }
         return errors;
@@ -233,7 +244,7 @@ public class ClaimantServiceImpl implements ClaimantService {
         if (claimantRequestDto.getContact().isBlank()) {
             errors.add("The contact field is required!");
         }
-        String cpfFormatted = claimantRequestDto.getCpf().replaceAll("[^0-9]", "");
+        String cpfFormatted = cleanseNumericInput(claimantRequestDto.getCpf());
         boolean cpfCheck = claimantRepository.existsByCpf(cpfFormatted);
         if(cpfCheck) {
             Long cpfId = claimantRepository.findByCpfEquals(cpfFormatted).getId();
@@ -241,18 +252,22 @@ public class ClaimantServiceImpl implements ClaimantService {
                 errors.add("This CPF already registered!");
             }
         }
-        boolean rgCheck = claimantRepository.existsByRg(claimantRequestDto.getRg());
+        String rgFormatted = cleanseNumericInput(claimantRequestDto.getRg());
+        boolean rgCheck = claimantRepository.existsByRg(rgFormatted);
         if(rgCheck) {
-            Long rgId = claimantRepository.findByRgEquals(claimantRequestDto.getRg()).getId();
+            Long rgId = claimantRepository.findByRgEquals(rgFormatted).getId();
             if (rgId != id) {
                 errors.add("This RG already registered!");
             }
         }
-        boolean contaBancoCheck = claimantRepository.existsByBankAndAgencyAndAccount(claimantRequestDto.getBank(),
-                claimantRequestDto.getAgency(), claimantRequestDto.getAccount());
+        String bank = claimantRequestDto.getBank();
+        String agencyFormatted = cleanseNumericInput(claimantRequestDto.getAgency());
+        String accountFormatted = cleanseNumericInput(claimantRequestDto.getAccount());
+        boolean contaBancoCheck = claimantRepository.existsByBankAndAgencyAndAccount(bank,
+               agencyFormatted, accountFormatted);
         if(contaBancoCheck) {
-            Long contaId = claimantRepository.findByBankAndAgencyAndAccountEquals(claimantRequestDto.getBank(),
-                    claimantRequestDto.getAgency(), claimantRequestDto.getAccount()).getId();
+            Long contaId = claimantRepository.findByBankAndAgencyAndAccountEquals(bank,
+                    agencyFormatted, accountFormatted).getId();
             if (contaId != id) {
                 errors.add("This bank account already registered!");
             }
@@ -262,7 +277,6 @@ public class ClaimantServiceImpl implements ClaimantService {
     
     public Claimant DtoToEntity(ClaimantRequestDto claimantRequestDto){
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String cpfFormatted = claimantRequestDto.getCpf().replaceAll("[^0-9]", "");
         Nationality nationality = nationalityRepository.findById(claimantRequestDto.getNationalityId()).orElse(null);
         MaritalStatus maritalStatus = maritalStatusRepository.findById(claimantRequestDto.getMaritalStatusId()).orElse(null);
         AccountType accountType = accountTypeRepository.findById(claimantRequestDto.getAccountTypeId()).orElse(null);
@@ -273,20 +287,20 @@ public class ClaimantServiceImpl implements ClaimantService {
         claimant.setOccupation(claimantRequestDto.getOccupation());
         claimant.setCtps(claimantRequestDto.getCtps());
         claimant.setSerieCtps(claimantRequestDto.getSerieCtps());
-        claimant.setRg(claimantRequestDto.getRg());
+        claimant.setRg(cleanseNumericInput(claimantRequestDto.getRg()));
         claimant.setOrgaoRg(claimantRequestDto.getOrgaoRg());
-        claimant.setCpf(cpfFormatted);
+        claimant.setCpf(cleanseNumericInput(claimantRequestDto.getCpf()));
         claimant.setPis(claimantRequestDto.getPis());
         claimant.setAddress(claimantRequestDto.getAddress());
         claimant.setCity(claimantRequestDto.getCity());
         claimant.setNeighborhood(claimantRequestDto.getNeighborhood());
         claimant.setUf(claimantRequestDto.getUf());
-        claimant.setCep(claimantRequestDto.getCep());
+        claimant.setCep(cleanseNumericInput(claimantRequestDto.getCep()));
         claimant.setBank(claimantRequestDto.getBank());
-        claimant.setAgency(claimantRequestDto.getAgency());
+        claimant.setAgency(cleanseNumericInput(claimantRequestDto.getAgency()));
         claimant.setOperation(claimantRequestDto.getOperation());
-        claimant.setAccount(claimantRequestDto.getAccount());
-        claimant.setContact(claimantRequestDto.getContact());
+        claimant.setAccount(cleanseNumericInput(claimantRequestDto.getAccount()));
+        claimant.setContact(cleanseNumericInput(claimantRequestDto.getContact()));
         claimant.setEmail(claimantRequestDto.getEmail());
         claimant.setNationalityId(nationality);
         claimant.setMaritalStatusId(maritalStatus);

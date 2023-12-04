@@ -3,10 +3,7 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantForLawsuitResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitPhase.LawsuitPhaseResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitStatus.LawsuitStatusResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.location.LocationResponseDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.progress.ProgressResponseDto;
 
 import java.time.LocalDate;
@@ -23,22 +20,23 @@ public class LawsuitResponseDto {
     private Double valueCase;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private LawsuitPhaseResponseDto lawsuitPhaseId;
-    private LawsuitStatusResponseDto statusId;
-    private LocationResponseDto locationId;
+    private Long lawsuitPhaseId;
+    private String phase;
+    private Long lawsuitStatusId;
+    private String status;
+    private Long locationId;
+    private String location;
     private OnlyClaimantResponseDto claimant;
     private List<ProgressResponseDto> progress = new ArrayList<>();
     private List<AnnotationResponseDto> annotations = new ArrayList<>();
-    private List<DefendantForLawsuitResponseDto> defendants = new ArrayList<>();
+    private List<DefendantSomeFieldsResponseDto> defendants = new ArrayList<>();
     private List<AttorneyResponseDto> attorneys = new ArrayList<>();
 
     public LawsuitResponseDto() {
     }
 
     public LawsuitResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt,
-                              LocalDateTime updatedAt, LawsuitPhaseResponseDto lawsuitPhaseId, LawsuitStatusResponseDto statusId, LocationResponseDto locationId, OnlyClaimantResponseDto claimant,
-                              List<ProgressResponseDto> progress, List<AnnotationResponseDto> annotations, List<DefendantForLawsuitResponseDto> defendants,
-                              List<AttorneyResponseDto> attorneys) {
+                              LocalDateTime updatedAt, Long lawsuitPhaseId, String phase, Long lawsuitStatusId, String status, Long locationId, String location) {
         this.lawsuitId = lawsuitId;
         this.lawsuitNumber = lawsuitNumber;
         this.civilCourt = civilCourt;
@@ -47,8 +45,49 @@ public class LawsuitResponseDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.lawsuitPhaseId = lawsuitPhaseId;
-        this.statusId = statusId;
+        this.phase = phase;
+        this.lawsuitStatusId = lawsuitStatusId;
+        this.status = status;
         this.locationId = locationId;
+        this.location = location;
+    }
+
+    public LawsuitResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt,
+                              LocalDateTime updatedAt, Long lawsuitPhaseId, String phase, Long lawsuitStatusId, String status, Long locationId, String location,
+                              OnlyClaimantResponseDto claimant) {
+        this.lawsuitId = lawsuitId;
+        this.lawsuitNumber = lawsuitNumber;
+        this.civilCourt = civilCourt;
+        this.distributionDate = distributionDate;
+        this.valueCase = valueCase;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.lawsuitPhaseId = lawsuitPhaseId;
+        this.phase = phase;
+        this.lawsuitStatusId = lawsuitStatusId;
+        this.status = status;
+        this.locationId = locationId;
+        this.location = location;
+        this.claimant = claimant;
+    }
+
+    public LawsuitResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt,
+                              LocalDateTime updatedAt, Long lawsuitPhaseId, String phase, Long lawsuitStatusId, String status, Long locationId, String location,
+                              OnlyClaimantResponseDto claimant, List<ProgressResponseDto> progress, List<AnnotationResponseDto> annotations,
+                              List<DefendantSomeFieldsResponseDto> defendants, List<AttorneyResponseDto> attorneys) {
+        this.lawsuitId = lawsuitId;
+        this.lawsuitNumber = lawsuitNumber;
+        this.civilCourt = civilCourt;
+        this.distributionDate = distributionDate;
+        this.valueCase = valueCase;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.lawsuitPhaseId = lawsuitPhaseId;
+        this.phase = phase;
+        this.lawsuitStatusId = lawsuitStatusId;
+        this.status = status;
+        this.locationId = locationId;
+        this.location = location;
         this.claimant = claimant;
         this.progress = progress;
         this.annotations = annotations;
@@ -56,11 +95,11 @@ public class LawsuitResponseDto {
         this.attorneys = attorneys;
     }
 
-    public Long getId() {
+    public Long getLawsuitId() {
         return lawsuitId;
     }
 
-    public void setId(Long lawsuitId) {
+    public void setLawsuitId(Long lawsuitId) {
         this.lawsuitId = lawsuitId;
     }
 
@@ -112,28 +151,52 @@ public class LawsuitResponseDto {
         this.updatedAt = updatedAt;
     }
 
-    public LawsuitPhaseResponseDto getLawsuitPhaseId() {
+    public Long getLawsuitPhaseId() {
         return lawsuitPhaseId;
     }
 
-    public void setLawsuitPhaseId(LawsuitPhaseResponseDto lawsuitPhaseId) {
+    public void setLawsuitPhaseId(Long lawsuitPhaseId) {
         this.lawsuitPhaseId = lawsuitPhaseId;
     }
 
-    public LawsuitStatusResponseDto getStatusId() {
-        return statusId;
+    public String getPhase() {
+        return phase;
     }
 
-    public void setStatusId(LawsuitStatusResponseDto statusId) {
-        this.statusId = statusId;
+    public void setPhase(String phase) {
+        this.phase = phase;
     }
 
-    public LocationResponseDto getLocationId() {
+    public Long getLawsuitStatusId() {
+        return lawsuitStatusId;
+    }
+
+    public void setLawsuitStatusId(Long lawsuitStatusId) {
+        this.lawsuitStatusId = lawsuitStatusId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(LocationResponseDto locationId) {
+    public void setLocationId(Long locationId) {
         this.locationId = locationId;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public OnlyClaimantResponseDto getClaimant() {
@@ -160,11 +223,11 @@ public class LawsuitResponseDto {
         this.annotations = annotations;
     }
 
-    public List<DefendantForLawsuitResponseDto> getDefendants() {
+    public List<DefendantSomeFieldsResponseDto> getDefendants() {
         return defendants;
     }
 
-    public void setDefendants(List<DefendantForLawsuitResponseDto> defendants) {
+    public void setDefendants(List<DefendantSomeFieldsResponseDto> defendants) {
         this.defendants = defendants;
     }
 
