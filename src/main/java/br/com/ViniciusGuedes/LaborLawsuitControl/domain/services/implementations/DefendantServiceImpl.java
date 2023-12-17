@@ -114,7 +114,7 @@ public class DefendantServiceImpl implements DefendantService {
         String cpfCnpjFormatted = cleanseNumericInput(defendantRequestDto.getCpfCnpj());
         boolean cpfCnpjCheck = defendantRepository.existsByCpfCnpj(cpfCnpjFormatted);
         if(cpfCnpjCheck) {
-            Long cpfCnpjId = defendantRepository.findByCpfCnpjEquals(cpfCnpjFormatted).getId();
+            Long cpfCnpjId = defendantRepository.findByCpfCnpjEquals(cpfCnpjFormatted).getDefendantId();
             if (cpfCnpjId != id) {
                 errors.add("CPF/CNPJ already registered for another defendant!");
             }

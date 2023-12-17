@@ -20,7 +20,8 @@ public class LawsuitController {
 
     @GetMapping("/{lawsuitId}")
     public ResponseEntity getLawsuitById(@PathVariable(value = "lawsuitId") Long lawsuitId){
-        return ResponseEntity.ok(lawsuitService.getLawsuitById(lawsuitId));
+        var request = lawsuitService.getLawsuitById(lawsuitId);
+        return ResponseEntity.status(request.getStatusCode()).body(request);
     }
 
     @GetMapping("/searchByLawsuitNumber")

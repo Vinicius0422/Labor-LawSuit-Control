@@ -24,9 +24,4 @@ public interface AnnotationRepository extends JpaRepository<Annotation, Long> {
             "WHERE an.lawsuit.lawsuitId = :lawsuitId")
     List<AnnotationResponseDto> findAnnotationsByLawsuitId(@Param("lawsuitId") Long lawsuitId);
 
-    @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto(" +
-            "an.annotationId, an.annotationDate, an.description, an.createdAt, an.updatedAt) " +
-            "FROM Annotation an " +
-            "WHERE an.lawsuit.claimant.claimantName LIKE %:claimantName%")
-    List<AnnotationResponseDto> findAnnotationsByClaimantName(@Param("claimantName") String claimantName);
 }

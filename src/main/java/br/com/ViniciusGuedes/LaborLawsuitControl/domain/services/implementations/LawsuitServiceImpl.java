@@ -99,12 +99,12 @@ public class LawsuitServiceImpl implements LawsuitService {
         if(lawsuitsDto.isEmpty()){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No results found!", null);
         }
-        var progress = progressRepository.findProgressByClaimantName(claimantName);
-        var annotations = annotationRepository.findAnnotationsByClaimantName(claimantName);
-        var defendants = defendantRepository.findDefendantsByClaimantName(claimantName);
-        var attorneys = attorneyRepository.findAttorneysByClaimantName(claimantName);
 
         for (int i = 0; i < lawsuitsDto.size(); i++) {
+            var progress = progressRepository.findProgressByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
+            var annotations = annotationRepository.findAnnotationsByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
+            var defendants = defendantRepository.findDefendantsByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
+            var attorneys = attorneyRepository.findAttorneysByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
             lawsuitsDto.get(i).setProgress(progress);
             lawsuitsDto.get(i).setAnnotations(annotations);
             lawsuitsDto.get(i).setDefendants(defendants);
@@ -147,37 +147,63 @@ public class LawsuitServiceImpl implements LawsuitService {
         if(cleanseNumericInput(lawsuitRequestDto.getLawsuitNumber()).length() > 22){
             errors.add("The lawsuit number must have a maximum of 22 characters!");
         }
+        if (lawsuitRequestDto.getLawsuitNumber() == null || lawsuitRequestDto.getLawsuitNumber().isBlank()) {
+            errors.add("The field Lawsuit Number is required!");
+        }
+        if (lawsuitRequestDto.getCpfClaimant() == null || lawsuitRequestDto.getCpfClaimant().isBlank()) {
+            errors.add("The field CPF/Claimant is required!");
+        }
+        if (lawsuitRequestDto.getCpfCnpjDefendants() == null || lawsuitRequestDto.getCpfCnpjDefendants().isEmpty()) {
+            errors.add("The field CPF/CNPJ Defendant is required!");
+        }
         if(lawsuitRepository.existsByLawsuitNumber(cleanseNumericInput(lawsuitRequestDto.getLawsuitNumber()))){
             errors.add("This lawsuit number is already registered!");
         }
-        if(!claimantRepository.existsByCpf(cleanseNumericInput(lawsuitRequestDto.getCpfClaimant()))){
-            errors.add("CPF: " + lawsuitRequestDto.getCpfClaimant() + " not registered for any claimant");
+        if(lawsuitRequestDto.getCpfClaimant() != null){
+            if(!claimantRepository.existsByCpf(cleanseNumericInput(lawsuitRequestDto.getCpfClaimant()))){
+                errors.add("CPF: " + lawsuitRequestDto.getCpfClaimant() + " not registered for any claimant");
+            }
         }
-        for (int i = 0; i < lawsuitRequestDto.getCpfCnpjDefendants().size(); i++) {
-            if(!defendantRepository.existsByCpfCnpj(cleanseNumericInput(lawsuitRequestDto.getCpfCnpjDefendants().get(i)))){
-                errors.add("CPF/CNPJ: "+ lawsuitRequestDto.getCpfCnpjDefendants().get(i) + " not registered for any defendant");
+        if(lawsuitRequestDto.getCpfCnpjDefendants() != null && !lawsuitRequestDto.getCpfCnpjDefendants().isEmpty()){
+            for (int i = 0; i < lawsuitRequestDto.getCpfCnpjDefendants().size(); i++) {
+                if(!defendantRepository.existsByCpfCnpj(cleanseNumericInput(lawsuitRequestDto.getCpfCnpjDefendants().get(i)))){
+                    errors.add("CPF/CNPJ: "+ lawsuitRequestDto.getCpfCnpjDefendants().get(i) + " not registered for any defendant");
+                }
             }
         }
         return errors;
     }
 
     public List<String> updateLawsuitValidation(Long id, LawsuitRequestDto lawsuitRequestDto){
-        List<String> errors = new ArrayList<>();
+        List errors = new ArrayList<>();
         if(cleanseNumericInput(lawsuitRequestDto.getLawsuitNumber()).length() > 22){
             errors.add("The lawsuit number must have a maximum of 22 characters!");
         }
-        if(!claimantRepository.existsByCpf(cleanseNumericInput(lawsuitRequestDto.getCpfClaimant()))){
-            errors.add("CPF: " + lawsuitRequestDto.getCpfClaimant() + " not registered for any claimant");
+        if (lawsuitRequestDto.getLawsuitNumber() == null || lawsuitRequestDto.getLawsuitNumber().isBlank()) {
+            errors.add("The field Lawsuit Number is required!");
         }
-        for (int i = 0; i < lawsuitRequestDto.getCpfCnpjDefendants().size(); i++) {
-            if(!defendantRepository.existsByCpfCnpj(cleanseNumericInput(lawsuitRequestDto.getCpfCnpjDefendants().get(i)))){
-                errors.add("CPF/CNPJ: "+ lawsuitRequestDto.getCpfCnpjDefendants().get(i) + " not registered for any defendant");
+        if (lawsuitRequestDto.getCpfClaimant() == null || lawsuitRequestDto.getCpfClaimant().isBlank()) {
+            errors.add("The field CPF/Claimant is required!");
+        }
+        if (lawsuitRequestDto.getCpfCnpjDefendants() == null || lawsuitRequestDto.getCpfCnpjDefendants().isEmpty()) {
+            errors.add("The field CPF/CNPJ Defendant is required!");
+        }
+        if(lawsuitRequestDto.getCpfClaimant() != null){
+            if(!claimantRepository.existsByCpf(cleanseNumericInput(lawsuitRequestDto.getCpfClaimant()))){
+                errors.add("CPF: " + lawsuitRequestDto.getCpfClaimant() + " not registered for any claimant");
+            }
+        }
+        if(lawsuitRequestDto.getCpfCnpjDefendants() != null && !lawsuitRequestDto.getCpfCnpjDefendants().isEmpty()){
+            for (int i = 0; i < lawsuitRequestDto.getCpfCnpjDefendants().size(); i++) {
+                if(!defendantRepository.existsByCpfCnpj(cleanseNumericInput(lawsuitRequestDto.getCpfCnpjDefendants().get(i)))){
+                    errors.add("CPF/CNPJ: "+ lawsuitRequestDto.getCpfCnpjDefendants().get(i) + " not registered for any defendant");
+                }
             }
         }
         var lawsuitFormatted = cleanseNumericInput(lawsuitRequestDto.getLawsuitNumber());
         var lawsuitNumberExists = lawsuitRepository.existsByLawsuitNumber(lawsuitFormatted);
         if(lawsuitNumberExists){
-            Long lawsuitExistentId = lawsuitRepository.findByLawsuitNumberEquals(lawsuitFormatted).getId();
+            Long lawsuitExistentId = lawsuitRepository.findByLawsuitNumberEquals(lawsuitFormatted).getLawsuitId();
             if(id != lawsuitExistentId){
                 errors.add("This Lawsuit Number is already registered!");
             }
@@ -277,13 +303,13 @@ public class LawsuitServiceImpl implements LawsuitService {
             var location = locationRepository.findById(lawsuitRequestDto.getLocationId()).orElseThrow(() -> new EntityNotFoundException("Location not found"));
             existingLawsuit.setLocation(location);
         }
-        var claimantId = claimantRepository.findClaimantByCpf(cleanseNumericInput(lawsuitRequestDto.getCpfClaimant())).get().getClaimantId();
+        var claimantId = claimantRepository.findByCpfEquals(cleanseNumericInput(lawsuitRequestDto.getCpfClaimant())).getId();
         var claimant = claimantRepository.findById(claimantId).orElseThrow(() -> new EntityNotFoundException("Claimant not found"));
         existingLawsuit.setClaimant(claimant);
 
         List defendants = new ArrayList<>();
         for (int i = 0; i < lawsuitRequestDto.getCpfCnpjDefendants().size(); i++) {
-            var cpfCnpjFormatted = lawsuitRequestDto.getCpfCnpjDefendants().get(i);
+            var cpfCnpjFormatted = cleanseNumericInput(lawsuitRequestDto.getCpfCnpjDefendants().get(i));
             var defendant = defendantRepository.findByCpfCnpjEquals(cpfCnpjFormatted);
             defendants.add(defendant);
         }

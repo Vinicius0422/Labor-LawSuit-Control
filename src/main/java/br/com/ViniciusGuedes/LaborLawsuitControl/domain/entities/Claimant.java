@@ -94,9 +94,6 @@ public class Claimant {
     @JoinColumn(name = "accounttype_id")
     private AccountType accountType;
 
-    @OneToMany(mappedBy = "claimant")
-    private List<Lawsuit> lawsuits = new ArrayList<>();
-
     public Claimant() {
     }
 
@@ -338,14 +335,6 @@ public class Claimant {
         this.accountType = accountType;
     }
 
-    public List<Lawsuit> getLawsuits() {
-        return lawsuits;
-    }
-
-    public void setLawsuits(List<Lawsuit> lawsuits) {
-        this.lawsuits = lawsuits;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -384,7 +373,7 @@ public class Claimant {
             return false;
         if (accountType != null ? !accountType.equals(claimant.accountType) : claimant.accountType != null)
             return false;
-        return lawsuits != null ? lawsuits.equals(claimant.lawsuits) : claimant.lawsuits == null;
+        return false;
     }
 
     @Override
@@ -415,7 +404,6 @@ public class Claimant {
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
         result = 31 * result + (maritalStatus != null ? maritalStatus.hashCode() : 0);
         result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
-        result = 31 * result + (lawsuits != null ? lawsuits.hashCode() : 0);
         return result;
     }
 }

@@ -26,10 +26,4 @@ public interface AttorneyRepository extends JpaRepository<Attorney, Long> {
             "WHERE ls.lawsuitId = :lawsuitId")
     List<AttorneyResponseDto> findAttorneysByLawsuitId(@Param("lawsuitId") Long lawsuitId);
 
-    @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto(" +
-            "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
-            "FROM Attorney at " +
-            "JOIN at.lawsuits ls " +
-            "WHERE ls.claimant.claimantName LIKE %:claimantName%")
-    List<AttorneyResponseDto> findAttorneysByClaimantName(@Param("claimantName") String claimantName);
 }

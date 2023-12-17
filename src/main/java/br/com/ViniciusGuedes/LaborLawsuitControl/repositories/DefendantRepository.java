@@ -138,13 +138,6 @@ public interface DefendantRepository extends JpaRepository<Defendant, Long> {
             "WHERE ls.lawsuitId = :lawsuitId")
     List<DefendantSomeFieldsResponseDto> findDefendantsByLawsuitId(@Param("lawsuitId") Long lawsuitId);
 
-    @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
-            "def.defendantId, def.defendantName, def.personType, def.cpfCnpj) " +
-            "FROM Defendant def " +
-            "JOIN def.lawsuits ls " +
-            "WHERE ls.claimant.claimantName LIKE %:claimantName%")
-    List<DefendantSomeFieldsResponseDto> findDefendantsByClaimantName(@Param("claimantName") String claimantName);
-
     boolean existsByCpfCnpj(String cpfCnpj);
     Defendant findByCpfCnpjEquals(String cpfCnpj);
 }

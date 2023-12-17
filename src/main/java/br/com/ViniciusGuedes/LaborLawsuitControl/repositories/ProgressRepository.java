@@ -26,9 +26,4 @@ public interface ProgressRepository extends JpaRepository<Progress, Long> {
             "WHERE p.lawsuit.lawsuitId = :lawsuitId")
     List<ProgressResponseDto> findProgressByLawsuitId(@Param("lawsuitId") Long lawsuitId);
 
-    @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.progress.ProgressResponseDto(" +
-            "p.progressId, p.progressDate, p.expectedDate, p.expectedTime, p.description, p.createdAt, p.updatedAt) " +
-            "FROM Progress p " +
-            "WHERE p.lawsuit.claimant.claimantName LIKE %:claimantName%")
-    List<ProgressResponseDto> findProgressByClaimantName(@Param("claimantName") String claimantName);
 }
