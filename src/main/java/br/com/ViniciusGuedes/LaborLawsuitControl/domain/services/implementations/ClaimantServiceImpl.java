@@ -17,12 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class ClaimantServiceImpl implements ClaimantService {
@@ -63,11 +65,11 @@ public class ClaimantServiceImpl implements ClaimantService {
             return new ResponseDefault(HttpStatus.BAD_REQUEST, "The CPF provided does not meet the requirements");
         }
         String cpfFormatted = cleanseNumericInput(cpf);
-        var claimant = claimantRepository.findClaimantByCpf(cpfFormatted);
+        var claimant = claimantRepository.findClaimantByCpf(cpfFormatted).orElse(null);
         if(claimant == null){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this CPF!", null);
         }
-        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", claimant.orElse(null));
+        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", claimant);
     }
 
     @Override
@@ -90,7 +92,7 @@ public class ClaimantServiceImpl implements ClaimantService {
         if(!validation.isEmpty()){
             return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
         }
-        Claimant claimant = DtoToEntity(claimantRequestDto);
+        Claimant claimant = createClaimantFromDto(claimantRequestDto);
         claimant.setCreatedAt(LocalDateTime.now());
         claimantRepository.save(claimant);
         return new SaveOrUpdateResponseDefault(HttpStatus.CREATED, Collections.singletonList("Successfully created!"));
@@ -98,15 +100,15 @@ public class ClaimantServiceImpl implements ClaimantService {
 
     @Override
     public SaveOrUpdateResponseDefault updateClaimant(Long id, ClaimantRequestDto claimantRequestDto) {
-        var claimantToUpdate = claimantRepository.findById(id);
-        if(claimantToUpdate.isEmpty()){
+        var claimantToUpdate = claimantRepository.findById(id).orElse(null);
+        if(claimantToUpdate == null){
             return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No records found for this ID!"));
         }
         var validation = validationClaimantRequestDtoUpdate(id, claimantRequestDto);
         if(!validation.isEmpty()) {
             return  new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
         }
-        Claimant existingClaimant = claimantToUpdate.get();
+        Claimant existingClaimant = claimantToUpdate;
         updateClaimantFields(existingClaimant, claimantRequestDto);
         existingClaimant.setUpdatedAt(LocalDateTime.now());
         claimantRepository.save(existingClaimant);
@@ -139,9 +141,9 @@ public class ClaimantServiceImpl implements ClaimantService {
         existingClaimant.setContact(cleanseNumericInput(claimantRequestDto.getContact()));
         existingClaimant.setEmail(claimantRequestDto.getEmail());
         // Setar outras propriedades conforme necessário
-        existingClaimant.setNationalityId(nationalityRepository.findById(claimantRequestDto.getNationalityId()).orElse(null));
-        existingClaimant.setMaritalStatusId(maritalStatusRepository.findById(claimantRequestDto.getMaritalStatusId()).orElse(null));
-        existingClaimant.setAccountTypeId(accountTypeRepository.findById(claimantRequestDto.getAccountTypeId()).orElse(null));
+        existingClaimant.setNationality(nationalityRepository.findById(claimantRequestDto.getNationalityId()).orElse(null));
+        existingClaimant.setMaritalStatus(maritalStatusRepository.findById(claimantRequestDto.getMaritalStatusId()).orElse(null));
+        existingClaimant.setAccountType(accountTypeRepository.findById(claimantRequestDto.getAccountTypeId()).orElse(null));
     }
 
     private LocalDate parseLocalDate(String birthDate) {
@@ -274,15 +276,28 @@ public class ClaimantServiceImpl implements ClaimantService {
         }
         return errors;
     }
+
+    public static String removeAccents(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        // Normalize to canonical decomposition form
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+
+        // Remove diacritics (accents) using a regular expression
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(normalized).replaceAll("");
+        }
     
-    public Claimant DtoToEntity(ClaimantRequestDto claimantRequestDto){
+    public Claimant createClaimantFromDto(ClaimantRequestDto claimantRequestDto){
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Nationality nationality = nationalityRepository.findById(claimantRequestDto.getNationalityId()).orElse(null);
         MaritalStatus maritalStatus = maritalStatusRepository.findById(claimantRequestDto.getMaritalStatusId()).orElse(null);
         AccountType accountType = accountTypeRepository.findById(claimantRequestDto.getAccountTypeId()).orElse(null);
 
         Claimant claimant = new Claimant();
-        claimant.setClaimantName(claimantRequestDto.getClaimantName());
+        claimant.setClaimantName(removeAccents(claimantRequestDto.getClaimantName()));
         claimant.setBirthDate(LocalDate.parse(claimantRequestDto.getBirthDate(), formatterDate));
         claimant.setOccupation(claimantRequestDto.getOccupation());
         claimant.setCtps(claimantRequestDto.getCtps());
@@ -302,9 +317,9 @@ public class ClaimantServiceImpl implements ClaimantService {
         claimant.setAccount(cleanseNumericInput(claimantRequestDto.getAccount()));
         claimant.setContact(cleanseNumericInput(claimantRequestDto.getContact()));
         claimant.setEmail(claimantRequestDto.getEmail());
-        claimant.setNationalityId(nationality);
-        claimant.setMaritalStatusId(maritalStatus);
-        claimant.setAccountTypeId(accountType);
+        claimant.setNationality(nationality);
+        claimant.setMaritalStatus(maritalStatus);
+        claimant.setAccountType(accountType);
 
         return claimant;
     }

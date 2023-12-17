@@ -43,10 +43,10 @@ public interface DefendantRepository extends JpaRepository<Defendant, Long> {
             "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
             "FROM Defendant d " +
             "LEFT JOIN d.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhaseId lsp " +
-            "LEFT JOIN ls.statusId lss " +
-            "LEFT JOIN ls.locationId l " +
-            "LEFT JOIN ls.claimantId c " +
+            "LEFT JOIN ls.lawsuitPhase lsp " +
+            "LEFT JOIN ls.lawsuitStatus lss " +
+            "LEFT JOIN ls.location l " +
+            "LEFT JOIN ls.claimant c " +
             "LEFT JOIN ls.progress p " +
             "LEFT JOIN ls.annotations an " +
             "LEFT JOIN ls.defendants def " +
@@ -78,10 +78,10 @@ public interface DefendantRepository extends JpaRepository<Defendant, Long> {
             "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
             "FROM Defendant d " +
             "LEFT JOIN d.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhaseId lsp " +
-            "LEFT JOIN ls.statusId lss " +
-            "LEFT JOIN ls.locationId l " +
-            "LEFT JOIN ls.claimantId c " +
+            "LEFT JOIN ls.lawsuitPhase lsp " +
+            "LEFT JOIN ls.lawsuitStatus lss " +
+            "LEFT JOIN ls.location l " +
+            "LEFT JOIN ls.claimant c " +
             "LEFT JOIN ls.progress p " +
             "LEFT JOIN ls.annotations an " +
             "LEFT JOIN ls.defendants def " +
@@ -113,16 +113,37 @@ public interface DefendantRepository extends JpaRepository<Defendant, Long> {
             "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
             "FROM Defendant d " +
             "LEFT JOIN d.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhaseId lsp " +
-            "LEFT JOIN ls.statusId lss " +
-            "LEFT JOIN ls.locationId l " +
-            "LEFT JOIN ls.claimantId c " +
+            "LEFT JOIN ls.lawsuitPhase lsp " +
+            "LEFT JOIN ls.lawsuitStatus lss " +
+            "LEFT JOIN ls.location l " +
+            "LEFT JOIN ls.claimant c " +
             "LEFT JOIN ls.progress p " +
             "LEFT JOIN ls.annotations an " +
             "LEFT JOIN ls.defendants def " +
             "LEFT JOIN ls.attorneys at " +
             "WHERE d.cpfCnpj = :cpfCnpj")
     Optional<DefendantResponseDto> findDefendantByCpfOrCnpj(@Param("cpfCnpj") String cpfCnpj);
+
+    @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
+            "def.defendantId, def.defendantName, def.personType, def.cpfCnpj) " +
+            "FROM Defendant def " +
+            "JOIN def.lawsuits ls " +
+            "WHERE ls.lawsuitNumber = :lawsuitNumber")
+    List<DefendantSomeFieldsResponseDto> findDefendantsByLawsuitNumber(@Param("lawsuitNumber") String lawsuitNumber);
+
+    @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
+            "def.defendantId, def.defendantName, def.personType, def.cpfCnpj) " +
+            "FROM Defendant def " +
+            "JOIN def.lawsuits ls " +
+            "WHERE ls.lawsuitId = :lawsuitId")
+    List<DefendantSomeFieldsResponseDto> findDefendantsByLawsuitId(@Param("lawsuitId") Long lawsuitId);
+
+    @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
+            "def.defendantId, def.defendantName, def.personType, def.cpfCnpj) " +
+            "FROM Defendant def " +
+            "JOIN def.lawsuits ls " +
+            "WHERE ls.claimant.claimantName LIKE %:claimantName%")
+    List<DefendantSomeFieldsResponseDto> findDefendantsByClaimantName(@Param("claimantName") String claimantName);
 
     boolean existsByCpfCnpj(String cpfCnpj);
     Defendant findByCpfCnpjEquals(String cpfCnpj);

@@ -13,4 +13,6 @@ public interface LawsuitPhaseRepository extends JpaRepository<LawsuitPhase, Long
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitPhase.LawsuitPhaseResponseDto(lp.id, lp.phase) FROM LawsuitPhase lp")
     List<LawsuitPhaseResponseDto> findAllLawsuitPhases();
+
+    boolean existsByLawsuitPhaseId(Long lawsuitPhaseId);
 }

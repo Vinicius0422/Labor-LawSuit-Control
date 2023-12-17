@@ -28,17 +28,17 @@ public class Annotation {
 
     @ManyToOne
     @JoinColumn(name = "lawsuit_id")
-    private Lawsuit lawsuitId;
+    private Lawsuit lawsuit;
 
     public Annotation() {
     }
 
-    public Annotation(LocalDate annotationDate, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Lawsuit lawsuitId) {
+    public Annotation(LocalDate annotationDate, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Lawsuit lawsuit) {
         this.annotationDate = annotationDate;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.lawsuitId = lawsuitId;
+        this.lawsuit = lawsuit;
     }
 
     public Long getId() {
@@ -81,12 +81,12 @@ public class Annotation {
         this.updatedAt = updatedAt;
     }
 
-    public Lawsuit getLawsuitId() {
-        return lawsuitId;
+    public Lawsuit getLawsuit() {
+        return lawsuit;
     }
 
-    public void setLawsuitId(Lawsuit lawsuitId) {
-        this.lawsuitId = lawsuitId;
+    public void setLawsuit(Lawsuit lawsuit) {
+        this.lawsuit = lawsuit;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Annotation {
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
-        return lawsuitId != null ? lawsuitId.equals(that.lawsuitId) : that.lawsuitId == null;
+        return lawsuit != null ? lawsuit.equals(that.lawsuit) : that.lawsuit == null;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Annotation {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
-        result = 31 * result + (lawsuitId != null ? lawsuitId.hashCode() : 0);
+        result = 31 * result + (lawsuit != null ? lawsuit.hashCode() : 0);
         return result;
     }
 }

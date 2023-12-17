@@ -92,8 +92,8 @@ public class ProgressServiceImpl implements ProgressService {
         progress.setExpectedDate(LocalDate.parse(progressRequestDto.getExpectedDate(), formatterDate));
         progress.setExpectedTime(LocalTime.parse(progressRequestDto.getExpectedTime(), formatterTime));
         progress.setDescription(progressRequestDto.getDescription());
-        progress.setLawsuitId(lawsuit);
-        progress.setLawsuitPhaseId(lawsuitPhase);
+        progress.setLawsuit(lawsuit);
+        progress.setLawsuitPhase(lawsuitPhase);
 
         return progress;
     }

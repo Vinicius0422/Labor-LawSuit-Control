@@ -35,25 +35,25 @@ public class Progress {
 
     @ManyToOne
     @JoinColumn(name = "lawsuitphase_id")
-    private LawsuitPhase lawsuitPhaseId;
+    private LawsuitPhase lawsuitPhase;
 
     @ManyToOne
     @JoinColumn(name = "lawsuit_id")
-    private Lawsuit lawsuitId;
+    private Lawsuit lawsuit;
 
     public Progress() {
     }
 
     public Progress(LocalDate progressDate, LocalDate expectedDate, LocalTime expectedTime, String description,
-                    LocalDateTime createdAt, LocalDateTime updatedAt, LawsuitPhase lawsuitPhaseId, Lawsuit lawsuitId) {
+                    LocalDateTime createdAt, LocalDateTime updatedAt, LawsuitPhase lawsuitPhase, Lawsuit lawsuit) {
         this.progressDate = progressDate;
         this.expectedDate = expectedDate;
         this.expectedTime = expectedTime;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.lawsuitPhaseId = lawsuitPhaseId;
-        this.lawsuitId = lawsuitId;
+        this.lawsuitPhase = lawsuitPhase;
+        this.lawsuit = lawsuit;
     }
 
     public Long getId() {
@@ -112,20 +112,20 @@ public class Progress {
         this.updatedAt = updatedAt;
     }
 
-    public LawsuitPhase getLawsuitPhaseId() {
-        return lawsuitPhaseId;
+    public LawsuitPhase getLawsuitPhase() {
+        return lawsuitPhase;
     }
 
-    public void setLawsuitPhaseId(LawsuitPhase lawsuitPhaseId) {
-        this.lawsuitPhaseId = lawsuitPhaseId;
+    public void setLawsuitPhase(LawsuitPhase lawsuitPhase) {
+        this.lawsuitPhase = lawsuitPhase;
     }
 
-    public Lawsuit getLawsuitId() {
-        return lawsuitId;
+    public Lawsuit getLawsuit() {
+        return lawsuit;
     }
 
-    public void setLawsuitId(Lawsuit lawsuitId) {
-        this.lawsuitId = lawsuitId;
+    public void setLawsuit(Lawsuit lawsuit) {
+        this.lawsuit = lawsuit;
     }
 
     @Override
@@ -146,9 +146,9 @@ public class Progress {
             return false;
         if (createdAt != null ? !createdAt.equals(progress.createdAt) : progress.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(progress.updatedAt) : progress.updatedAt != null) return false;
-        if (lawsuitPhaseId != null ? !lawsuitPhaseId.equals(progress.lawsuitPhaseId) : progress.lawsuitPhaseId != null)
+        if (lawsuitPhase != null ? !lawsuitPhase.equals(progress.lawsuitPhase) : progress.lawsuitPhase != null)
             return false;
-        return lawsuitId != null ? lawsuitId.equals(progress.lawsuitId) : progress.lawsuitId == null;
+        return lawsuit != null ? lawsuit.equals(progress.lawsuit) : progress.lawsuit == null;
     }
 
     @Override
@@ -160,8 +160,8 @@ public class Progress {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
-        result = 31 * result + (lawsuitPhaseId != null ? lawsuitPhaseId.hashCode() : 0);
-        result = 31 * result + (lawsuitId != null ? lawsuitId.hashCode() : 0);
+        result = 31 * result + (lawsuitPhase != null ? lawsuitPhase.hashCode() : 0);
+        result = 31 * result + (lawsuit != null ? lawsuit.hashCode() : 0);
         return result;
     }
 }

@@ -84,17 +84,17 @@ public class Claimant {
 
     @ManyToOne
     @JoinColumn(name = "nationality_id")
-    private Nationality nationalityId;
+    private Nationality nationality;
 
     @ManyToOne
     @JoinColumn(name = "maritalstatus_id")
-    private MaritalStatus maritalStatusId;
+    private MaritalStatus maritalStatus;
 
     @ManyToOne
     @JoinColumn(name = "accounttype_id")
-    private AccountType accountTypeId;
+    private AccountType accountType;
 
-    @OneToMany(mappedBy = "claimantId")
+    @OneToMany(mappedBy = "claimant")
     private List<Lawsuit> lawsuits = new ArrayList<>();
 
     public Claimant() {
@@ -102,7 +102,7 @@ public class Claimant {
 
     public Claimant(String claimantName, LocalDate birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg, String cpf, String pis,
                     String address, String city, String neighborhood, String uf, String cep, String bank, String agency, String operation, String account, String contact,
-                    String email, LocalDateTime createdAt, LocalDateTime updatedAt, Nationality nationalityId, MaritalStatus maritalStatusId, AccountType accountTypeId) {
+                    String email, LocalDateTime createdAt, LocalDateTime updatedAt, Nationality nationality, MaritalStatus maritalStatus, AccountType accountType) {
         this.claimantName = claimantName;
         this.birthDate = birthDate;
         this.occupation = occupation;
@@ -125,9 +125,9 @@ public class Claimant {
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.nationalityId = nationalityId;
-        this.maritalStatusId = maritalStatusId;
-        this.accountTypeId = accountTypeId;
+        this.nationality = nationality;
+        this.maritalStatus = maritalStatus;
+        this.accountType = accountType;
     }
 
     public Long getId() {
@@ -314,28 +314,28 @@ public class Claimant {
         this.updatedAt = updatedAt;
     }
 
-    public Nationality getNationalityId() {
-        return nationalityId;
+    public Nationality getNationality() {
+        return nationality;
     }
 
-    public void setNationalityId(Nationality nationalityId) {
-        this.nationalityId = nationalityId;
+    public void setNationality(Nationality nationality) {
+        this.nationality = nationality;
     }
 
-    public MaritalStatus getMaritalStatusId() {
-        return maritalStatusId;
+    public MaritalStatus getMaritalStatus() {
+        return maritalStatus;
     }
 
-    public void setMaritalStatusId(MaritalStatus maritalStatusId) {
-        this.maritalStatusId = maritalStatusId;
+    public void setMaritalStatus(MaritalStatus maritalStatus) {
+        this.maritalStatus = maritalStatus;
     }
 
-    public AccountType getAccountTypeId() {
-        return accountTypeId;
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public void setAccountTypeId(AccountType accountTypeId) {
-        this.accountTypeId = accountTypeId;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public List<Lawsuit> getLawsuits() {
@@ -378,11 +378,11 @@ public class Claimant {
         if (email != null ? !email.equals(claimant.email) : claimant.email != null) return false;
         if (createdAt != null ? !createdAt.equals(claimant.createdAt) : claimant.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(claimant.updatedAt) : claimant.updatedAt != null) return false;
-        if (nationalityId != null ? !nationalityId.equals(claimant.nationalityId) : claimant.nationalityId != null)
+        if (nationality != null ? !nationality.equals(claimant.nationality) : claimant.nationality != null)
             return false;
-        if (maritalStatusId != null ? !maritalStatusId.equals(claimant.maritalStatusId) : claimant.maritalStatusId != null)
+        if (maritalStatus != null ? !maritalStatus.equals(claimant.maritalStatus) : claimant.maritalStatus != null)
             return false;
-        if (accountTypeId != null ? !accountTypeId.equals(claimant.accountTypeId) : claimant.accountTypeId != null)
+        if (accountType != null ? !accountType.equals(claimant.accountType) : claimant.accountType != null)
             return false;
         return lawsuits != null ? lawsuits.equals(claimant.lawsuits) : claimant.lawsuits == null;
     }
@@ -412,9 +412,9 @@ public class Claimant {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
-        result = 31 * result + (nationalityId != null ? nationalityId.hashCode() : 0);
-        result = 31 * result + (maritalStatusId != null ? maritalStatusId.hashCode() : 0);
-        result = 31 * result + (accountTypeId != null ? accountTypeId.hashCode() : 0);
+        result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
+        result = 31 * result + (maritalStatus != null ? maritalStatus.hashCode() : 0);
+        result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
         result = 31 * result + (lawsuits != null ? lawsuits.hashCode() : 0);
         return result;
     }

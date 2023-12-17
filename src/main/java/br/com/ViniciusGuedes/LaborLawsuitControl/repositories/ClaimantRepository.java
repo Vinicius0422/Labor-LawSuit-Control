@@ -40,13 +40,13 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
             "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
 
             "FROM Claimant c " +
-            "LEFT JOIN c.nationalityId n " +
-            "LEFT JOIN c.maritalStatusId m " +
-            "LEFT JOIN c.accountTypeId a " +
+            "LEFT JOIN c.nationality n " +
+            "LEFT JOIN c.maritalStatus m " +
+            "LEFT JOIN c.accountType a " +
             "LEFT JOIN c.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhaseId lsp " +
-            "LEFT JOIN ls.statusId lss " +
-            "LEFT JOIN ls.locationId l " +
+            "LEFT JOIN ls.lawsuitPhase lsp " +
+            "LEFT JOIN ls.lawsuitStatus lss " +
+            "LEFT JOIN ls.location l " +
             "LEFT JOIN ls.progress p " +
             "LEFT JOIN ls.annotations an " +
             "LEFT JOIN ls.defendants def " +
@@ -76,13 +76,13 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
             "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
 
             "FROM Claimant c " +
-            "LEFT JOIN c.nationalityId n " +
-            "LEFT JOIN c.maritalStatusId m " +
-            "LEFT JOIN c.accountTypeId a " +
+            "LEFT JOIN c.nationality n " +
+            "LEFT JOIN c.maritalStatus m " +
+            "LEFT JOIN c.accountType a " +
             "LEFT JOIN c.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhaseId lsp " +
-            "LEFT JOIN ls.statusId lss " +
-            "LEFT JOIN ls.locationId l " +
+            "LEFT JOIN ls.lawsuitPhase lsp " +
+            "LEFT JOIN ls.lawsuitStatus lss " +
+            "LEFT JOIN ls.location l " +
             "LEFT JOIN ls.progress p " +
             "LEFT JOIN ls.annotations an " +
             "LEFT JOIN ls.defendants def " +
@@ -112,13 +112,13 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
             "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
 
             "FROM Claimant c " +
-            "LEFT JOIN c.nationalityId n " +
-            "LEFT JOIN c.maritalStatusId m " +
-            "LEFT JOIN c.accountTypeId a " +
+            "LEFT JOIN c.nationality n " +
+            "LEFT JOIN c.maritalStatus m " +
+            "LEFT JOIN c.accountType a " +
             "LEFT JOIN c.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhaseId lsp " +
-            "LEFT JOIN ls.statusId lss " +
-            "LEFT JOIN ls.locationId l " +
+            "LEFT JOIN ls.lawsuitPhase lsp " +
+            "LEFT JOIN ls.lawsuitStatus lss " +
+            "LEFT JOIN ls.location l " +
             "LEFT JOIN ls.progress p " +
             "LEFT JOIN ls.annotations an " +
             "LEFT JOIN ls.defendants def " +

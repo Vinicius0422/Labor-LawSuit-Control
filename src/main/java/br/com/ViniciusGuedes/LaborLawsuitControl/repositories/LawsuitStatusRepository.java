@@ -14,4 +14,6 @@ public interface LawsuitStatusRepository extends JpaRepository<LawsuitStatus, Lo
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitStatus.LawsuitStatusResponseDto(ls.id, ls.status) FROM LawsuitStatus ls")
     List<LawsuitStatusResponseDto> findAllLawsuitStatus();
+
+    boolean existsByLawsuitStatusId(Long lawsuitStatusId);
 }

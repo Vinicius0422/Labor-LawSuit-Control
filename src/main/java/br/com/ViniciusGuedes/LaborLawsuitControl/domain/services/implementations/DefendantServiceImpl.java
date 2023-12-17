@@ -68,15 +68,15 @@ public class DefendantServiceImpl implements DefendantService {
 
     @Override
     public SaveOrUpdateResponseDefault updateDefendant(Long id, DefendantRequestDto defendantRequestDto) {
-        var defendantToUpdate = defendantRepository.findById(id);
-        if(defendantToUpdate.isEmpty()){
+        var defendantToUpdate = defendantRepository.findById(id).orElse(null);
+        if(defendantToUpdate == null){
             return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No records found for this ID!"));
         }
         var validation = updateDefendantValidation(id, defendantRequestDto);
         if(!validation.isEmpty()) {
             return  new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
         }
-        Defendant existingDefendant = defendantToUpdate.get();
+        Defendant existingDefendant = defendantToUpdate;
         updateDefendantFields(existingDefendant, defendantRequestDto);
         existingDefendant.setUpdatedAt(LocalDateTime.now());
         defendantRepository.save(existingDefendant);

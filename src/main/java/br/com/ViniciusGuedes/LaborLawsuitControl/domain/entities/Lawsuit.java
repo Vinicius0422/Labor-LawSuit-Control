@@ -1,5 +1,6 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -36,24 +37,25 @@ public class Lawsuit {
 
     @ManyToOne
     @JoinColumn(name = "lawsuitphase_id")
-    private LawsuitPhase lawsuitPhaseId;
+    private LawsuitPhase lawsuitPhase;
 
     @ManyToOne
     @JoinColumn(name = "lawsuitstatus_id")
-    private LawsuitStatus statusId;
+    private LawsuitStatus lawsuitStatus;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
-    private Location locationId;
+    private Location location;
 
     @ManyToOne
     @JoinColumn(name = "claimant_id")
-    private Claimant claimantId;
+    private Claimant claimant;
 
-    @OneToMany(mappedBy = "lawsuitId")
+    @JsonIgnore
+    @OneToMany(mappedBy = "lawsuit", fetch = FetchType.EAGER)
     private List<Progress> progress = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lawsuitId")
+    @OneToMany(mappedBy = "lawsuit", fetch = FetchType.EAGER)
     private List<Annotation> annotations = new ArrayList<>();
 
     @ManyToMany
@@ -72,7 +74,7 @@ public class Lawsuit {
     }
 
     public Lawsuit(String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt, LocalDateTime updatedAt,
-                   LawsuitPhase lawsuitPhaseId, LawsuitStatus statusId, Location locationId, Claimant claimantId, List<Progress> progress, List<Annotation> annotations,
+                   LawsuitPhase lawsuitPhase, LawsuitStatus lawsuitStatus, Location location, Claimant claimant, List<Progress> progress, List<Annotation> annotations,
                    List<Defendant> defendants, List<Attorney> attorneys) {
         this.lawsuitNumber = lawsuitNumber;
         this.civilCourt = civilCourt;
@@ -80,10 +82,10 @@ public class Lawsuit {
         this.valueCase = valueCase;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.lawsuitPhaseId = lawsuitPhaseId;
-        this.statusId = statusId;
-        this.locationId = locationId;
-        this.claimantId = claimantId;
+        this.lawsuitPhase = lawsuitPhase;
+        this.lawsuitStatus = lawsuitStatus;
+        this.location = location;
+        this.claimant = claimant;
         this.progress = progress;
         this.annotations = annotations;
         this.defendants = defendants;
@@ -146,36 +148,36 @@ public class Lawsuit {
         this.updatedAt = updatedAt;
     }
 
-    public LawsuitPhase getLawsuitPhaseId() {
-        return lawsuitPhaseId;
+    public LawsuitPhase getLawsuitPhase() {
+        return lawsuitPhase;
     }
 
-    public void setLawsuitPhaseId(LawsuitPhase lawsuitPhaseId) {
-        this.lawsuitPhaseId = lawsuitPhaseId;
+    public void setLawsuitPhase(LawsuitPhase lawsuitPhase) {
+        this.lawsuitPhase = lawsuitPhase;
     }
 
-    public LawsuitStatus getStatusId() {
-        return statusId;
+    public LawsuitStatus getLawsuitStatus() {
+        return lawsuitStatus;
     }
 
-    public void setStatusId(LawsuitStatus statusId) {
-        this.statusId = statusId;
+    public void setLawsuitStatus(LawsuitStatus lawsuitStatus) {
+        this.lawsuitStatus = lawsuitStatus;
     }
 
-    public Location getLocationId() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationId(Location locationId) {
-        this.locationId = locationId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public Claimant getClaimantId() {
-        return claimantId;
+    public Claimant getClaimant() {
+        return claimant;
     }
 
-    public void setClaimantId(Claimant claimantId) {
-        this.claimantId = claimantId;
+    public void setClaimant(Claimant claimant) {
+        this.claimant = claimant;
     }
 
     public List<Progress> getProgress() {
@@ -226,11 +228,11 @@ public class Lawsuit {
         if (valueCase != null ? !valueCase.equals(lawsuit.valueCase) : lawsuit.valueCase != null) return false;
         if (createdAt != null ? !createdAt.equals(lawsuit.createdAt) : lawsuit.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(lawsuit.updatedAt) : lawsuit.updatedAt != null) return false;
-        if (lawsuitPhaseId != null ? !lawsuitPhaseId.equals(lawsuit.lawsuitPhaseId) : lawsuit.lawsuitPhaseId != null)
+        if (lawsuitPhase != null ? !lawsuitPhase.equals(lawsuit.lawsuitPhase) : lawsuit.lawsuitPhase != null)
             return false;
-        if (statusId != null ? !statusId.equals(lawsuit.statusId) : lawsuit.statusId != null) return false;
-        if (locationId != null ? !locationId.equals(lawsuit.locationId) : lawsuit.locationId != null) return false;
-        if (claimantId != null ? !claimantId.equals(lawsuit.claimantId) : lawsuit.claimantId != null) return false;
+        if (lawsuitStatus != null ? !lawsuitStatus.equals(lawsuit.lawsuitStatus) : lawsuit.lawsuitStatus != null) return false;
+        if (location != null ? !location.equals(lawsuit.location) : lawsuit.location != null) return false;
+        if (claimant != null ? !claimant.equals(lawsuit.claimant) : lawsuit.claimant != null) return false;
         if (progress != null ? !progress.equals(lawsuit.progress) : lawsuit.progress != null) return false;
         if (annotations != null ? !annotations.equals(lawsuit.annotations) : lawsuit.annotations != null) return false;
         if (defendants != null ? !defendants.equals(lawsuit.defendants) : lawsuit.defendants != null) return false;
@@ -246,10 +248,10 @@ public class Lawsuit {
         result = 31 * result + (valueCase != null ? valueCase.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
-        result = 31 * result + (lawsuitPhaseId != null ? lawsuitPhaseId.hashCode() : 0);
-        result = 31 * result + (statusId != null ? statusId.hashCode() : 0);
-        result = 31 * result + (locationId != null ? locationId.hashCode() : 0);
-        result = 31 * result + (claimantId != null ? claimantId.hashCode() : 0);
+        result = 31 * result + (lawsuitPhase != null ? lawsuitPhase.hashCode() : 0);
+        result = 31 * result + (lawsuitStatus != null ? lawsuitStatus.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (claimant != null ? claimant.hashCode() : 0);
         result = 31 * result + (progress != null ? progress.hashCode() : 0);
         result = 31 * result + (annotations != null ? annotations.hashCode() : 0);
         result = 31 * result + (defendants != null ? defendants.hashCode() : 0);

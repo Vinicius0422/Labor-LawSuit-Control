@@ -3,6 +3,8 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "attorney")
@@ -28,22 +30,27 @@ public class Attorney {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
 
+    @ManyToMany(mappedBy = "attorneys")
+    private List<Lawsuit> lawsuits = new ArrayList<>();
+
     public Attorney() {
     }
 
-    public Attorney(String attorneyName, String cpf, String oabNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Attorney(Long attorneyId, String attorneyName, String cpf, String oabNumber, LocalDateTime createdAt, LocalDateTime updatedAt, List<Lawsuit> lawsuits) {
+        this.attorneyId = attorneyId;
         this.attorneyName = attorneyName;
         this.cpf = cpf;
         this.oabNumber = oabNumber;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.lawsuits = lawsuits;
     }
 
-    public Long getId() {
+    public Long getAttorneyId() {
         return attorneyId;
     }
 
-    public void setId(Long attorneyId) {
+    public void setAttorneyId(Long attorneyId) {
         this.attorneyId = attorneyId;
     }
 
@@ -87,6 +94,14 @@ public class Attorney {
         this.updatedAt = updatedAt;
     }
 
+    public List<Lawsuit> getLawsuits() {
+        return lawsuits;
+    }
+
+    public void setLawsuits(List<Lawsuit> lawsuits) {
+        this.lawsuits = lawsuits;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,7 +115,8 @@ public class Attorney {
         if (cpf != null ? !cpf.equals(attorney.cpf) : attorney.cpf != null) return false;
         if (oabNumber != null ? !oabNumber.equals(attorney.oabNumber) : attorney.oabNumber != null) return false;
         if (createdAt != null ? !createdAt.equals(attorney.createdAt) : attorney.createdAt != null) return false;
-        return updatedAt != null ? updatedAt.equals(attorney.updatedAt) : attorney.updatedAt == null;
+        if (updatedAt != null ? !updatedAt.equals(attorney.updatedAt) : attorney.updatedAt != null) return false;
+        return lawsuits != null ? lawsuits.equals(attorney.lawsuits) : attorney.lawsuits == null;
     }
 
     @Override
@@ -111,6 +127,7 @@ public class Attorney {
         result = 31 * result + (oabNumber != null ? oabNumber.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + (lawsuits != null ? lawsuits.hashCode() : 0);
         return result;
     }
 }

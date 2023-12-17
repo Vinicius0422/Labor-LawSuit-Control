@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS progress (
    	expected_date DATE,
     expected_time TIME,
     description VARCHAR(255) NOT NULL,
-    creation_date TIMESTAMP NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP,
     PRIMARY KEY (id),

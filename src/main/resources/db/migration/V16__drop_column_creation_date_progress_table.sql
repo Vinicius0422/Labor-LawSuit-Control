@@ -1,1 +1,0 @@
-ALTER TABLE progress DROP COLUMN creation_date;
