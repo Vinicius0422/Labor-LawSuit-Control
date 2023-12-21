@@ -9,10 +9,7 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Claimant;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.MaritalStatus;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Nationality;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.ClaimantService;
-import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.AccountTypeRepository;
-import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.ClaimantRepository;
-import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.MaritalStatusRepository;
-import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.NationalityRepository;
+import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,15 +28,22 @@ public class ClaimantServiceImpl implements ClaimantService {
 
     @Autowired
     private ClaimantRepository claimantRepository;
-
     @Autowired
     private NationalityRepository nationalityRepository;
-
     @Autowired
     private MaritalStatusRepository maritalStatusRepository;
-
     @Autowired
     private AccountTypeRepository accountTypeRepository;
+    @Autowired
+    private AnnotationRepository annotationRepository;
+    @Autowired
+    private AttorneyRepository attorneyRepository;
+    @Autowired
+    private DefendantRepository defendantRepository;
+    @Autowired
+    private LawsuitRepository lawsuitRepository;
+    @Autowired
+    private ProgressRepository progressRepository;
 
     @Override
     public ResponseDefault getAllClaimants() {
@@ -52,23 +56,28 @@ public class ClaimantServiceImpl implements ClaimantService {
 
     @Override
     public ResponseDefault getClaimantById(Long claimantId) {
-        var claimant = claimantRepository.findClaimantById(claimantId);
+        var claimant = claimantRepository.findClaimantById(claimantId).orElse(null);
         if(claimant == null){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this ID!", null);
         }
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", claimant.orElse(null));
+        var lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimantId);
+        claimant.setLawsuits(lawsuitsDto);
+        return new ResponseDefault(HttpStatus.OK, "Search carried out!", claimant);
     }
 
     @Override
     public ResponseDefault getByCpf(String cpf) {
-        if(cpf.length() < 11 && cpf.length() > 14){
+        String cpfFormatted = cleanseNumericInput(cpf);
+        System.out.println("Formatted CPF: " + cpfFormatted); // Adicione esta linha para verificar o CPF formatado
+        if(cpfFormatted.length() != 11){
             return new ResponseDefault(HttpStatus.BAD_REQUEST, "The CPF provided does not meet the requirements");
         }
-        String cpfFormatted = cleanseNumericInput(cpf);
         var claimant = claimantRepository.findClaimantByCpf(cpfFormatted).orElse(null);
         if(claimant == null){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this CPF!", null);
         }
+        var lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimant.getClaimantId());
+        claimant.setLawsuits(lawsuitsDto);
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", claimant);
     }
 
@@ -79,8 +88,12 @@ public class ClaimantServiceImpl implements ClaimantService {
                     "Enter a name with at least 3 characters!", null);
         }
         var claimants = claimantRepository.findClaimantByNameContains(claimantName);
-        if(claimants == null){
+        if(claimants.isEmpty()){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this name!", null);
+        }
+        for (int i = 0; i < claimants.size(); i++) {
+            var lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimants.get(i).getClaimantId());
+            claimants.get(i).setLawsuits(lawsuitsDto);
         }
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", claimants);
     }

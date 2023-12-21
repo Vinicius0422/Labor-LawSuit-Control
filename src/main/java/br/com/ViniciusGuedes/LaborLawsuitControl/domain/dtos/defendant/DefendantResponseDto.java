@@ -1,6 +1,7 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitSomeFieldsResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.PersonType;
 
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class DefendantResponseDto {
     private String email;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private List<LawsuitResponseDto> lawsuits = new ArrayList<>();
+    private List<LawsuitSomeFieldsResponseDto> lawsuits = new ArrayList<>();
 
     public DefendantResponseDto() {
     }
@@ -30,7 +31,7 @@ public class DefendantResponseDto {
     public DefendantResponseDto(Long defendantId, String defendantName, PersonType personType,
                                 String cpfCnpj, String address, String city, String neighborhood,
                                 String uf, String cep, String contact, String email, LocalDateTime createdAt,
-                                LocalDateTime updatedAt, List<LawsuitResponseDto> lawsuits) {
+                                LocalDateTime updatedAt, List<LawsuitSomeFieldsResponseDto> lawsuits) {
         this.defendantId = defendantId;
         this.defendantName = defendantName;
         this.personType = personType;
@@ -170,11 +171,11 @@ public class DefendantResponseDto {
         this.updatedAt = updatedAt;
     }
 
-    public List<LawsuitResponseDto> getLawsuits() {
+    public List<LawsuitSomeFieldsResponseDto> getLawsuits() {
         return lawsuits;
     }
 
-    public void setLawsuits(List<LawsuitResponseDto> lawsuits) {
+    public void setLawsuits(List<LawsuitSomeFieldsResponseDto> lawsuits) {
         this.lawsuits = lawsuits;
     }
 }

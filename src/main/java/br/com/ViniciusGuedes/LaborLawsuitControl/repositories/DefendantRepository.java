@@ -21,106 +21,22 @@ public interface DefendantRepository extends JpaRepository<Defendant, Long> {
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto(" +
             "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, d.city, d.neighborhood, d.uf, " +
-            "d.cep, d.contact, d.email, d.createdAt, d.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto(" +
-            "ls.lawsuitId, ls.lawsuitNumber, ls.civilCourt, ls.distributionDate, ls.valueCase, ls.createdAt, ls.updatedAt, " +
-            "lsp.lawsuitPhaseId, lsp.phase, lss.lawsuitStatusId, lss.status, l.locationId, l.location), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto(" +
-            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, c.city, c.neighborhood, c.uf, c.cep), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.progress.ProgressResponseDto(" +
-            "p.progressId, p.progressDate, p.expectedDate, p.expectedTime, p.description, p.createdAt, p.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto(" +
-            "an.annotationId, an.annotationDate, an.description, an.createdAt, an.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
-            "def.defendantId, def.defendantName, def.personType, def.cpfCnpj), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto(" +
-            "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
+            "d.cep, d.contact, d.email, d.createdAt, d.updatedAt) " +
             "FROM Defendant d " +
-            "LEFT JOIN d.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhase lsp " +
-            "LEFT JOIN ls.lawsuitStatus lss " +
-            "LEFT JOIN ls.location l " +
-            "LEFT JOIN ls.claimant c " +
-            "LEFT JOIN ls.progress p " +
-            "LEFT JOIN ls.annotations an " +
-            "LEFT JOIN ls.defendants def " +
-            "LEFT JOIN ls.attorneys at " +
             "WHERE d.defendantName LIKE %:defendantName%")
     List<DefendantResponseDto> findDefendantByNameContains(@Param("defendantName") String defendantName);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto(" +
             "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, d.city, d.neighborhood, d.uf, " +
-            "d.cep, d.contact, d.email, d.createdAt, d.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto(" +
-            "ls.lawsuitId, ls.lawsuitNumber, ls.civilCourt, ls.distributionDate, ls.valueCase, ls.createdAt, ls.updatedAt, " +
-            "lsp.lawsuitPhaseId, lsp.phase, lss.lawsuitStatusId, lss.status, l.locationId, l.location), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto(" +
-            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, c.city, c.neighborhood, c.uf, c.cep), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.progress.ProgressResponseDto(" +
-            "p.progressId, p.progressDate, p.expectedDate, p.expectedTime, p.description, p.createdAt, p.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto(" +
-            "an.annotationId, an.annotationDate, an.description, an.createdAt, an.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
-            "def.defendantId, def.defendantName, def.personType, def.cpfCnpj), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto(" +
-            "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
+            "d.cep, d.contact, d.email, d.createdAt, d.updatedAt) " +
             "FROM Defendant d " +
-            "LEFT JOIN d.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhase lsp " +
-            "LEFT JOIN ls.lawsuitStatus lss " +
-            "LEFT JOIN ls.location l " +
-            "LEFT JOIN ls.claimant c " +
-            "LEFT JOIN ls.progress p " +
-            "LEFT JOIN ls.annotations an " +
-            "LEFT JOIN ls.defendants def " +
-            "LEFT JOIN ls.attorneys at " +
             "WHERE d.defendantId = :defendantId")
     Optional<DefendantResponseDto> findDefendantById(@Param("defendantId") Long defendantId);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto(" +
             "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, d.city, d.neighborhood, d.uf, " +
-            "d.cep, d.contact, d.email, d.createdAt, d.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto(" +
-            "ls.lawsuitId, ls.lawsuitNumber, ls.civilCourt, ls.distributionDate, ls.valueCase, ls.createdAt, ls.updatedAt, " +
-            "lsp.lawsuitPhaseId, lsp.phase, lss.lawsuitStatusId, lss.status, l.locationId, l.location), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto(" +
-            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, c.city, c.neighborhood, c.uf, c.cep), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.progress.ProgressResponseDto(" +
-            "p.progressId, p.progressDate, p.expectedDate, p.expectedTime, p.description, p.createdAt, p.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.annotation.AnnotationResponseDto(" +
-            "an.annotationId, an.annotationDate, an.description, an.createdAt, an.updatedAt), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto(" +
-            "def.defendantId, def.defendantName, def.personType, def.cpfCnpj), " +
-
-            "new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.attorney.AttorneyResponseDto(" +
-            "at.attorneyId, at.attorneyName, at.cpf, at.oabNumber) " +
+            "d.cep, d.contact, d.email, d.createdAt, d.updatedAt) " +
             "FROM Defendant d " +
-            "LEFT JOIN d.lawsuits ls " +
-            "LEFT JOIN ls.lawsuitPhase lsp " +
-            "LEFT JOIN ls.lawsuitStatus lss " +
-            "LEFT JOIN ls.location l " +
-            "LEFT JOIN ls.claimant c " +
-            "LEFT JOIN ls.progress p " +
-            "LEFT JOIN ls.annotations an " +
-            "LEFT JOIN ls.defendants def " +
-            "LEFT JOIN ls.attorneys at " +
             "WHERE d.cpfCnpj = :cpfCnpj")
     Optional<DefendantResponseDto> findDefendantByCpfOrCnpj(@Param("cpfCnpj") String cpfCnpj);
 

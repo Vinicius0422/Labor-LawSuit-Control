@@ -4,6 +4,7 @@ public class LawsuitSomeFieldsResponseDto {
 
     private Long lawsuitId;
     private String lawsuitNumber;
+    private String civilCourt;
     private Double valueCase;
     private Long lawsuitPhaseId;
     private String phase;
@@ -15,10 +16,11 @@ public class LawsuitSomeFieldsResponseDto {
     public LawsuitSomeFieldsResponseDto() {
     }
 
-    public LawsuitSomeFieldsResponseDto(Long lawsuitId, String lawsuitNumber, Double valueCase, Long lawsuitPhaseId,
+    public LawsuitSomeFieldsResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, Double valueCase, Long lawsuitPhaseId,
                                         String phase, Long lawsuitStatusId, String status, Long locationId, String location) {
         this.lawsuitId = lawsuitId;
         this.lawsuitNumber = lawsuitNumber;
+        this.civilCourt = civilCourt;
         this.valueCase = valueCase;
         this.lawsuitPhaseId = lawsuitPhaseId;
         this.phase = phase;
@@ -42,6 +44,14 @@ public class LawsuitSomeFieldsResponseDto {
 
     public void setLawsuitNumber(String lawsuitNumber) {
         this.lawsuitNumber = lawsuitNumber;
+    }
+
+    public String getCivilCourt() {
+        return civilCourt;
+    }
+
+    public void setCivilCourt(String civilCourt) {
+        this.civilCourt = civilCourt;
     }
 
     public Double getValueCase() {

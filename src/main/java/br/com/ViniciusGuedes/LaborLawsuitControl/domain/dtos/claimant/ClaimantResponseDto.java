@@ -1,10 +1,6 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant;
 
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitClaimantResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.AccountType;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Lawsuit;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.MaritalStatus;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Nationality;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitSomeFieldsResponseDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,7 +38,7 @@ public class ClaimantResponseDto {
     private String maritalStatus;
     private Long accountTypeId;
     private String accountType;
-    private List<LawsuitClaimantResponseDto> lawsuits = new ArrayList<>();
+    private List<LawsuitSomeFieldsResponseDto> lawsuits = new ArrayList<>();
 
 
     public ClaimantResponseDto() {
@@ -87,7 +83,7 @@ public class ClaimantResponseDto {
                                String cpf, String pis, String address, String city, String neighborhood, String uf, String cep, String bank, String agency,
                                String operation, String account, String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, Long nationalityId,
                                String nationality, Long maritalStatusId, String maritalStatus, Long accountTypeId, String accountType,
-                               List<LawsuitClaimantResponseDto> lawsuits) {
+                               List<LawsuitSomeFieldsResponseDto> lawsuits) {
         this.claimantId = claimantId;
         this.claimantName = claimantName;
         this.birthDate = birthDate;
@@ -352,11 +348,11 @@ public class ClaimantResponseDto {
         this.accountType = accountType;
     }
 
-    public List<LawsuitClaimantResponseDto> getLawsuits() {
+    public List<LawsuitSomeFieldsResponseDto> getLawsuits() {
         return lawsuits;
     }
 
-    public void setLawsuits(List<LawsuitClaimantResponseDto> lawsuits) {
+    public void setLawsuits(List<LawsuitSomeFieldsResponseDto> lawsuits) {
         this.lawsuits = lawsuits;
     }
 }

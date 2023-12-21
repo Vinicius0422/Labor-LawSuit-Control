@@ -20,7 +20,8 @@ public class ClaimantController {
 
     @GetMapping("/{claimantId}")
     public ResponseEntity getClaimantById(@PathVariable(value = "claimantId") Long claimantId){
-        return ResponseEntity.ok(claimantService.getClaimantById(claimantId));
+        var request = claimantService.getClaimantById(claimantId);
+        return ResponseEntity.status(request.getStatusCode()).body(request);
     }
 
     @GetMapping("/searchByCpf")

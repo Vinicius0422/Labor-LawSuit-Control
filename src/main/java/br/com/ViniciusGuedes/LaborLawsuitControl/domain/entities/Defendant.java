@@ -50,12 +50,14 @@ public class Defendant {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
 
+    @ManyToMany(mappedBy = "defendants")
+    private List<Lawsuit> lawsuits = new ArrayList<>();
+
     public Defendant() {
     }
 
-    public Defendant(Long defendantId, String defendantName, PersonType personType, String cpfCnpj, String address, String city, String neighborhood, String uf,
-                     String cep, String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.defendantId = defendantId;
+    public Defendant(String defendantName, PersonType personType, String cpfCnpj, String address, String city, String neighborhood, String uf, String cep,
+                     String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, List<Lawsuit> lawsuits) {
         this.defendantName = defendantName;
         this.personType = personType;
         this.cpfCnpj = cpfCnpj;
@@ -68,6 +70,7 @@ public class Defendant {
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.lawsuits = lawsuits;
     }
 
     public Long getDefendantId() {
@@ -174,6 +177,14 @@ public class Defendant {
         this.updatedAt = updatedAt;
     }
 
+    public List<Lawsuit> getLawsuits() {
+        return lawsuits;
+    }
+
+    public void setLawsuits(List<Lawsuit> lawsuits) {
+        this.lawsuits = lawsuits;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -196,7 +207,8 @@ public class Defendant {
         if (contact != null ? !contact.equals(defendant.contact) : defendant.contact != null) return false;
         if (email != null ? !email.equals(defendant.email) : defendant.email != null) return false;
         if (createdAt != null ? !createdAt.equals(defendant.createdAt) : defendant.createdAt != null) return false;
-        return updatedAt != null ? updatedAt.equals(defendant.updatedAt) : defendant.updatedAt == null;
+        if (updatedAt != null ? !updatedAt.equals(defendant.updatedAt) : defendant.updatedAt != null) return false;
+        return lawsuits != null ? lawsuits.equals(defendant.lawsuits) : defendant.lawsuits == null;
     }
 
     @Override
@@ -214,6 +226,7 @@ public class Defendant {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + (lawsuits != null ? lawsuits.hashCode() : 0);
         return result;
     }
 }

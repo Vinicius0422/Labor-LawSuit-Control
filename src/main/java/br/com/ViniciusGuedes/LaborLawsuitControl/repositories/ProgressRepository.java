@@ -26,4 +26,5 @@ public interface ProgressRepository extends JpaRepository<Progress, Long> {
             "WHERE p.lawsuit.lawsuitId = :lawsuitId")
     List<ProgressResponseDto> findProgressByLawsuitId(@Param("lawsuitId") Long lawsuitId);
 
+
 }
