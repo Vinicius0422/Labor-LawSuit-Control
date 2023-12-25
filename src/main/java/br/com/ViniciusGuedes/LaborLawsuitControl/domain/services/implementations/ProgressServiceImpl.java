@@ -70,11 +70,17 @@ public class ProgressServiceImpl implements ProgressService {
         List validation = new ArrayList<>();
         Long lawsuitId = progressRequestDto.getLawsuitId();
         Long lawsuitPhaseId = progressRequestDto.getLawsuitPhaseId();
-        if(lawsuitId == null){
+        if(lawsuitId == null || lawsuitId.equals("")){
             validation.add("Lawsuit Id is required!");
         }
-        if(lawsuitPhaseId == null){
+        if(lawsuitRepository.existsByLawsuitId(lawsuitId) != true){
+            validation.add("This lawsuit not exists!");
+        }
+        if(lawsuitPhaseId == null || lawsuitPhaseId.equals("")){
             validation.add("LawsuitPhase Id is required!");
+        }
+        if(lawsuitPhaseRepository.existsByLawsuitPhaseId(lawsuitPhaseId) != true){
+            validation.add("This lawsuit phase not exists!");
         }
         return validation;
     }

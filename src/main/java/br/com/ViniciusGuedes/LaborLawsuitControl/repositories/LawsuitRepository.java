@@ -82,4 +82,5 @@ public interface LawsuitRepository extends JpaRepository<Lawsuit, Long> {
 
     boolean existsByLawsuitNumber(String lawsuitNumber);
     Lawsuit findByLawsuitNumberEquals(String lawsuitNumber);
+    boolean existsByLawsuitId(Long id);
 }
