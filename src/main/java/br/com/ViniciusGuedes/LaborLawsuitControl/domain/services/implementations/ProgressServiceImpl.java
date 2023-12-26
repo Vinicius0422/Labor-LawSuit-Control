@@ -67,22 +67,22 @@ public class ProgressServiceImpl implements ProgressService {
 
 
     public List<String> validateProgressRequest(ProgressRequestDto progressRequestDto){
-        List validation = new ArrayList<>();
+        List errors = new ArrayList<>();
         Long lawsuitId = progressRequestDto.getLawsuitId();
         Long lawsuitPhaseId = progressRequestDto.getLawsuitPhaseId();
         if(lawsuitId == null || lawsuitId.equals("")){
-            validation.add("Lawsuit Id is required!");
+            errors.add("Lawsuit Id is required!");
         }
-        if(lawsuitRepository.existsByLawsuitId(lawsuitId) != true){
-            validation.add("This lawsuit not exists!");
+        if(!lawsuitRepository.existsByLawsuitId(lawsuitId)){
+            errors.add("This lawsuit not exists!");
         }
         if(lawsuitPhaseId == null || lawsuitPhaseId.equals("")){
-            validation.add("LawsuitPhase Id is required!");
+            errors.add("LawsuitPhase Id is required!");
         }
-        if(lawsuitPhaseRepository.existsByLawsuitPhaseId(lawsuitPhaseId) != true){
-            validation.add("This lawsuit phase not exists!");
+        if(!lawsuitPhaseRepository.existsByLawsuitPhaseId(lawsuitPhaseId)){
+            errors.add("This lawsuit phase not exists!");
         }
-        return validation;
+        return errors;
     }
 
     public Progress formatProgressDtoToEntity(ProgressRequestDto progressRequestDto){
@@ -90,9 +90,6 @@ public class ProgressServiceImpl implements ProgressService {
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
         Lawsuit lawsuit = lawsuitRepository.findById(progressRequestDto.getLawsuitId()).orElse(null);
         LawsuitPhase lawsuitPhase = lawsuitPhaseRepository.findById(progressRequestDto.getLawsuitPhaseId()).orElse(null);
-        if(lawsuit == null || lawsuitPhase == null){
-            return null;
-        }
         Progress progress = new Progress();
         progress.setProgressDate(LocalDate.parse(progressRequestDto.getProgressDate(), formatterDate));
         progress.setExpectedDate(LocalDate.parse(progressRequestDto.getExpectedDate(), formatterDate));
