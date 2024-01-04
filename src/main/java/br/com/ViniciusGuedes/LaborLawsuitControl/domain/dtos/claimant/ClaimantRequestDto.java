@@ -5,16 +5,12 @@ public class ClaimantRequestDto {
     private String claimantName;
     private String birthDate;
     private String occupation;
-    private String ctps;
-    private String serieCtps;
     private String rg;
     private String orgaoRg;
     private String cpf;
     private String pis;
     private String address;
-    private String city;
     private String neighborhood;
-    private String uf;
     private String cep;
     private String bank;
     private String agency;
@@ -25,26 +21,25 @@ public class ClaimantRequestDto {
     private Long nationalityId;
     private Long maritalStatusId;
     private Long accountTypeId;
+    private Long stateId;
+    private Long cityId;
+
 
     public ClaimantRequestDto() {
     }
 
-    public ClaimantRequestDto(String claimantName, String birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg, String cpf,
-                              String pis, String address, String city, String neighborhood, String uf, String cep, String bank, String agency, String operation,
-                              String account, String contact, String email, Long nationalityId, Long maritalStatusId, Long accountTypeId) {
+    public ClaimantRequestDto(String claimantName, String birthDate, String occupation, String rg, String orgaoRg, String cpf, String pis, String address, String neighborhood,
+                              String cep, String bank, String agency, String operation, String account, String contact, String email, Long nationalityId, Long maritalStatusId,
+                              Long accountTypeId, Long stateId, Long cityId) {
         this.claimantName = claimantName;
         this.birthDate = birthDate;
         this.occupation = occupation;
-        this.ctps = ctps;
-        this.serieCtps = serieCtps;
         this.rg = rg;
         this.orgaoRg = orgaoRg;
         this.cpf = cpf;
         this.pis = pis;
         this.address = address;
-        this.city = city;
         this.neighborhood = neighborhood;
-        this.uf = uf;
         this.cep = cep;
         this.bank = bank;
         this.agency = agency;
@@ -55,6 +50,8 @@ public class ClaimantRequestDto {
         this.nationalityId = nationalityId;
         this.maritalStatusId = maritalStatusId;
         this.accountTypeId = accountTypeId;
+        this.stateId = stateId;
+        this.cityId = cityId;
     }
 
     public String getClaimantName() {
@@ -79,22 +76,6 @@ public class ClaimantRequestDto {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
-    }
-
-    public String getCtps() {
-        return ctps;
-    }
-
-    public void setCtps(String ctps) {
-        this.ctps = ctps;
-    }
-
-    public String getSerieCtps() {
-        return serieCtps;
-    }
-
-    public void setSerieCtps(String serieCtps) {
-        this.serieCtps = serieCtps;
     }
 
     public String getRg() {
@@ -137,28 +118,12 @@ public class ClaimantRequestDto {
         this.address = address;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getNeighborhood() {
         return neighborhood;
     }
 
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
     }
 
     public String getCep() {
@@ -241,4 +206,19 @@ public class ClaimantRequestDto {
         this.accountTypeId = accountTypeId;
     }
 
+    public Long getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Long stateId) {
+        this.stateId = stateId;
+    }
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
 }

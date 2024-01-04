@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 public class DefendantRequestDto {
 
     private String defendantName;
-    private PersonType personType;
+    private String personType;
     private String cpfCnpj;
     private String address;
-    private String city;
+    private Long stateId;
+    private Long cityId;
     private String neighborhood;
-    private String uf;
     private String cep;
     private String contact;
     private String email;
@@ -20,16 +20,16 @@ public class DefendantRequestDto {
     public DefendantRequestDto() {
     }
 
-    public DefendantRequestDto(String defendantName, PersonType personType, String cpfCnpj, String address,
-                               String city, String neighborhood, String uf, String cep, String contact,
+    public DefendantRequestDto(String defendantName, String personType, String cpfCnpj, String address, Long stateId,
+                               Long cityId, String neighborhood, String cep, String contact,
                                String email) {
         this.defendantName = defendantName;
         this.personType = personType;
         this.cpfCnpj = cpfCnpj;
         this.address = address;
-        this.city = city;
+        this.stateId = stateId;
+        this.cityId = cityId;
         this.neighborhood = neighborhood;
-        this.uf = uf;
         this.cep = cep;
         this.contact = contact;
         this.email = email;
@@ -43,11 +43,11 @@ public class DefendantRequestDto {
         this.defendantName = defendantName;
     }
 
-    public PersonType getPersonType() {
+    public String getPersonType() {
         return personType;
     }
 
-    public void setPersonType(PersonType personType) {
+    public void setPersonType(String personType) {
         this.personType = personType;
     }
 
@@ -67,12 +67,20 @@ public class DefendantRequestDto {
         this.address = address;
     }
 
-    public String getCity() {
-        return city;
+    public Long getStateId() {
+        return stateId;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setStateId(Long stateId) {
+        this.stateId = stateId;
+    }
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public String getNeighborhood() {
@@ -81,14 +89,6 @@ public class DefendantRequestDto {
 
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
     }
 
     public String getCep() {

@@ -15,14 +15,19 @@ import java.util.Optional;
 public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto(c.claimantId, c.claimantName," +
-            " c.rg, c.orgaoRg, c.cpf, c.address, c.city, c.neighborhood, c.uf, c.cep) FROM Claimant c")
+            " c.rg, c.orgaoRg, c.cpf, c.address, c.neighborhood, c.cep, s.stateName, ci.cityName, ci.uf)" +
+            " FROM Claimant c " +
+            "LEFT JOIN c.state s " +
+            "LEFT JOIN c.city ci")
     List<OnlyClaimantResponseDto> findAllClaimants();
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantResponseDto(" +
-            "c.claimantId, c.claimantName, c.birthDate, c.occupation, c.ctps, c.serieCtps, c.rg, c.orgaoRg, c.cpf, c.pis, c.address, c.city, c.neighborhood, c.uf, " +
+            "c.claimantId, c.claimantName, c.birthDate, c.occupation, c.ctps, c.serieCtps, c.rg, c.orgaoRg, c.cpf, c.pis, c.address, s.stateName, ci.cityName, ci.uf, c.neighborhood, " +
             "c.cep, c.bank, c.agency, c.operation, c.account, c.contact, c.email, c.createdAt, c.updatedAt, " +
             "n.nationalityId, n.nationality, m.maritalStatusId, m.maritalStatus, a.accountTypeId, a.accountType) " +
             "FROM Claimant c " +
+            "LEFT JOIN c.state s " +
+            "LEFT JOIN c.city ci " +
             "LEFT JOIN c.nationality n " +
             "LEFT JOIN c.maritalStatus m " +
             "LEFT JOIN c.accountType a " +
@@ -30,10 +35,12 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
     Optional<ClaimantResponseDto> findClaimantById(@Param("claimantId") Long claimantId);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantResponseDto(" +
-            "c.claimantId, c.claimantName, c.birthDate, c.occupation, c.ctps, c.serieCtps, c.rg, c.orgaoRg, c.cpf, c.pis, c.address, c.city, c.neighborhood, c.uf, " +
+            "c.claimantId, c.claimantName, c.birthDate, c.occupation, c.ctps, c.serieCtps, c.rg, c.orgaoRg, c.cpf, c.pis, c.address, s.stateName, ci.cityName, ci.uf, c.neighborhood, " +
             "c.cep, c.bank, c.agency, c.operation, c.account, c.contact, c.email, c.createdAt, c.updatedAt, " +
             "n.nationalityId, n.nationality, m.maritalStatusId, m.maritalStatus, a.accountTypeId, a.accountType) " +
             "FROM Claimant c " +
+            "LEFT JOIN c.state s " +
+            "LEFT JOIN c.city ci " +
             "LEFT JOIN c.nationality n " +
             "LEFT JOIN c.maritalStatus m " +
             "LEFT JOIN c.accountType a " +
@@ -41,10 +48,12 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
     Optional<ClaimantResponseDto> findClaimantByCpf(@Param("cpf") String cpf);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantResponseDto(" +
-            "c.claimantId, c.claimantName, c.birthDate, c.occupation, c.ctps, c.serieCtps, c.rg, c.orgaoRg, c.cpf, c.pis, c.address, c.city, c.neighborhood, c.uf, " +
+            "c.claimantId, c.claimantName, c.birthDate, c.occupation, c.ctps, c.serieCtps, c.rg, c.orgaoRg, c.cpf, c.pis, c.address, s.stateName, ci.cityName, ci.uf, c.neighborhood, " +
             "c.cep, c.bank, c.agency, c.operation, c.account, c.contact, c.email, c.createdAt, c.updatedAt, " +
             "n.nationalityId, n.nationality, m.maritalStatusId, m.maritalStatus, a.accountTypeId, a.accountType) " +
             "FROM Claimant c " +
+            "LEFT JOIN c.state s " +
+            "LEFT JOIN c.city ci " +
             "LEFT JOIN c.nationality n " +
             "LEFT JOIN c.maritalStatus m " +
             "LEFT JOIN c.accountType a " +

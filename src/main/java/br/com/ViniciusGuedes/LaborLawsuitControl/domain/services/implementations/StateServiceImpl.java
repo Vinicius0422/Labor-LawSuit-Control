@@ -1,0 +1,27 @@
+package br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementations;
+
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.ResponseDefault;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.state.StateResponseDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.StateService;
+import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.StateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class StateServiceImpl implements StateService {
+
+    @Autowired
+    private StateRepository stateRepository;
+
+    @Override
+    public ResponseDefault getAllStates() {
+        List<StateResponseDto> states = stateRepository.findAllStates();
+        if(states.isEmpty()){
+            return new ResponseDefault(HttpStatus.OK, "No records found!", states);
+        }
+        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", states);
+    }
+}

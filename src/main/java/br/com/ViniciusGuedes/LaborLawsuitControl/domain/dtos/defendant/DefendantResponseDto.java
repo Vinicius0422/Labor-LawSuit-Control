@@ -15,6 +15,7 @@ public class DefendantResponseDto {
     private PersonType personType;
     private String cpfCnpj;
     private String address;
+    private String state;
     private String city;
     private String neighborhood;
     private String uf;
@@ -29,7 +30,7 @@ public class DefendantResponseDto {
     }
 
     public DefendantResponseDto(Long defendantId, String defendantName, PersonType personType,
-                                String cpfCnpj, String address, String city, String neighborhood,
+                                String cpfCnpj, String address, String state, String city, String neighborhood,
                                 String uf, String cep, String contact, String email, LocalDateTime createdAt,
                                 LocalDateTime updatedAt, List<LawsuitSomeFieldsResponseDto> lawsuits) {
         this.defendantId = defendantId;
@@ -37,6 +38,7 @@ public class DefendantResponseDto {
         this.personType = personType;
         this.cpfCnpj = cpfCnpj;
         this.address = address;
+        this.state = state;
         this.city = city;
         this.neighborhood = neighborhood;
         this.uf = uf;
@@ -49,7 +51,7 @@ public class DefendantResponseDto {
     }
 
     public DefendantResponseDto(Long defendantId, String defendantName, PersonType personType,
-                                String cpfCnpj, String address, String city, String neighborhood, String uf,
+                                String cpfCnpj, String address, String state, String city, String neighborhood, String uf,
                                 String cep, String contact, String email, LocalDateTime createdAt,
                                 LocalDateTime updatedAt) {
         this.defendantId = defendantId;
@@ -57,6 +59,7 @@ public class DefendantResponseDto {
         this.personType = personType;
         this.cpfCnpj = cpfCnpj;
         this.address = address;
+        this.state = state;
         this.city = city;
         this.neighborhood = neighborhood;
         this.uf = uf;
@@ -105,6 +108,14 @@ public class DefendantResponseDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getCity() {

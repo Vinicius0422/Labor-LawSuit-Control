@@ -20,7 +20,8 @@ public class ClaimantResponseDto {
     private String cpf;
     private String pis;
     private String address;
-    private String city;
+    private String stateName;
+    private String cityName;
     private String neighborhood;
     private String uf;
     private String cep;
@@ -45,7 +46,7 @@ public class ClaimantResponseDto {
     }
 
     public ClaimantResponseDto(Long claimantId, String claimantName, LocalDate birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg,
-                               String cpf, String pis, String address, String city, String neighborhood, String uf, String cep, String bank, String agency,
+                               String cpf, String pis, String address, String stateName, String cityName, String neighborhood, String uf, String cep, String bank, String agency,
                                String operation, String account, String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, Long nationalityId,
                                String nationality, Long maritalStatusId, String maritalStatus, Long accountTypeId, String accountType) {
         this.claimantId = claimantId;
@@ -59,7 +60,8 @@ public class ClaimantResponseDto {
         this.cpf = cpf;
         this.pis = pis;
         this.address = address;
-        this.city = city;
+        this.stateName = stateName;
+        this.cityName = cityName;
         this.neighborhood = neighborhood;
         this.uf = uf;
         this.cep = cep;
@@ -80,7 +82,7 @@ public class ClaimantResponseDto {
     }
 
     public ClaimantResponseDto(Long claimantId, String claimantName, LocalDate birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg,
-                               String cpf, String pis, String address, String city, String neighborhood, String uf, String cep, String bank, String agency,
+                               String cpf, String pis, String address, String stateName, String cityName, String neighborhood, String uf, String cep, String bank, String agency,
                                String operation, String account, String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, Long nationalityId,
                                String nationality, Long maritalStatusId, String maritalStatus, Long accountTypeId, String accountType,
                                List<LawsuitSomeFieldsResponseDto> lawsuits) {
@@ -95,7 +97,8 @@ public class ClaimantResponseDto {
         this.cpf = cpf;
         this.pis = pis;
         this.address = address;
-        this.city = city;
+        this.stateName = stateName;
+        this.cityName = cityName;
         this.neighborhood = neighborhood;
         this.uf = uf;
         this.cep = cep;
@@ -204,12 +207,20 @@ public class ClaimantResponseDto {
         this.address = address;
     }
 
-    public String getCity() {
-        return city;
+    public String getStateName() {
+        return stateName;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String city) {
+        this.cityName = cityName;
     }
 
     public String getNeighborhood() {

@@ -3,8 +3,14 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementation
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.ResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.SaveOrUpdateResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantRequestDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.City;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Defendant;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.PersonType;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.State;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.DefendantService;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.utils.InputCleaner;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.ClaimantValidator;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.DefendantValidator;
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,11 +42,48 @@ public class DefendantServiceImpl implements DefendantService {
     private LawsuitRepository lawsuitRepository;
     @Autowired
     private ProgressRepository progressRepository;
+    @Autowired
+    private DefendantValidator defendantValidator;
+    @Autowired
+    private StateRepository stateRepository;
+    @Autowired
+    private CityRepository cityRepository;
+    @Autowired
+    private InputCleaner inputCleaner;
 
     @Override
     public ResponseDefault getAllDefendants() {
         var defendants = defendantRepository.findAllDefendants();
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendants);
+        if(defendants.isEmpty()){
+            return new ResponseDefault(HttpStatus.OK, "No records found!", defendants);
+        }
+        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", defendants);
+    }
+
+    @Override
+    public ResponseDefault getDefendantById(Long defendantId) {
+        var defendant = defendantRepository.findDefendantById(defendantId).orElse(null);
+        if(defendant == null){
+            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+        }
+        var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendantId);
+        defendant.setLawsuits(lawsuitsDto);
+        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendant);
+    }
+
+    @Override
+    public ResponseDefault getDefendantByCpfOrCnpj(String cpfCnpj) {
+        String cpfCnpjFormatted = inputCleaner.cleanseNumericInput(cpfCnpj);
+        if(cpfCnpjFormatted.length() != 11 && cpfCnpjFormatted.length() != 14){
+            return new ResponseDefault(HttpStatus.BAD_REQUEST, "The CPF/CNPJ provided does not meet the requirements");
+        }
+        var defendant = defendantRepository.findDefendantByCpfOrCnpj(cpfCnpjFormatted).orElse(null);
+        if(defendant == null){
+            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+        }
+        var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendant.getDefendantId());
+        defendant.setLawsuits(lawsuitsDto);
+        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendant);
     }
 
     @Override
@@ -48,48 +91,20 @@ public class DefendantServiceImpl implements DefendantService {
         if(defendantName.length() < 3){
             return new ResponseDefault(HttpStatus.BAD_REQUEST,"Enter a name with at least 3 characters!", null);
         }
-        var defendantsDto = defendantRepository.findDefendantByNameContains(defendantName);
-        if(defendantsDto.isEmpty()){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this name!", null);
+        var defendants = defendantRepository.findDefendantByNameContains(defendantName);
+        if(defendants.isEmpty()){
+            return new ResponseDefault(HttpStatus.OK, "No records found!", defendants);
         }
-        for (int i = 0; i < defendantsDto.size(); i++) {
-            var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendantsDto.get(i).getDefendantId());
-            defendantsDto.get(i).setLawsuits(lawsuitsDto);
+        for (int i = 0; i < defendants.size(); i++) {
+            var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendants.get(i).getDefendantId());
+            defendants.get(i).setLawsuits(lawsuitsDto);
         }
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendantsDto);
-    }
-
-    @Override
-    public ResponseDefault getDefendantById(Long defendantId) {
-        var defendant = defendantRepository.findDefendantById(defendantId).orElse(null);
-        if(defendant == null){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this ID!", null);
-        }
-        var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendantId);
-        if(lawsuitsDto.isEmpty()){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No results found!", null);
-        }
-        defendant.setLawsuits(lawsuitsDto);
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendant);
-    }
-
-    @Override
-    public ResponseDefault getDefendantByCpfOrCnpj(String cpfCnpj) {
-        var defendant = defendantRepository.findDefendantByCpfOrCnpj(cleanseNumericInput(cpfCnpj)).orElse(null);
-        if(defendant == null){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found for this CPF/CNPJ!", null);
-        }
-        var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendant.getDefendantId());
-        if(lawsuitsDto.isEmpty()){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No results found!", null);
-        }
-        defendant.setLawsuits(lawsuitsDto);
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendant);
+        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendants);
     }
 
     @Override
     public SaveOrUpdateResponseDefault saveDefendant(DefendantRequestDto defendantRequestDto) {
-        var validation = saveDefendantValidation(defendantRequestDto);
+        var validation = defendantValidator.validationSaveDefendantRequestDto(defendantRequestDto);
         if(!validation.isEmpty()){
             return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
         }
@@ -103,9 +118,9 @@ public class DefendantServiceImpl implements DefendantService {
     public SaveOrUpdateResponseDefault updateDefendant(Long id, DefendantRequestDto defendantRequestDto) {
         var defendantToUpdate = defendantRepository.findById(id).orElse(null);
         if(defendantToUpdate == null){
-            return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No records found for this ID!"));
+            return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, Collections.singletonList("No records found for this ID!"));
         }
-        var validation = updateDefendantValidation(id, defendantRequestDto);
+        var validation = defendantValidator.validationUpdateDefendantRequestDto(id, defendantRequestDto);
         if(!validation.isEmpty()) {
             return  new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
         }
@@ -116,94 +131,54 @@ public class DefendantServiceImpl implements DefendantService {
         return new SaveOrUpdateResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
     }
 
-    public List<String> saveDefendantValidation(DefendantRequestDto defendantRequestDto){
-        List errors = new ArrayList<>();
-        var cpfCnpjFormatted = cleanseNumericInput(defendantRequestDto.getCpfCnpj());
-        var cepFormatted = cleanseNumericInput(defendantRequestDto.getCep());
-        if(cpfCnpjFormatted.length() > 14){
-            errors.add("Enter a valid CPF/CNPJ!");
-        }
-        if(defendantRequestDto.getUf().length() > 2){
-            errors.add("The UF field must have only 2 digits!");
-        }
-        if(cepFormatted.length() > 8){
-            errors.add("The CEP field must have only 8 digits!");
-        }
-        if(defendantRequestDto.getDefendantName().isBlank()){
-            errors.add("The name field is required!");
-        }
-        if(defendantRequestDto.getDefendantName().length() < 3){
-            errors.add("Enter a name with at least 3 characters!");
-        }
-        if(defendantRequestDto.getCpfCnpj().isBlank()){
-            errors.add("The CPF/CNPJ field is required!");
-        }
-        if(defendantRepository.existsByCpfCnpj(cpfCnpjFormatted)){
-            errors.add("CPF/CNPJ already registered for another defendant!");
-        }
-        return errors;
-    }
 
-    public List<String> updateDefendantValidation(Long id, DefendantRequestDto defendantRequestDto){
-        List errors = new ArrayList<>();
-        var cpfCnpjFormatted = cleanseNumericInput(defendantRequestDto.getCpfCnpj());
-        var cepFormatted = cleanseNumericInput(defendantRequestDto.getCep());
-        if(cpfCnpjFormatted.length() > 14){
-            errors.add("Enter a valid CPF/CNPJ!");
-        }
-        if(defendantRequestDto.getUf().length() > 2){
-            errors.add("The UF field must have only 2 digits!");
-        }
-        if(cepFormatted.length() > 8){
-            errors.add("The CEP field must have only 8 digits!");
-        }
-        if(defendantRequestDto.getDefendantName().isBlank()){
-            errors.add("The name field is required!");
-        }
-        if(defendantRequestDto.getDefendantName().length() < 3){
-            errors.add("Enter a name with at least 3 characters!");
-        }
-        if(defendantRequestDto.getCpfCnpj().isBlank()){
-            errors.add("The CPF/CNPJ field is required!");
-        }
-        boolean cpfCnpjCheck = defendantRepository.existsByCpfCnpj(cpfCnpjFormatted);
-        if(cpfCnpjCheck) {
-            Long cpfCnpjId = defendantRepository.findByCpfCnpjEquals(cpfCnpjFormatted).getDefendantId();
-            if (cpfCnpjId != id) {
-                errors.add("CPF/CNPJ already registered for another defendant!");
-            }
-        }
-        return errors;
-    }
-
-    public String cleanseNumericInput(String input){
-        return input.replaceAll("[^0-9]", "");
-    }
 
     public void updateDefendantFields(Defendant existingDefendant, DefendantRequestDto defendantRequestDto){
-        existingDefendant.setDefendantName(defendantRequestDto.getDefendantName());
-        existingDefendant.setPersonType(defendantRequestDto.getPersonType());
-        existingDefendant.setCpfCnpj(cleanseNumericInput(defendantRequestDto.getCpfCnpj()));
-        existingDefendant.setAddress(defendantRequestDto.getAddress());
-        existingDefendant.setCity(defendantRequestDto.getCity());
-        existingDefendant.setNeighborhood(defendantRequestDto.getNeighborhood());
-        existingDefendant.setUf(defendantRequestDto.getUf());
-        existingDefendant.setCep(cleanseNumericInput(defendantRequestDto.getCep()));
-        existingDefendant.setEmail(defendantRequestDto.getEmail());
+        State state = stateRepository.findById(defendantRequestDto.getStateId()).orElse(null);
+        City city = cityRepository.findById(defendantRequestDto.getCityId()).orElse(null);
+
+        existingDefendant.setDefendantName(inputCleaner.removeAccents(defendantRequestDto.getDefendantName()));
+        PersonType personType;
+        if(defendantRequestDto.getPersonType() == "FISICA"){
+            personType = PersonType.FISICA;
+        } else {
+            personType = PersonType.JURIDICA;
+        }
+        existingDefendant.setPersonType(personType);
+        existingDefendant.setCpfCnpj(defendantRequestDto.getCpfCnpj());
+        existingDefendant.setAddress(inputCleaner.removeAccents(defendantRequestDto.getAddress()));
+        existingDefendant.setState(state);
+        existingDefendant.setCity(city);
+        existingDefendant.setNeighborhood(inputCleaner.removeAccents(defendantRequestDto.getNeighborhood()));
+        existingDefendant.setUf(city.getUf());
+        existingDefendant.setCep(defendantRequestDto.getCep());
+        existingDefendant.setContact(inputCleaner.removeAccents(defendantRequestDto.getContact()));
+        existingDefendant.setEmail(inputCleaner.removeAccents(defendantRequestDto.getEmail()));
     }
 
     public Defendant defendantDtoToEntity(DefendantRequestDto defendantRequestDto){
         Defendant defendant = new Defendant();
-        defendant.setDefendantName(defendantRequestDto.getDefendantName());
-        defendant.setPersonType(defendantRequestDto.getPersonType());
-        defendant.setCpfCnpj(cleanseNumericInput(defendantRequestDto.getCpfCnpj()));
-        defendant.setAddress(defendantRequestDto.getAddress());
-        defendant.setCity(defendantRequestDto.getCity());
-        defendant.setNeighborhood(defendantRequestDto.getNeighborhood());
-        defendant.setUf(defendantRequestDto.getUf());
-        defendant.setCep(cleanseNumericInput(defendantRequestDto.getCep()));
-        defendant.setContact(defendantRequestDto.getContact());
-        defendant.setEmail(defendantRequestDto.getEmail());
+
+        State state = stateRepository.findById(defendantRequestDto.getStateId()).orElse(null);
+        City city = cityRepository.findById(defendantRequestDto.getCityId()).orElse(null);
+
+        defendant.setDefendantName(inputCleaner.removeAccents(defendantRequestDto.getDefendantName()));
+        PersonType personType;
+        if(defendantRequestDto.getPersonType() == "FISICA"){
+            personType = PersonType.FISICA;
+        } else {
+            personType = PersonType.JURIDICA;
+        }
+        defendant.setPersonType(personType);
+        defendant.setCpfCnpj(defendantRequestDto.getCpfCnpj());
+        defendant.setAddress(inputCleaner.removeAccents(defendantRequestDto.getAddress()));
+        defendant.setState(state);
+        defendant.setCity(city);
+        defendant.setNeighborhood(inputCleaner.removeAccents(defendantRequestDto.getNeighborhood()));
+        defendant.setUf(city.getUf());
+        defendant.setCep(defendantRequestDto.getCep());
+        defendant.setContact(inputCleaner.removeAccents(defendantRequestDto.getContact()));
+        defendant.setEmail(inputCleaner.removeAccents(defendantRequestDto.getEmail()));
 
         return defendant;
     }

@@ -7,7 +7,6 @@ import java.util.List;
 public class LawsuitRequestDto {
 
     private String lawsuitNumber;
-    private String civilCourt;
     private String distributionDate;
     private Double valueCase;
     private Long lawsuitPhaseId;
@@ -20,10 +19,9 @@ public class LawsuitRequestDto {
     public LawsuitRequestDto() {
     }
 
-    public LawsuitRequestDto(String lawsuitNumber, String civilCourt, String distributionDate, Double valueCase, Long lawsuitPhaseId,
+    public LawsuitRequestDto(String lawsuitNumber, String distributionDate, Double valueCase, Long lawsuitPhaseId,
                              Long lawsuitStatusId, Long locationId, String cpfClaimant, List<String> cpfCnpjDefendants, List<Long> attorneys) {
         this.lawsuitNumber = lawsuitNumber;
-        this.civilCourt = civilCourt;
         this.distributionDate = distributionDate;
         this.valueCase = valueCase;
         this.lawsuitPhaseId = lawsuitPhaseId;
@@ -40,14 +38,6 @@ public class LawsuitRequestDto {
 
     public void setLawsuitNumber(String lawsuitNumber) {
         this.lawsuitNumber = lawsuitNumber;
-    }
-
-    public String getCivilCourt() {
-        return civilCourt;
-    }
-
-    public void setCivilCourt(String civilCourt) {
-        this.civilCourt = civilCourt;
     }
 
     public String getDistributionDate() {

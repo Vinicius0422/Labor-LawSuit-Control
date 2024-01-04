@@ -31,7 +31,8 @@ public class LawsuitResponseDto {
     private String orgaoRg;
     private String cpf;
     private String address;
-    private String city;
+    private String stateName;
+    private String cityName;
     private String neighborhood;
     private String uf;
     private String cep;
@@ -45,7 +46,8 @@ public class LawsuitResponseDto {
 
     public LawsuitResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt,
                               LocalDateTime updatedAt, Long lawsuitPhaseId, String phase, Long lawsuitStatusId, String status, Long locationId, String location,
-                              Long claimantId, String claimantName, String rg, String orgaoRg, String cpf, String address, String city, String neighborhood, String uf, String cep) {
+                              Long claimantId, String claimantName, String rg, String orgaoRg, String cpf, String address, String stateName, String cityName,
+                              String neighborhood, String uf, String cep) {
         this.lawsuitId = lawsuitId;
         this.lawsuitNumber = lawsuitNumber;
         this.civilCourt = civilCourt;
@@ -65,7 +67,8 @@ public class LawsuitResponseDto {
         this.orgaoRg = orgaoRg;
         this.cpf = cpf;
         this.address = address;
-        this.city = city;
+        this.stateName = stateName;
+        this.cityName = cityName;
         this.neighborhood = neighborhood;
         this.uf = uf;
         this.cep = cep;
@@ -73,7 +76,7 @@ public class LawsuitResponseDto {
 
     public LawsuitResponseDto(Long lawsuitId, String lawsuitNumber, String civilCourt, LocalDate distributionDate, Double valueCase, LocalDateTime createdAt, LocalDateTime updatedAt,
                               Long lawsuitPhaseId, String phase, Long lawsuitStatusId, String status, Long locationId, String location, Long claimantId, String claimantName, String rg,
-                              String orgaoRg, String cpf, String address, String city, String neighborhood, String uf, String cep, List<ProgressResponseDto> progress,
+                              String orgaoRg, String cpf, String address, String stateName, String cityName, String neighborhood, String uf, String cep, List<ProgressResponseDto> progress,
                               List<AnnotationResponseDto> annotations, List<DefendantSomeFieldsResponseDto> defendants, List<AttorneyResponseDto> attorneys) {
         this.lawsuitId = lawsuitId;
         this.lawsuitNumber = lawsuitNumber;
@@ -94,7 +97,8 @@ public class LawsuitResponseDto {
         this.orgaoRg = orgaoRg;
         this.cpf = cpf;
         this.address = address;
-        this.city = city;
+        this.stateName = stateName;
+        this.cityName = cityName;
         this.neighborhood = neighborhood;
         this.uf = uf;
         this.cep = cep;
@@ -256,12 +260,20 @@ public class LawsuitResponseDto {
         this.address = address;
     }
 
-    public String getCity() {
-        return city;
+    public String getStateName() {
+        return stateName;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public String getNeighborhood() {

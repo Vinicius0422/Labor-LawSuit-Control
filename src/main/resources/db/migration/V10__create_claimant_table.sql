@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS claimant (
     cpf VARCHAR(11) NOT NULL,
     pis VARCHAR(50),
     address VARCHAR(255) NOT NULL,
-    city VARCHAR(50) NOT NULL,
+    state_id BIGINT UNSIGNED DEFAULT 1 NOT NULL,
+    city_id BIGINT UNSIGNED DEFAULT 1 NOT NULL,
     neighborhood VARCHAR(50) NOT NULL,
     uf VARCHAR(2) NOT NULL,
     cep VARCHAR(10) NOT NULL,
@@ -29,6 +30,8 @@ CREATE TABLE IF NOT EXISTS claimant (
     FOREIGN KEY (nationality_id) REFERENCES nationality (id),
     FOREIGN KEY (maritalstatus_id) REFERENCES marital_status (id),
     FOREIGN KEY (accounttype_id) REFERENCES account_type (id),
+    FOREIGN KEY (state_id) REFERENCES state (id),
+    FOREIGN KEY (city_id) REFERENCES city (id),
     UNIQUE (rg),
     UNIQUE (cpf)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

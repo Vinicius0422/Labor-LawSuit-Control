@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS defendant (
     id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
     defendant_name VARCHAR(150) NOT NULL,
-    person_type ENUM ('Fisica', 'Juridica') NOT NULL DEFAULT 'Juridica',
+    person_type ENUM ('FISICA', 'JURIDICA') NOT NULL DEFAULT 'JURIDICA',
     cpf_cnpj VARCHAR(14) NOT NULL,
     address VARCHAR(255),
-    city VARCHAR(50),
+    state_id BIGINT UNSIGNED DEFAULT 1 NOT NULL,
+    city_id BIGINT UNSIGNED DEFAULT 1 NOT NULL,
     neighborhood VARCHAR(50),
     uf VARCHAR(2),
     cep VARCHAR(8),
@@ -13,5 +14,7 @@ CREATE TABLE IF NOT EXISTS defendant (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP,
     PRIMARY KEY (id),
-    UNIQUE (cpf_cnpj)
+    UNIQUE (cpf_cnpj),
+    FOREIGN KEY (state_id) REFERENCES state (id),
+    FOREIGN KEY (city_id) REFERENCES city (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

@@ -47,9 +47,6 @@ public class Claimant {
     private String address;
 
     @Column(length = 50, nullable = false)
-    private String city;
-
-    @Column(length = 50, nullable = false)
     private String neighborhood;
 
     @Column(length = 2, nullable = false)
@@ -94,12 +91,20 @@ public class Claimant {
     @JoinColumn(name = "accounttype_id")
     private AccountType accountType;
 
+    @ManyToOne
+    @JoinColumn(name = "state_id")
+    private State state;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
     public Claimant() {
     }
 
     public Claimant(String claimantName, LocalDate birthDate, String occupation, String ctps, String serieCtps, String rg, String orgaoRg, String cpf, String pis,
-                    String address, String city, String neighborhood, String uf, String cep, String bank, String agency, String operation, String account, String contact,
-                    String email, LocalDateTime createdAt, LocalDateTime updatedAt, Nationality nationality, MaritalStatus maritalStatus, AccountType accountType) {
+                    String address, String neighborhood, String uf, String cep, String bank, String agency, String operation, String account, String contact,
+                    String email, LocalDateTime createdAt, LocalDateTime updatedAt, Nationality nationality, MaritalStatus maritalStatus, AccountType accountType, State state, City city) {
         this.claimantName = claimantName;
         this.birthDate = birthDate;
         this.occupation = occupation;
@@ -110,7 +115,6 @@ public class Claimant {
         this.cpf = cpf;
         this.pis = pis;
         this.address = address;
-        this.city = city;
         this.neighborhood = neighborhood;
         this.uf = uf;
         this.cep = cep;
@@ -125,13 +129,15 @@ public class Claimant {
         this.nationality = nationality;
         this.maritalStatus = maritalStatus;
         this.accountType = accountType;
+        this.state = state;
+        this.city = city;
     }
 
-    public Long getId() {
+    public Long getClaimantId() {
         return claimantId;
     }
 
-    public void setId(Long claimantId) {
+    public void setClaimantId(Long claimantId) {
         this.claimantId = claimantId;
     }
 
@@ -213,14 +219,6 @@ public class Claimant {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getNeighborhood() {
@@ -335,6 +333,22 @@ public class Claimant {
         this.accountType = accountType;
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -354,7 +368,6 @@ public class Claimant {
         if (cpf != null ? !cpf.equals(claimant.cpf) : claimant.cpf != null) return false;
         if (pis != null ? !pis.equals(claimant.pis) : claimant.pis != null) return false;
         if (address != null ? !address.equals(claimant.address) : claimant.address != null) return false;
-        if (city != null ? !city.equals(claimant.city) : claimant.city != null) return false;
         if (neighborhood != null ? !neighborhood.equals(claimant.neighborhood) : claimant.neighborhood != null)
             return false;
         if (uf != null ? !uf.equals(claimant.uf) : claimant.uf != null) return false;
@@ -373,7 +386,8 @@ public class Claimant {
             return false;
         if (accountType != null ? !accountType.equals(claimant.accountType) : claimant.accountType != null)
             return false;
-        return false;
+        if (state != null ? !state.equals(claimant.state) : claimant.state != null) return false;
+        return city != null ? city.equals(claimant.city) : claimant.city == null;
     }
 
     @Override
@@ -389,7 +403,6 @@ public class Claimant {
         result = 31 * result + (cpf != null ? cpf.hashCode() : 0);
         result = 31 * result + (pis != null ? pis.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (neighborhood != null ? neighborhood.hashCode() : 0);
         result = 31 * result + (uf != null ? uf.hashCode() : 0);
         result = 31 * result + (cep != null ? cep.hashCode() : 0);
@@ -404,6 +417,8 @@ public class Claimant {
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
         result = 31 * result + (maritalStatus != null ? maritalStatus.hashCode() : 0);
         result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
         return result;
     }
 }

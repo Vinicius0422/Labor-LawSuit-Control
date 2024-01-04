@@ -8,7 +8,8 @@ public class OnlyClaimantResponseDto {
     private String orgaoRg;
     private String cpf;
     private String address;
-    private String city;
+    private String stateName;
+    private String cityName;
     private String neighborhood;
     private String uf;
     private String cep;
@@ -16,25 +17,26 @@ public class OnlyClaimantResponseDto {
     public OnlyClaimantResponseDto() {
     }
 
-    public OnlyClaimantResponseDto(Long claimantId, String claimantName, String rg, String orgaoRg, String cpf, String address,
-                                   String city, String neighborhood, String uf, String cep) {
+    public OnlyClaimantResponseDto(Long claimantId, String claimantName, String rg, String orgaoRg, String cpf, String address, String stateName,
+                                   String cityName, String neighborhood, String uf, String cep) {
         this.claimantId = claimantId;
         this.claimantName = claimantName;
         this.rg = rg;
         this.orgaoRg = orgaoRg;
         this.cpf = cpf;
         this.address = address;
-        this.city = city;
+        this.stateName = stateName;
+        this.cityName = cityName;
         this.neighborhood = neighborhood;
         this.uf = uf;
         this.cep = cep;
     }
 
-    public Long getId() {
+    public Long getClaimantId() {
         return claimantId;
     }
 
-    public void setId(Long claimantId) {
+    public void setClaimantId(Long claimantId) {
         this.claimantId = claimantId;
     }
 
@@ -78,12 +80,20 @@ public class OnlyClaimantResponseDto {
         this.address = address;
     }
 
-    public String getCity() {
-        return city;
+    public String getStateName() {
+        return stateName;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public String getNeighborhood() {

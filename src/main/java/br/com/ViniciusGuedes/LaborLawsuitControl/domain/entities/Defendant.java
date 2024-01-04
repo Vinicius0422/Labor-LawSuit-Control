@@ -18,7 +18,7 @@ public class Defendant {
     @Column(length = 150, nullable = false, name = "defendant_name")
     private String defendantName;
 
-    @Column(name = "person_type", columnDefinition = "ENUM('Fisica', 'Juridica')", nullable = false)
+    @Column(name = "person_type", columnDefinition = "ENUM('FISICA', 'JURIDICA')", nullable = false)
     @Enumerated(EnumType.STRING)
     private PersonType personType;
 
@@ -26,9 +26,6 @@ public class Defendant {
     private String cpfCnpj;
 
     private String address;
-
-    @Column(length = 50)
-    private String city;
 
     @Column(length = 50)
     private String neighborhood;
@@ -50,19 +47,27 @@ public class Defendant {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "state_id")
+    private State state;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
     @ManyToMany(mappedBy = "defendants")
     private List<Lawsuit> lawsuits = new ArrayList<>();
 
     public Defendant() {
     }
 
-    public Defendant(String defendantName, PersonType personType, String cpfCnpj, String address, String city, String neighborhood, String uf, String cep,
-                     String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, List<Lawsuit> lawsuits) {
+    public Defendant(Long defendantId, String defendantName, PersonType personType, String cpfCnpj, String address, String neighborhood, String uf, String cep,
+                     String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, State state, City city, List<Lawsuit> lawsuits) {
+        this.defendantId = defendantId;
         this.defendantName = defendantName;
         this.personType = personType;
         this.cpfCnpj = cpfCnpj;
         this.address = address;
-        this.city = city;
         this.neighborhood = neighborhood;
         this.uf = uf;
         this.cep = cep;
@@ -70,6 +75,8 @@ public class Defendant {
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.state = state;
+        this.city = city;
         this.lawsuits = lawsuits;
     }
 
@@ -111,14 +118,6 @@ public class Defendant {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getNeighborhood() {
@@ -177,6 +176,22 @@ public class Defendant {
         this.updatedAt = updatedAt;
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     public List<Lawsuit> getLawsuits() {
         return lawsuits;
     }
@@ -199,7 +214,6 @@ public class Defendant {
         if (personType != defendant.personType) return false;
         if (cpfCnpj != null ? !cpfCnpj.equals(defendant.cpfCnpj) : defendant.cpfCnpj != null) return false;
         if (address != null ? !address.equals(defendant.address) : defendant.address != null) return false;
-        if (city != null ? !city.equals(defendant.city) : defendant.city != null) return false;
         if (neighborhood != null ? !neighborhood.equals(defendant.neighborhood) : defendant.neighborhood != null)
             return false;
         if (uf != null ? !uf.equals(defendant.uf) : defendant.uf != null) return false;
@@ -208,6 +222,8 @@ public class Defendant {
         if (email != null ? !email.equals(defendant.email) : defendant.email != null) return false;
         if (createdAt != null ? !createdAt.equals(defendant.createdAt) : defendant.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(defendant.updatedAt) : defendant.updatedAt != null) return false;
+        if (state != null ? !state.equals(defendant.state) : defendant.state != null) return false;
+        if (city != null ? !city.equals(defendant.city) : defendant.city != null) return false;
         return lawsuits != null ? lawsuits.equals(defendant.lawsuits) : defendant.lawsuits == null;
     }
 
@@ -218,7 +234,6 @@ public class Defendant {
         result = 31 * result + (personType != null ? personType.hashCode() : 0);
         result = 31 * result + (cpfCnpj != null ? cpfCnpj.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (neighborhood != null ? neighborhood.hashCode() : 0);
         result = 31 * result + (uf != null ? uf.hashCode() : 0);
         result = 31 * result + (cep != null ? cep.hashCode() : 0);
@@ -226,6 +241,8 @@ public class Defendant {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (lawsuits != null ? lawsuits.hashCode() : 0);
         return result;
     }

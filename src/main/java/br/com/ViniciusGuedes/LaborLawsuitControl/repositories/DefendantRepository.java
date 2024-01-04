@@ -20,23 +20,29 @@ public interface DefendantRepository extends JpaRepository<Defendant, Long> {
     List<DefendantSomeFieldsResponseDto> findAllDefendants();
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto(" +
-            "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, d.city, d.neighborhood, d.uf, " +
+            "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, s.stateName, ci.cityName, ci.uf, d.neighborhood, " +
             "d.cep, d.contact, d.email, d.createdAt, d.updatedAt) " +
             "FROM Defendant d " +
+            "LEFT JOIN d.state s " +
+            "LEFT JOIN d.city ci " +
             "WHERE d.defendantName LIKE %:defendantName%")
     List<DefendantResponseDto> findDefendantByNameContains(@Param("defendantName") String defendantName);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto(" +
-            "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, d.city, d.neighborhood, d.uf, " +
+            "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, s.stateName, ci.cityName, ci.uf, d.neighborhood, " +
             "d.cep, d.contact, d.email, d.createdAt, d.updatedAt) " +
             "FROM Defendant d " +
+            "LEFT JOIN d.state s " +
+            "LEFT JOIN d.city ci " +
             "WHERE d.defendantId = :defendantId")
     Optional<DefendantResponseDto> findDefendantById(@Param("defendantId") Long defendantId);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto(" +
-            "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, d.city, d.neighborhood, d.uf, " +
+            "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, s.stateName, ci.cityName, ci.uf, d.neighborhood, " +
             "d.cep, d.contact, d.email, d.createdAt, d.updatedAt) " +
             "FROM Defendant d " +
+            "LEFT JOIN d.state s " +
+            "LEFT JOIN d.city ci " +
             "WHERE d.cpfCnpj = :cpfCnpj")
     Optional<DefendantResponseDto> findDefendantByCpfOrCnpj(@Param("cpfCnpj") String cpfCnpj);
 

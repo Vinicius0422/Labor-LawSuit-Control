@@ -26,37 +26,45 @@ public interface LawsuitRepository extends JpaRepository<Lawsuit, Long> {
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto(" +
             "ls.lawsuitId, ls.lawsuitNumber, ls.civilCourt, ls.distributionDate, ls.valueCase, ls.createdAt, ls.updatedAt, " +
             "lsp.lawsuitPhaseId, lsp.phase, lss.lawsuitStatusId, lss.status, l.locationId, l.location, " +
-            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, c.city, c.neighborhood, c.uf, c.cep) " +
+            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, s.stateName, ci.cityName, ci.uf, c.neighborhood, c.cep) " +
 
             "FROM Lawsuit ls " +
             "LEFT JOIN ls.lawsuitPhase lsp " +
             "LEFT JOIN ls.lawsuitStatus lss " +
             "LEFT JOIN ls.location l " +
             "LEFT JOIN ls.claimant c " +
+            "LEFT JOIN c.state s " +
+            "LEFT JOIN c.city ci " +
             "WHERE ls.lawsuitId = :lawsuitId")
     Optional<LawsuitResponseDto> findLawsuitById(@Param("lawsuitId") Long lawsuitId);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto(" +
             "ls.lawsuitId, ls.lawsuitNumber, ls.civilCourt, ls.distributionDate, ls.valueCase, ls.createdAt, ls.updatedAt, " +
             "lsp.lawsuitPhaseId, lsp.phase, lss.lawsuitStatusId, lss.status, l.locationId, l.location, " +
-            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, c.city, c.neighborhood, c.uf, c.cep) " +
+            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, s.stateName, ci.cityName, ci.uf, c.neighborhood, c.cep) " +
+
             "FROM Lawsuit ls " +
             "LEFT JOIN ls.lawsuitPhase lsp " +
             "LEFT JOIN ls.lawsuitStatus lss " +
             "LEFT JOIN ls.location l " +
             "LEFT JOIN ls.claimant c " +
+            "LEFT JOIN c.state s " +
+            "LEFT JOIN c.city ci " +
             "WHERE ls.lawsuitNumber = :lawsuitNumber")
     Optional<LawsuitResponseDto> findLawsuitByNumber(@Param("lawsuitNumber") String lawsuitNumber);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto(" +
             "ls.lawsuitId, ls.lawsuitNumber, ls.civilCourt, ls.distributionDate, ls.valueCase, ls.createdAt, ls.updatedAt, " +
             "lsp.lawsuitPhaseId, lsp.phase, lss.lawsuitStatusId, lss.status, l.locationId, l.location, " +
-            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, c.city, c.neighborhood, c.uf, c.cep) " +
+            "c.claimantId, c.claimantName, c.rg, c.orgaoRg, c.cpf, c.address, s.stateName, ci.cityName, ci.uf, c.neighborhood, c.cep) " +
+
             "FROM Lawsuit ls " +
             "LEFT JOIN ls.lawsuitPhase lsp " +
             "LEFT JOIN ls.lawsuitStatus lss " +
             "LEFT JOIN ls.location l " +
             "LEFT JOIN ls.claimant c " +
+            "LEFT JOIN c.state s " +
+            "LEFT JOIN c.city ci " +
             "WHERE c.claimantName LIKE %:claimantName%")
     List<LawsuitResponseDto> findLawsuitByClaimantName(@Param("claimantName") String claimantName);
 
