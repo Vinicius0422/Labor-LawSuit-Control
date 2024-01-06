@@ -7,6 +7,7 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class StateServiceImpl implements StateService {
     private StateRepository stateRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getAllStates() {
         List<StateResponseDto> states = stateRepository.findAllStates();
         if(states.isEmpty()){

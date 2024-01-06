@@ -15,6 +15,7 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class DefendantServiceImpl implements DefendantService {
     private InputCleaner inputCleaner;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getAllDefendants() {
         var defendants = defendantRepository.findAllDefendants();
         if(defendants.isEmpty()){
@@ -61,6 +63,7 @@ public class DefendantServiceImpl implements DefendantService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getDefendantById(Long defendantId) {
         var defendant = defendantRepository.findDefendantById(defendantId).orElse(null);
         if(defendant == null){
@@ -72,6 +75,7 @@ public class DefendantServiceImpl implements DefendantService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getDefendantByCpfOrCnpj(String cpfCnpj) {
         String cpfCnpjFormatted = inputCleaner.cleanseNumericInput(cpfCnpj);
         if(cpfCnpjFormatted.length() != 11 && cpfCnpjFormatted.length() != 14){
@@ -87,6 +91,7 @@ public class DefendantServiceImpl implements DefendantService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getDefendantByName(String defendantName) {
         if(defendantName.length() < 3){
             return new ResponseDefault(HttpStatus.BAD_REQUEST,"Enter a name with at least 3 characters!", null);
@@ -103,6 +108,7 @@ public class DefendantServiceImpl implements DefendantService {
     }
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault saveDefendant(DefendantRequestDto defendantRequestDto) {
         var validation = defendantValidator.validationSaveDefendantRequestDto(defendantRequestDto);
         if(!validation.isEmpty()){
@@ -115,6 +121,7 @@ public class DefendantServiceImpl implements DefendantService {
     }
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault updateDefendant(Long id, DefendantRequestDto defendantRequestDto) {
         var defendantToUpdate = defendantRepository.findById(id).orElse(null);
         if(defendantToUpdate == null){
@@ -130,8 +137,6 @@ public class DefendantServiceImpl implements DefendantService {
         defendantRepository.save(existingDefendant);
         return new SaveOrUpdateResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
     }
-
-
 
     public void updateDefendantFields(Defendant existingDefendant, DefendantRequestDto defendantRequestDto){
         State state = stateRepository.findById(defendantRequestDto.getStateId()).orElse(null);

@@ -1,8 +1,9 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.controllers;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantRequestDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementations.ClaimantServiceImpl;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.ClaimantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,40 +12,63 @@ import org.springframework.web.bind.annotation.*;
 public class ClaimantController {
 
     @Autowired
-    private ClaimantServiceImpl claimantService;
+    private ClaimantService claimantService;
 
     @GetMapping
-    public ResponseEntity getAllClaimants(){
-        return ResponseEntity.ok(claimantService.getAllClaimants());
+    public ResponseEntity findAllClaimants(){
+        try{
+            return ResponseEntity.ok(claimantService.getAllClaimants());
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{claimantId}")
-    public ResponseEntity getClaimantById(@PathVariable(value = "claimantId") Long claimantId){
-        var request = claimantService.getClaimantById(claimantId);
-        return ResponseEntity.status(request.getStatusCode()).body(request);
+    public ResponseEntity findClaimantById(@PathVariable(value = "claimantId") Long claimantId){
+        try{
+            return ResponseEntity.ok(claimantService.getClaimantById(claimantId));
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("/searchByCpf")
-    public ResponseEntity getClaimantByCpf(@RequestParam String cpf){
-        var request = claimantService.getByCpf(cpf);
-        return ResponseEntity.status(request.getStatusCode()).body(request);
+    public ResponseEntity findClaimantByCpf(@RequestParam String cpf){
+        try{
+            return ResponseEntity.ok(claimantService.getByCpf(cpf));
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
     }
 
     @GetMapping("/searchByName")
-    public ResponseEntity getClaimantByName(@RequestParam String claimantName){
-        var request = claimantService.getByName(claimantName);
-        return ResponseEntity.status(request.getStatusCode()).body(request);
+    public ResponseEntity findClaimantByName(@RequestParam String claimantName){
+        try{
+            return ResponseEntity.ok(claimantService.getByName(claimantName));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PostMapping
     public ResponseEntity saveClaimant(@RequestBody ClaimantRequestDto claimantRequestDto){
-        var request = claimantService.saveClaimant(claimantRequestDto);
-        return ResponseEntity.status(request.getStatusCode()).body(request.getMessage());
+        try{
+            var claimantResponse = claimantService.saveClaimant(claimantRequestDto);
+            return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse.getMessage());
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity updateClaimant(@PathVariable(value = "id") Long id, @RequestBody ClaimantRequestDto claimantRequestDto){
-        var request = claimantService.updateClaimant(id, claimantRequestDto);
-        return ResponseEntity.status(request.getStatusCode()).body(request.getMessage());
+        try{
+            var claimantResponse = claimantService.updateClaimant(id, claimantRequestDto);
+            return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse.getMessage());
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

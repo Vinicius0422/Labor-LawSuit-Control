@@ -8,6 +8,5 @@ import org.springframework.stereotype.Service;
 public interface AnnotationService {
 
     SaveOrUpdateResponseDefault saveAnnotation(AnnotationRequestDto annotationRequestDto);
-
     SaveOrUpdateResponseDefault updateAnnotation(Long id, AnnotationRequestDto annotationRequestDto);
 }

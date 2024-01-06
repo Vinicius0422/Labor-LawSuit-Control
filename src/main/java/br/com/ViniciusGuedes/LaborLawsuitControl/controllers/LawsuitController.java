@@ -1,8 +1,9 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.controllers;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitRequestDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementations.LawsuitServiceImpl;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.LawsuitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,40 +12,61 @@ import org.springframework.web.bind.annotation.*;
 public class LawsuitController {
 
     @Autowired
-    private LawsuitServiceImpl lawsuitService;
+    private LawsuitService lawsuitService;
 
     @GetMapping
-    public ResponseEntity getAllLawsuits(){
-        return ResponseEntity.ok(lawsuitService.getAllLawsuits());
+    public ResponseEntity findAllLawsuits() {
+        try {
+            return ResponseEntity.ok(lawsuitService.getAllLawsuits());
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{lawsuitId}")
-    public ResponseEntity getLawsuitById(@PathVariable(value = "lawsuitId") Long lawsuitId){
-        var request = lawsuitService.getLawsuitById(lawsuitId);
-        return ResponseEntity.status(request.getStatusCode()).body(request);
+    public ResponseEntity findLawsuitById(@PathVariable(value = "lawsuitId") Long lawsuitId){
+        try{
+            return ResponseEntity.ok(lawsuitService.getLawsuitById(lawsuitId));
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("/searchByLawsuitNumber")
-    public ResponseEntity getLawsuitByNumber(@RequestParam String lawsuitNumber){
-        var request = lawsuitService.getLawsuitByNumber(lawsuitNumber);
-        return ResponseEntity.status(request.getStatusCode()).body(request);
+    public ResponseEntity findLawsuitByNumber(@RequestParam String lawsuitNumber){
+        try{
+            return ResponseEntity.ok(lawsuitService.getLawsuitByNumber(lawsuitNumber));
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("/searchLawsuitByClaimantName")
-    public ResponseEntity getLawsuitByClaimantName(@RequestParam String claimantName){
-        var request = lawsuitService.getLawsuitByClaimantName(claimantName);
-        return ResponseEntity.status(request.getStatusCode()).body(request);
+    public ResponseEntity findLawsuitByClaimantName(@RequestParam String claimantName){
+        try{
+            return ResponseEntity.ok(lawsuitService.getLawsuitByClaimantName(claimantName));
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PostMapping
     public ResponseEntity saveLawsuit(@RequestBody LawsuitRequestDto lawsuitRequestDto){
-        var request = lawsuitService.saveLawsuit(lawsuitRequestDto);
-        return ResponseEntity.status(request.getStatusCode()).body(request.getMessage());
+        try{
+            var lawsuitResponse = lawsuitService.saveLawsuit(lawsuitRequestDto);
+            return ResponseEntity.status(lawsuitResponse.getStatusCode()).body(lawsuitResponse.getMessage());
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity updateLawsuit(@PathVariable(value = "id") Long id, @RequestBody LawsuitRequestDto lawsuitRequestDto){
-        var request = lawsuitService.updateLawsuit(id, lawsuitRequestDto);
-        return ResponseEntity.status(request.getStatusCode()).body(request.getMessage());
+        try{
+            var lawsuitResponse = lawsuitService.updateLawsuit(id, lawsuitRequestDto);
+            return ResponseEntity.status(lawsuitResponse.getStatusCode()).body(lawsuitResponse.getMessage());
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

@@ -12,6 +12,7 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.ProgressRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,6 +35,7 @@ public class ProgressServiceImpl implements ProgressService {
     private LawsuitPhaseRepository lawsuitPhaseRepository;
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault saveProgress(ProgressRequestDto progressRequestDto) {
         var validation = validateProgressRequest(progressRequestDto);
         if(!validation.isEmpty()){
@@ -46,6 +48,7 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault updateProgress(Long id, ProgressRequestDto progressRequestDto) {
         Progress progressToUpdate = progressRepository.findById(id).orElse(null);
         if(progressToUpdate == null){

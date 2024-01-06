@@ -3,7 +3,6 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementation
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.ResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.SaveOrUpdateResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantRequestDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.*;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.ClaimantService;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.utils.InputCleaner;
@@ -13,10 +12,10 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class ClaimantServiceImpl implements ClaimantService {
@@ -51,15 +50,17 @@ public class ClaimantServiceImpl implements ClaimantService {
     private DateFormatValidator dateFormatValidator;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getAllClaimants() {
-        List<OnlyClaimantResponseDto> claimants = claimantRepository.findAllClaimants();
+        var claimants = claimantRepository.findAllClaimants();
         if(claimants.isEmpty()){
             return new ResponseDefault(HttpStatus.OK, "No records found!", claimants);
         }
-        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", claimants);
+        return new ResponseDefault(HttpStatus.OK, "Search carried out!", claimants);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getClaimantById(Long claimantId) {
         var claimant = claimantRepository.findClaimantById(claimantId).orElse(null);
         if(claimant == null){
@@ -71,6 +72,7 @@ public class ClaimantServiceImpl implements ClaimantService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getByCpf(String cpf) {
         String cpfFormatted = inputCleaner.cleanseNumericInput(cpf);
         if(cpfFormatted.length() != 11){
@@ -86,6 +88,7 @@ public class ClaimantServiceImpl implements ClaimantService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getByName(String claimantName) {
         if(claimantName.length() < 3){
             return new ResponseDefault<>(HttpStatus.BAD_REQUEST, "Enter a name with at least 3 characters!", null);
@@ -103,6 +106,7 @@ public class ClaimantServiceImpl implements ClaimantService {
 
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault saveClaimant(ClaimantRequestDto claimantRequestDto) {
         var validation = claimantValidator.validationSaveClaimantRequestDto(claimantRequestDto);
         if(!validation.isEmpty()){
@@ -115,6 +119,7 @@ public class ClaimantServiceImpl implements ClaimantService {
     }
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault updateClaimant(Long id, ClaimantRequestDto claimantRequestDto) {
         var claimantToUpdate = claimantRepository.findById(id).orElse(null);
         if(claimantToUpdate == null){
@@ -130,7 +135,6 @@ public class ClaimantServiceImpl implements ClaimantService {
         claimantRepository.save(existingClaimant);
         return new SaveOrUpdateResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
     }
-
 
     public void updateClaimantFields(Claimant existingClaimant, ClaimantRequestDto claimantRequestDto){
         Nationality nationality = nationalityRepository.findById(claimantRequestDto.getNationalityId()).orElse(null);

@@ -1,8 +1,9 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.controllers;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.progress.ProgressRequestDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.implementations.ProgressServiceImpl;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.ProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,17 +12,25 @@ import org.springframework.web.bind.annotation.*;
 public class ProgressController {
 
     @Autowired
-    private ProgressServiceImpl progressService;
+    private ProgressService progressService;
 
     @PostMapping
     public ResponseEntity saveProgress(@RequestBody ProgressRequestDto progressRequestDto){
-        var request = progressService.saveProgress(progressRequestDto);
-        return ResponseEntity.status(request.getStatusCode()).body(request);
+        try{
+            var progressResponse = progressService.saveProgress(progressRequestDto);
+            return ResponseEntity.status(progressResponse.getStatusCode()).body(progressResponse);
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity updateProgress(@PathVariable(value = "id") Long id, @RequestBody ProgressRequestDto progressRequestDto){
-        var request = progressService.updateProgress(id, progressRequestDto);
-        return ResponseEntity.status(request.getStatusCode()).body(request);
+        try{
+            var progressResponse = progressService.updateProgress(id, progressRequestDto);
+            return ResponseEntity.status(progressResponse.getStatusCode()).body(progressResponse);
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

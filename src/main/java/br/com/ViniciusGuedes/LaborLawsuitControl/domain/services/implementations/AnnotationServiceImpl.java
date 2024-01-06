@@ -10,6 +10,7 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.LawsuitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class AnnotationServiceImpl implements AnnotationService {
     private LawsuitRepository lawsuitRepository;
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault saveAnnotation(AnnotationRequestDto annotationRequestDto) {
         var validation = validateAnnotationRequest(annotationRequestDto);
         if(!validation.isEmpty()){
@@ -39,6 +41,7 @@ public class AnnotationServiceImpl implements AnnotationService {
     }
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault updateAnnotation(Long id, AnnotationRequestDto annotationRequestDto){
         Annotation annotationToUpdate = annotationRepository.findById(id).orElse(null);
         if(annotationToUpdate == null){

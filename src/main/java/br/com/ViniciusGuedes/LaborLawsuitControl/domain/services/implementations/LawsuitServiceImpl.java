@@ -13,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,13 +50,10 @@ public class LawsuitServiceImpl implements LawsuitService {
     public LawsuitServiceImpl(LawsuitValidator lawsuitValidator) {
         this.lawsuitValidator = lawsuitValidator;
     }
-
     private LawsuitValidator lawsuitValidator;
 
-    public LawsuitServiceImpl() {
-    }
-
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getAllLawsuits() {
         var lawsuits = lawsuitRepository.findAllLawsuits();
         if(lawsuits.isEmpty()){
@@ -65,6 +63,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getLawsuitById(Long lawsuitId) {
         var lawsuitDto = lawsuitRepository.findLawsuitById(lawsuitId).orElse(null);
         if(lawsuitDto == null){
@@ -84,6 +83,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getLawsuitByNumber(String lawsuitNumber) {
         var lawsuitDto = lawsuitRepository.findLawsuitByNumber(inputCleaner.cleanseNumericInput(lawsuitNumber)).orElse(null);
 
@@ -106,6 +106,7 @@ public class LawsuitServiceImpl implements LawsuitService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDefault getLawsuitByClaimantName(String claimantName) {
         var claimantNameFormatted = inputCleaner.removeAccents(claimantName);
         if(claimantNameFormatted.length() < 3){
@@ -130,6 +131,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     }
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault saveLawsuit(LawsuitRequestDto lawsuitRequestDto) {
         var validation = lawsuitValidator.saveLawsuitValidation(lawsuitRequestDto);
         if(!validation.isEmpty()){
@@ -142,6 +144,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     }
 
     @Override
+    @Transactional
     public SaveOrUpdateResponseDefault updateLawsuit(Long id, LawsuitRequestDto lawsuitRequestDto) {
         var lawsuitToUpdate = lawsuitRepository.findById(id).orElse(null);
         if(lawsuitToUpdate == null){
@@ -157,8 +160,6 @@ public class LawsuitServiceImpl implements LawsuitService {
         lawsuitRepository.save(existingLawsuit);
         return new SaveOrUpdateResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
     }
-
-
 
     public Lawsuit createLawsuitFromDto(LawsuitRequestDto lawsuitRequestDto) {
         Lawsuit lawsuit = new Lawsuit();
