@@ -22,7 +22,7 @@ public class StateServiceImpl implements StateService {
     public ResponseDefault getAllStates() {
         List<StateResponseDto> states = stateRepository.findAllStates();
         if(states.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", states);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", states);
         }
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", states);
     }

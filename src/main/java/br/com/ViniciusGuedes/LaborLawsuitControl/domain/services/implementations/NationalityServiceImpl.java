@@ -22,7 +22,7 @@ public class NationalityServiceImpl implements NationalityService {
     public ResponseDefault<List<NationalityResponseDto>> getAllNationalities() {
         var nationalities = nationalityRepository.findAllNationalities();
         if(nationalities.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", nationalities);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", nationalities);
         }
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", nationalities);
     }

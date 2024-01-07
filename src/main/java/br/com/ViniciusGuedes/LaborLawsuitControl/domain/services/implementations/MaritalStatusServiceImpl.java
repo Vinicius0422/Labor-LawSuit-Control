@@ -22,7 +22,7 @@ public class MaritalStatusServiceImpl implements MaritalStatusService {
     public ResponseDefault<List<MaritalStatusResponseDto>> getAllMaritalStatus() {
         var maritalStatus = maritalStatusRepository.findAllMaritalStatus();
         if(maritalStatus.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", maritalStatus);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", maritalStatus);
         }
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", maritalStatus);
     }

@@ -22,7 +22,7 @@ public class LawsuitPhaseServiceImpl implements LawsuitPhaseService {
     public ResponseDefault<List<LawsuitPhaseResponseDto>> getAllLawsuitPhases() {
         var lawsuitPhases = lawsuitPhaseRepository.findAllLawsuitPhases();
         if(lawsuitPhases.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", lawsuitPhases);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", lawsuitPhases);
         }
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", lawsuitPhases);
     }

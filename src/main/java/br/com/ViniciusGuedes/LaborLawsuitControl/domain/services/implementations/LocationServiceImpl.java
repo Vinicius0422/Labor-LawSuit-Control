@@ -22,7 +22,7 @@ public class LocationServiceImpl implements LocationService {
     public ResponseDefault<List<LocationResponseDto>> getAllLocations() {
         var locations = locationRepository.findAllLocations();
         if(locations.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", locations);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", locations);
         }
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", locations);
     }

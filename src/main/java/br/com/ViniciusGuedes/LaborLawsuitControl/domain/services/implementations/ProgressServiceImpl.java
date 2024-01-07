@@ -39,7 +39,7 @@ public class ProgressServiceImpl implements ProgressService {
     public SaveOrUpdateResponseDefault saveProgress(ProgressRequestDto progressRequestDto) {
         var validation = validateProgressRequest(progressRequestDto);
         if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         var newProgress = formatProgressDtoToEntity(progressRequestDto);
         newProgress.setCreatedAt(LocalDateTime.now());
@@ -56,7 +56,7 @@ public class ProgressServiceImpl implements ProgressService {
         }
         var validation = validateProgressRequest(progressRequestDto);
         if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         var progress = formatProgressDtoToEntity(progressRequestDto);
         progressToUpdate.setProgressDate(progress.getProgressDate());

@@ -32,7 +32,7 @@ public class AnnotationServiceImpl implements AnnotationService {
     public SaveOrUpdateResponseDefault saveAnnotation(AnnotationRequestDto annotationRequestDto) {
         var validation = validateAnnotationRequest(annotationRequestDto);
         if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         var annotation = formatAnnotationDtoToEntity(annotationRequestDto);
         annotation.setCreatedAt(LocalDateTime.now());
@@ -49,7 +49,7 @@ public class AnnotationServiceImpl implements AnnotationService {
         }
         var validation = validateAnnotationRequest(annotationRequestDto);
         if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         var annotation = formatAnnotationDtoToEntity(annotationRequestDto);
         annotationToUpdate.setAnnotationDate(annotation.getAnnotationDate());

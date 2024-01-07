@@ -57,7 +57,7 @@ public class DefendantServiceImpl implements DefendantService {
     public ResponseDefault getAllDefendants() {
         var defendants = defendantRepository.findAllDefendants();
         if(defendants.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", defendants);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", defendants);
         }
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", defendants);
     }
@@ -67,7 +67,7 @@ public class DefendantServiceImpl implements DefendantService {
     public ResponseDefault getDefendantById(Long defendantId) {
         var defendant = defendantRepository.findDefendantById(defendantId).orElse(null);
         if(defendant == null){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
         var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendantId);
         defendant.setLawsuits(lawsuitsDto);
@@ -83,7 +83,7 @@ public class DefendantServiceImpl implements DefendantService {
         }
         var defendant = defendantRepository.findDefendantByCpfOrCnpj(cpfCnpjFormatted).orElse(null);
         if(defendant == null){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
         var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendant.getDefendantId());
         defendant.setLawsuits(lawsuitsDto);
@@ -98,7 +98,7 @@ public class DefendantServiceImpl implements DefendantService {
         }
         var defendants = defendantRepository.findDefendantByNameContains(defendantName);
         if(defendants.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", defendants);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", defendants);
         }
         for (int i = 0; i < defendants.size(); i++) {
             var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendants.get(i).getDefendantId());
@@ -112,7 +112,7 @@ public class DefendantServiceImpl implements DefendantService {
     public SaveOrUpdateResponseDefault saveDefendant(DefendantRequestDto defendantRequestDto) {
         var validation = defendantValidator.validationSaveDefendantRequestDto(defendantRequestDto);
         if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         Defendant defendant = defendantDtoToEntity(defendantRequestDto);
         defendant.setCreatedAt(LocalDateTime.now());
@@ -125,11 +125,11 @@ public class DefendantServiceImpl implements DefendantService {
     public SaveOrUpdateResponseDefault updateDefendant(Long id, DefendantRequestDto defendantRequestDto) {
         var defendantToUpdate = defendantRepository.findById(id).orElse(null);
         if(defendantToUpdate == null){
-            return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, Collections.singletonList("No records found for this ID!"));
+            return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No records found for this ID!"));
         }
         var validation = defendantValidator.validationUpdateDefendantRequestDto(id, defendantRequestDto);
         if(!validation.isEmpty()) {
-            return  new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
+            return  new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         Defendant existingDefendant = defendantToUpdate;
         updateDefendantFields(existingDefendant, defendantRequestDto);

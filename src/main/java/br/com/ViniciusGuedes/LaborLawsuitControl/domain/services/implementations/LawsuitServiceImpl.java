@@ -57,7 +57,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     public ResponseDefault getAllLawsuits() {
         var lawsuits = lawsuitRepository.findAllLawsuits();
         if(lawsuits.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No results found!", null);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No results found!", null);
         }
         return new ResponseDefault(HttpStatus.OK, "Search carried out!", lawsuits);
     }
@@ -67,7 +67,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     public ResponseDefault getLawsuitById(Long lawsuitId) {
         var lawsuitDto = lawsuitRepository.findLawsuitById(lawsuitId).orElse(null);
         if(lawsuitDto == null){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
         var progress = progressRepository.findProgressByLawsuitId(lawsuitId);
         var annotations = annotationRepository.findAnnotationsByLawsuitId(lawsuitId);
@@ -85,10 +85,14 @@ public class LawsuitServiceImpl implements LawsuitService {
     @Override
     @Transactional(readOnly = true)
     public ResponseDefault getLawsuitByNumber(String lawsuitNumber) {
+        var lawsuitNumberFormatted = inputCleaner.cleanseNumericInput(lawsuitNumber);
+        if(lawsuitNumberFormatted.length() < 16){
+            return new ResponseDefault(HttpStatus.BAD_REQUEST,"Enter a lawsuit number with at least 16 characters!", null);
+        }
         var lawsuitDto = lawsuitRepository.findLawsuitByNumber(inputCleaner.cleanseNumericInput(lawsuitNumber)).orElse(null);
 
         if (lawsuitDto == null) {
-            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
         var paramter = inputCleaner.cleanseNumericInput(lawsuitNumber);
         var progress = progressRepository.findProgressByLawsuitNumber(paramter);
@@ -135,7 +139,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     public SaveOrUpdateResponseDefault saveLawsuit(LawsuitRequestDto lawsuitRequestDto) {
         var validation = lawsuitValidator.saveLawsuitValidation(lawsuitRequestDto);
         if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         Lawsuit lawsuit = createLawsuitFromDto(lawsuitRequestDto);
         lawsuit.setCreatedAt(LocalDateTime.now());
@@ -152,7 +156,7 @@ public class LawsuitServiceImpl implements LawsuitService {
         }
         var validation = lawsuitValidator.updateLawsuitValidation(id, lawsuitRequestDto);
         if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         Lawsuit existingLawsuit = lawsuitToUpdate;
         updateLawsuitFields(existingLawsuit, lawsuitRequestDto);

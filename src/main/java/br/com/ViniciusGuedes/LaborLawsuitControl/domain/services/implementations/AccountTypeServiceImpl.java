@@ -22,7 +22,7 @@ public class AccountTypeServiceImpl implements AccountTypeService {
     public ResponseDefault getAllAccountsType() {
         var accountsType = accountTypeRepository.findAllAccountsType();
         if(accountsType.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", accountsType);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", accountsType);
         }
         return new ResponseDefault(HttpStatus.OK, "Search carried out!", accountsType);
     }

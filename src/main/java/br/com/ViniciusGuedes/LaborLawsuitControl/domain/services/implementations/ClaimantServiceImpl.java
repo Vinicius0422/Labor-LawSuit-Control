@@ -54,7 +54,7 @@ public class ClaimantServiceImpl implements ClaimantService {
     public ResponseDefault getAllClaimants() {
         var claimants = claimantRepository.findAllClaimants();
         if(claimants.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", claimants);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", claimants);
         }
         return new ResponseDefault(HttpStatus.OK, "Search carried out!", claimants);
     }
@@ -64,7 +64,7 @@ public class ClaimantServiceImpl implements ClaimantService {
     public ResponseDefault getClaimantById(Long claimantId) {
         var claimant = claimantRepository.findClaimantById(claimantId).orElse(null);
         if(claimant == null){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
         var lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimantId);
         claimant.setLawsuits(lawsuitsDto);
@@ -80,7 +80,7 @@ public class ClaimantServiceImpl implements ClaimantService {
         }
         var claimant = claimantRepository.findClaimantByCpf(cpfFormatted).orElse(null);
         if(claimant == null){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
         var lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimant.getClaimantId());
         claimant.setLawsuits(lawsuitsDto);
@@ -95,7 +95,7 @@ public class ClaimantServiceImpl implements ClaimantService {
         }
         var claimants = claimantRepository.findClaimantByNameContains(claimantName);
         if(claimants.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", null);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
         for (int i = 0; i < claimants.size(); i++) {
             var lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimants.get(i).getClaimantId());
@@ -110,7 +110,7 @@ public class ClaimantServiceImpl implements ClaimantService {
     public SaveOrUpdateResponseDefault saveClaimant(ClaimantRequestDto claimantRequestDto) {
         var validation = claimantValidator.validationSaveClaimantRequestDto(claimantRequestDto);
         if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
+            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         Claimant claimant = createClaimantFromDto(claimantRequestDto);
         claimant.setCreatedAt(LocalDateTime.now());
@@ -123,11 +123,11 @@ public class ClaimantServiceImpl implements ClaimantService {
     public SaveOrUpdateResponseDefault updateClaimant(Long id, ClaimantRequestDto claimantRequestDto) {
         var claimantToUpdate = claimantRepository.findById(id).orElse(null);
         if(claimantToUpdate == null){
-            return new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT , Collections.singletonList("No records found!"));
+            return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND , Collections.singletonList("No records found!"));
         }
         var validation = claimantValidator.validationUpdateClaimantRequestDto(id, claimantRequestDto);
         if(!validation.isEmpty()) {
-            return  new SaveOrUpdateResponseDefault(HttpStatus.CONFLICT, validation);
+            return  new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
         }
         Claimant existingClaimant = claimantToUpdate;
         updateClaimantFields(existingClaimant, claimantRequestDto);

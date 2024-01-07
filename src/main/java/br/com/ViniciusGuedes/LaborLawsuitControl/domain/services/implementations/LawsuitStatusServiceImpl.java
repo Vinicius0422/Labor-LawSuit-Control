@@ -22,7 +22,7 @@ public class LawsuitStatusServiceImpl implements LawsuitStatusService {
     public ResponseDefault<List<LawsuitStatusResponseDto>> getAllLawsuitStatus() {
         var lawsuitStatus = lawsuitStatusRepository.findAllLawsuitStatus();
         if(lawsuitStatus.isEmpty()){
-            return new ResponseDefault(HttpStatus.OK, "No records found!", lawsuitStatus);
+            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", lawsuitStatus);
         }
         return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", lawsuitStatus);
     }
