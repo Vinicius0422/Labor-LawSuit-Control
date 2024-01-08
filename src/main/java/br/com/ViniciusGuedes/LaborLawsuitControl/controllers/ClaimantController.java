@@ -29,9 +29,9 @@ public class ClaimantController {
             @ApiResponse(responseCode = "404", description = "No claimant found", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity findAllClaimants(){
+    public ResponseEntity findAllClaimants(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         try{
-            var claimantResponse = claimantService.getAllClaimants();
+            var claimantResponse = claimantService.getAllClaimants(page, size);
             return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

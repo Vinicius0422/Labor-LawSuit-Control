@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface DefendantService {
 
-    ResponseDefault getAllDefendants();
+    ResponseDefault getAllDefendants(int page, int size);
 
     ResponseDefault getDefendantByName(String defendantName);
 

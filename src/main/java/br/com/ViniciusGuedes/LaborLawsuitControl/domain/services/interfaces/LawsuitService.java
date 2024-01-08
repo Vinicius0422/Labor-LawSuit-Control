@@ -3,12 +3,13 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.ResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.SaveOrUpdateResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitRequestDto;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface LawsuitService {
 
-    ResponseDefault getAllLawsuits();
+    ResponseDefault getAllLawsuits(int page, int size);
     ResponseDefault getLawsuitById(Long lawsuitId);
     ResponseDefault getLawsuitByNumber(String lawsuitNumber);
     ResponseDefault getLawsuitByClaimantName(String claimantName);

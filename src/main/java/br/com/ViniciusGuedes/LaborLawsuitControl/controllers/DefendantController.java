@@ -29,9 +29,9 @@ public class DefendantController {
             @ApiResponse(responseCode = "404", description = "No defendant found", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity findAllDefendants(){
+    public ResponseEntity findAllDefendants(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         try{
-            var defendantResponse = defendantService.getAllDefendants();
+            var defendantResponse = defendantService.getAllDefendants(page, size);
             return ResponseEntity.status(defendantResponse.getStatusCode()).body(defendantResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ClaimantService {
 
-    ResponseDefault getAllClaimants();
+    ResponseDefault getAllClaimants(int page, int size);
 
     ResponseDefault getClaimantById(Long claimantId);
 

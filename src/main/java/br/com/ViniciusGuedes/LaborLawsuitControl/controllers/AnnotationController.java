@@ -26,7 +26,7 @@ public class AnnotationController {
     @Operation(summary = "Create a new annotation", description = "Create a new annotation based on the provided data", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Annotation created successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Annotation not created due validation", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "422", description = "Annotation not created due validation", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public ResponseEntity saveAnnotation(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Request body containing annotation data", required = true,
@@ -43,7 +43,7 @@ public class AnnotationController {
     @Operation(summary = "Update an existing annotation", description = "Update a annotation based on the provided data", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Annotation updated successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Annotation not updated due validation", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "422", description = "Annotation not updated due validation", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "404", description = "Annotation to update not found", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })

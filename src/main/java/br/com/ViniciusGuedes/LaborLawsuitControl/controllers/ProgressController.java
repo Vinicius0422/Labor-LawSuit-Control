@@ -26,7 +26,7 @@ public class ProgressController {
     @Operation(summary = "Create a new progress", description = "Create a new progress based on the provided data", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Progress created successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Progress not created due validation", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "422", description = "Progress not created due validation", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public ResponseEntity saveProgress(@RequestBody ProgressRequestDto progressRequestDto){
@@ -42,7 +42,7 @@ public class ProgressController {
     @Operation(summary = "Create a new progress", description = "Update a progress based on the provided data", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Progress updated successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Progress not created due validation", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "422", description = "Progress not created due validation", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "404", description = "Progress to update not found", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })

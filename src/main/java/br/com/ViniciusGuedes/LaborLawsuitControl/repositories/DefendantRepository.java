@@ -4,6 +4,8 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.Defendant
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Claimant;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Defendant;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +19,7 @@ public interface DefendantRepository extends JpaRepository<Defendant, Long> {
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto("
             + "d.defendantId, d.defendantName, d.personType, d.cpfCnpj) FROM Defendant d")
-    List<DefendantSomeFieldsResponseDto> findAllDefendants();
+    Page<DefendantSomeFieldsResponseDto> findAllDefendants(Pageable pageable);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto(" +
             "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, s.stateName, ci.cityName, ci.uf, d.neighborhood, " +

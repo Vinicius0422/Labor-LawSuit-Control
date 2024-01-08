@@ -9,18 +9,17 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.PersonType;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.State;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.DefendantService;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.utils.InputCleaner;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.ClaimantValidator;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.DefendantValidator;
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class DefendantServiceImpl implements DefendantService {
@@ -54,8 +53,9 @@ public class DefendantServiceImpl implements DefendantService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseDefault getAllDefendants() {
-        var defendants = defendantRepository.findAllDefendants();
+    public ResponseDefault getAllDefendants(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var defendants = defendantRepository.findAllDefendants(pageable);
         if(defendants.isEmpty()){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", defendants);
         }

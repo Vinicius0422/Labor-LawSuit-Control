@@ -3,6 +3,8 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.repositories;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Claimant;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +21,7 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
             " FROM Claimant c " +
             "LEFT JOIN c.state s " +
             "LEFT JOIN c.city ci")
-    List<OnlyClaimantResponseDto> findAllClaimants();
+    Page<OnlyClaimantResponseDto> findAllClaimants(Pageable pageable);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantResponseDto(" +
             "c.claimantId, c.claimantName, c.birthDate, c.occupation, c.ctps, c.serieCtps, c.rg, c.orgaoRg, c.cpf, c.pis, c.address, s.stateName, ci.cityName, ci.uf, c.neighborhood, " +

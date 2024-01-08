@@ -11,6 +11,9 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.LawsuitValid
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,8 +57,9 @@ public class LawsuitServiceImpl implements LawsuitService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseDefault getAllLawsuits() {
-        var lawsuits = lawsuitRepository.findAllLawsuits();
+    public ResponseDefault getAllLawsuits(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var lawsuits = lawsuitRepository.findAllLawsuits(pageable);
         if(lawsuits.isEmpty()){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No results found!", null);
         }

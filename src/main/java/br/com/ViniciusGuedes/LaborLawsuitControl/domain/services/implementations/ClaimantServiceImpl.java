@@ -10,6 +10,8 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.ClaimantVali
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.DateFormatValidator;
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,8 +53,9 @@ public class ClaimantServiceImpl implements ClaimantService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseDefault getAllClaimants() {
-        var claimants = claimantRepository.findAllClaimants();
+    public ResponseDefault getAllClaimants(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var claimants = claimantRepository.findAllClaimants(pageable);
         if(claimants.isEmpty()){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", claimants);
         }

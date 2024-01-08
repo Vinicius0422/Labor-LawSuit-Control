@@ -3,6 +3,8 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.repositories;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitSomeFieldsResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Lawsuit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,7 +23,7 @@ public interface LawsuitRepository extends JpaRepository<Lawsuit, Long> {
             "LEFT JOIN ls.lawsuitPhase lsp " +
             "LEFT JOIN ls.lawsuitStatus lss " +
             "LEFT JOIN ls.location l")
-    List<LawsuitSomeFieldsResponseDto> findAllLawsuits();
+    Page<LawsuitSomeFieldsResponseDto> findAllLawsuits(Pageable pageable);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto(" +
             "ls.lawsuitId, ls.lawsuitNumber, ls.civilCourt, ls.distributionDate, ls.valueCase, ls.createdAt, ls.updatedAt, " +
