@@ -1,6 +1,5 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.repositories;
 
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitPhase.LawsuitPhaseResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuitStatus.LawsuitStatusResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.LawsuitStatus;
 import org.springframework.data.jpa.repository.JpaRepository;

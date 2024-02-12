@@ -14,8 +14,11 @@ import java.util.List;
 @Service
 public class MaritalStatusServiceImpl implements MaritalStatusService {
 
-    @Autowired
     private MaritalStatusRepository maritalStatusRepository;
+
+    public MaritalStatusServiceImpl(MaritalStatusRepository maritalStatusRepository) {
+        this.maritalStatusRepository = maritalStatusRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)

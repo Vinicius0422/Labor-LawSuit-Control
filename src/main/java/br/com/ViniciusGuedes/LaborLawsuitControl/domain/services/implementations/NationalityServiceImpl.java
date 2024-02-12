@@ -14,8 +14,11 @@ import java.util.List;
 @Service
 public class NationalityServiceImpl implements NationalityService {
 
-    @Autowired
     private NationalityRepository nationalityRepository;
+
+    public NationalityServiceImpl(NationalityRepository nationalityRepository) {
+        this.nationalityRepository = nationalityRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)

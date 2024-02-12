@@ -14,8 +14,11 @@ import java.util.List;
 @Service
 public class StateServiceImpl implements StateService {
 
-    @Autowired
     private StateRepository stateRepository;
+
+    public StateServiceImpl(StateRepository stateRepository) {
+        this.stateRepository = stateRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)

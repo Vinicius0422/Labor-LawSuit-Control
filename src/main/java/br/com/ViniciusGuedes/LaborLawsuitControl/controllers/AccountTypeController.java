@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "AccountType Controller", description = "API endpoints for managing account types")
 public class AccountTypeController {
 
-    @Autowired
     private AccountTypeService accountTypeService;
+
+    public AccountTypeController(AccountTypeService accountTypeService) {
+        this.accountTypeService = accountTypeService;
+    }
 
     @GetMapping
     @Operation(summary = "Search account types", method = "GET")

@@ -22,10 +22,13 @@ import java.util.List;
 @Service
 public class AnnotationServiceImpl implements AnnotationService {
 
-    @Autowired
     private AnnotationRepository annotationRepository;
-    @Autowired
     private LawsuitRepository lawsuitRepository;
+
+    public AnnotationServiceImpl(AnnotationRepository annotationRepository, LawsuitRepository lawsuitRepository) {
+        this.annotationRepository = annotationRepository;
+        this.lawsuitRepository = lawsuitRepository;
+    }
 
     @Override
     @Transactional

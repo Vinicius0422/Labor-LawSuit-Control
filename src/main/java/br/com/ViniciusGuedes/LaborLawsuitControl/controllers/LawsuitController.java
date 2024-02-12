@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Lawsuit Controller", description = "API endpoints for managing lawsuits")
 public class LawsuitController {
 
-    @Autowired
     private LawsuitService lawsuitService;
+
+    public LawsuitController(LawsuitService lawsuitService) {
+        this.lawsuitService = lawsuitService;
+    }
 
     @GetMapping
     @Operation(summary = "Search for lawsuits", method = "GET")

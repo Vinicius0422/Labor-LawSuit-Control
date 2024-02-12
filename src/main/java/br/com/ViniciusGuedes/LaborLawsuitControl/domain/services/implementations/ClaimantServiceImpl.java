@@ -22,34 +22,42 @@ import java.util.Collections;
 @Service
 public class ClaimantServiceImpl implements ClaimantService {
 
-    @Autowired
     private ClaimantRepository claimantRepository;
-    @Autowired
     private NationalityRepository nationalityRepository;
-    @Autowired
     private MaritalStatusRepository maritalStatusRepository;
-    @Autowired
     private AccountTypeRepository accountTypeRepository;
-    @Autowired
     private AnnotationRepository annotationRepository;
-    @Autowired
     private AttorneyRepository attorneyRepository;
-    @Autowired
     private DefendantRepository defendantRepository;
-    @Autowired
     private LawsuitRepository lawsuitRepository;
-    @Autowired
     private ProgressRepository progressRepository;
-    @Autowired
     private InputCleaner inputCleaner;
-    @Autowired
     private ClaimantValidator claimantValidator;
-    @Autowired
     private StateRepository stateRepository;
-    @Autowired
     private CityRepository cityRepository;
-    @Autowired
     private DateFormatValidator dateFormatValidator;
+
+    public ClaimantServiceImpl(ClaimantRepository claimantRepository, NationalityRepository nationalityRepository,
+                               MaritalStatusRepository maritalStatusRepository, AccountTypeRepository accountTypeRepository,
+                               AnnotationRepository annotationRepository, AttorneyRepository attorneyRepository,
+                               DefendantRepository defendantRepository, LawsuitRepository lawsuitRepository,
+                               ProgressRepository progressRepository, InputCleaner inputCleaner, ClaimantValidator claimantValidator,
+                               StateRepository stateRepository, CityRepository cityRepository, DateFormatValidator dateFormatValidator) {
+        this.claimantRepository = claimantRepository;
+        this.nationalityRepository = nationalityRepository;
+        this.maritalStatusRepository = maritalStatusRepository;
+        this.accountTypeRepository = accountTypeRepository;
+        this.annotationRepository = annotationRepository;
+        this.attorneyRepository = attorneyRepository;
+        this.defendantRepository = defendantRepository;
+        this.lawsuitRepository = lawsuitRepository;
+        this.progressRepository = progressRepository;
+        this.inputCleaner = inputCleaner;
+        this.claimantValidator = claimantValidator;
+        this.stateRepository = stateRepository;
+        this.cityRepository = cityRepository;
+        this.dateFormatValidator = dateFormatValidator;
+    }
 
     @Override
     @Transactional(readOnly = true)

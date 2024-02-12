@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Annotation Controller", description = "API endpoints for managing annotations of labor lawsuits")
 public class AnnotationController {
 
-    @Autowired
     private AnnotationService annotationService;
+
+    public AnnotationController(AnnotationService annotationService) {
+        this.annotationService = annotationService;
+    }
 
     @PostMapping
     @Operation(summary = "Create a new annotation", description = "Create a new annotation based on the provided data", method = "POST")

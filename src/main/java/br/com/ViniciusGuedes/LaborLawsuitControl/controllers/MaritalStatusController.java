@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Marital Status Controller", description = "API endpoints for managing marital status")
 public class MaritalStatusController {
 
-    @Autowired
     private MaritalStatusService  maritalStatusService;
+
+    public MaritalStatusController(MaritalStatusService maritalStatusService) {
+        this.maritalStatusService = maritalStatusService;
+    }
 
     @GetMapping
     @Operation(summary = "Search for marital status", method = "GET")

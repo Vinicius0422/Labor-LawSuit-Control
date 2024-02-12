@@ -14,8 +14,11 @@ import java.util.List;
 @Service
 public class LawsuitStatusServiceImpl implements LawsuitStatusService {
 
-    @Autowired
     private LawsuitStatusRepository lawsuitStatusRepository;
+
+    public LawsuitStatusServiceImpl(LawsuitStatusRepository lawsuitStatusRepository) {
+        this.lawsuitStatusRepository = lawsuitStatusRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)

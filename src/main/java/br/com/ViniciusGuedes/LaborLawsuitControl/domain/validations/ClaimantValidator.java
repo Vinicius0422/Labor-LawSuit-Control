@@ -12,23 +12,28 @@ import java.util.List;
 @Component
 public class ClaimantValidator {
 
-    @Autowired
     private ClaimantRepository claimantRepository;
-    @Autowired
     private InputCleaner inputCleaner;
-    @Autowired
     private CityRepository cityRepository;
-    @Autowired
     private StateRepository stateRepository;
-    @Autowired
     private NationalityRepository nationalityRepository;
-    @Autowired
     private MaritalStatusRepository maritalStatusRepository;
-    @Autowired
     private AccountTypeRepository accountTypeRepository;
-    @Autowired
     private DateFormatValidator dateFormatValidator;
 
+    public ClaimantValidator(ClaimantRepository claimantRepository, InputCleaner inputCleaner, CityRepository cityRepository,
+                             StateRepository stateRepository, NationalityRepository nationalityRepository,
+                             MaritalStatusRepository maritalStatusRepository, AccountTypeRepository accountTypeRepository,
+                             DateFormatValidator dateFormatValidator) {
+        this.claimantRepository = claimantRepository;
+        this.inputCleaner = inputCleaner;
+        this.cityRepository = cityRepository;
+        this.stateRepository = stateRepository;
+        this.nationalityRepository = nationalityRepository;
+        this.maritalStatusRepository = maritalStatusRepository;
+        this.accountTypeRepository = accountTypeRepository;
+        this.dateFormatValidator = dateFormatValidator;
+    }
 
     public List<String> validationSaveClaimantRequestDto(ClaimantRequestDto claimantRequestDto){
         List<String> errors = new ArrayList<>();

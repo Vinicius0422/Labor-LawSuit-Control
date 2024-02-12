@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Progress Controller", description = "API endpoints to manage the progress of labor lawsuits")
 public class ProgressController {
 
-    @Autowired
     private ProgressService progressService;
+
+    public ProgressController(ProgressService progressService) {
+        this.progressService = progressService;
+    }
 
     @PostMapping
     @Operation(summary = "Create a new progress", description = "Create a new progress based on the provided data", method = "POST")

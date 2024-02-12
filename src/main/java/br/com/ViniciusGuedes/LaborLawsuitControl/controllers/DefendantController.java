@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Defendant Controller", description = "API endpoints for managing defendants")
 public class DefendantController {
 
-    @Autowired
     private DefendantService defendantService;
+
+    public DefendantController(DefendantService defendantService) {
+        this.defendantService = defendantService;
+    }
 
     @GetMapping
     @Operation(summary = "Search for defendants", method = "GET")

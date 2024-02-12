@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "City Controller", description = "API endpoints for managing cities")
 public class CityController {
 
-    @Autowired
     private CityService cityService;
+
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
+    }
 
     @GetMapping(path = "/{stateId}")
     @Operation(summary = "Search for cities using the state id provided", method = "GET")

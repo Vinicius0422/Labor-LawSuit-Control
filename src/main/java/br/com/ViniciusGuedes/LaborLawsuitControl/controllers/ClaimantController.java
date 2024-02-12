@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Claimant Controller", description = "API endpoints for managing claimants")
 public class ClaimantController {
 
-    @Autowired
     private ClaimantService claimantService;
+
+    public ClaimantController(ClaimantService claimantService) {
+        this.claimantService = claimantService;
+    }
 
     @GetMapping
     @Operation(summary = "Search for claimants", method = "GET")

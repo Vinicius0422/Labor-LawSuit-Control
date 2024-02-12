@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Nationality Controller", description = "API endpoints for managing nationalities")
 public class NationalityController {
 
-    @Autowired
     private NationalityService nationalityService;
+
+    public NationalityController(NationalityService nationalityService) {
+        this.nationalityService = nationalityService;
+    }
 
     @GetMapping
     @Operation(summary = "Search for nationalities", method = "GET")

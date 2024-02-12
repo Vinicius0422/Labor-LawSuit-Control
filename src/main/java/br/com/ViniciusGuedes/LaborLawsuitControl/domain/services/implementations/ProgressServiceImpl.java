@@ -25,14 +25,16 @@ import java.util.List;
 @Service
 public class ProgressServiceImpl implements ProgressService {
 
-    @Autowired
     private ProgressRepository progressRepository;
-
-    @Autowired
     private LawsuitRepository lawsuitRepository;
-
-    @Autowired
     private LawsuitPhaseRepository lawsuitPhaseRepository;
+
+    public ProgressServiceImpl(ProgressRepository progressRepository, LawsuitRepository lawsuitRepository,
+                               LawsuitPhaseRepository lawsuitPhaseRepository) {
+        this.progressRepository = progressRepository;
+        this.lawsuitRepository = lawsuitRepository;
+        this.lawsuitPhaseRepository = lawsuitPhaseRepository;
+    }
 
     @Override
     @Transactional

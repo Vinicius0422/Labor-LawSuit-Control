@@ -14,8 +14,11 @@ import java.util.List;
 @Service
 public class CityServiceImpl implements CityService {
 
-    @Autowired
     private CityRepository cityRepository;
+
+    public CityServiceImpl(CityRepository cityRepository) {
+        this.cityRepository = cityRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)

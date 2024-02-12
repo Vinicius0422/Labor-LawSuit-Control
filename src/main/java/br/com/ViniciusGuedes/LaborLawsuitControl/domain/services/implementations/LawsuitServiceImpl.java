@@ -26,28 +26,37 @@ import java.util.List;
 @Service
 public class LawsuitServiceImpl implements LawsuitService {
 
-    @Autowired
     private LawsuitRepository lawsuitRepository;
-    @Autowired
     private ClaimantRepository claimantRepository;
-    @Autowired
     private DefendantRepository defendantRepository;
-    @Autowired
     private LawsuitPhaseRepository lawsuitPhaseRepository;
-    @Autowired
     private LawsuitStatusRepository lawsuitStatusRepository;
-    @Autowired
     private LocationRepository locationRepository;
-    @Autowired
     private AttorneyRepository attorneyRepository;
-    @Autowired
     private ProgressRepository progressRepository;
-    @Autowired
     private AnnotationRepository annotationRepository;
-    @Autowired
     private DateFormatValidator dateFormatValidator;
-    @Autowired
     private InputCleaner inputCleaner;
+
+    public LawsuitServiceImpl(LawsuitRepository lawsuitRepository, ClaimantRepository claimantRepository,
+                              DefendantRepository defendantRepository, LawsuitPhaseRepository lawsuitPhaseRepository,
+                              LawsuitStatusRepository lawsuitStatusRepository, LocationRepository locationRepository,
+                              AttorneyRepository attorneyRepository, ProgressRepository progressRepository,
+                              AnnotationRepository annotationRepository, DateFormatValidator dateFormatValidator,
+                              InputCleaner inputCleaner, LawsuitValidator lawsuitValidator) {
+        this.lawsuitRepository = lawsuitRepository;
+        this.claimantRepository = claimantRepository;
+        this.defendantRepository = defendantRepository;
+        this.lawsuitPhaseRepository = lawsuitPhaseRepository;
+        this.lawsuitStatusRepository = lawsuitStatusRepository;
+        this.locationRepository = locationRepository;
+        this.attorneyRepository = attorneyRepository;
+        this.progressRepository = progressRepository;
+        this.annotationRepository = annotationRepository;
+        this.dateFormatValidator = dateFormatValidator;
+        this.inputCleaner = inputCleaner;
+        this.lawsuitValidator = lawsuitValidator;
+    }
 
     @Autowired
     public LawsuitServiceImpl(LawsuitValidator lawsuitValidator) {

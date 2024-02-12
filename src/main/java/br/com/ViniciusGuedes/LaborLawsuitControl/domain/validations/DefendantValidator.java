@@ -14,14 +14,18 @@ import java.util.List;
 @Component
 public class DefendantValidator {
 
-    @Autowired
     private DefendantRepository defendantRepository;
-    @Autowired
     private StateRepository stateRepository;
-    @Autowired
     private CityRepository cityRepository;
-    @Autowired
     private InputCleaner inputCleaner;
+
+    public DefendantValidator(DefendantRepository defendantRepository, StateRepository stateRepository,
+                              CityRepository cityRepository, InputCleaner inputCleaner) {
+        this.defendantRepository = defendantRepository;
+        this.stateRepository = stateRepository;
+        this.cityRepository = cityRepository;
+        this.inputCleaner = inputCleaner;
+    }
 
     public List<String> validationSaveDefendantRequestDto(DefendantRequestDto defendantRequestDto){
         List errors = new ArrayList<>();

@@ -12,24 +12,30 @@ import java.util.List;
 @Component
 public class LawsuitValidator {
 
-    @Autowired
     private LawsuitRepository lawsuitRepository;
-    @Autowired
     private LawsuitPhaseRepository lawsuitPhaseRepository;
-    @Autowired
     private LawsuitStatusRepository lawsuitStatusRepository;
-    @Autowired
     private ClaimantRepository claimantRepository;
-    @Autowired
     private LocationRepository locationRepository;
-    @Autowired
     private DefendantRepository defendantRepository;
-    @Autowired
     private AttorneyRepository attorneyRepository;
-    @Autowired
     private InputCleaner inputCleaner;
-    @Autowired
     private DateFormatValidator dateFormatValidator;
+
+    public LawsuitValidator(LawsuitRepository lawsuitRepository, LawsuitPhaseRepository lawsuitPhaseRepository,
+                            LawsuitStatusRepository lawsuitStatusRepository, ClaimantRepository claimantRepository,
+                            LocationRepository locationRepository, DefendantRepository defendantRepository,
+                            AttorneyRepository attorneyRepository, InputCleaner inputCleaner, DateFormatValidator dateFormatValidator) {
+        this.lawsuitRepository = lawsuitRepository;
+        this.lawsuitPhaseRepository = lawsuitPhaseRepository;
+        this.lawsuitStatusRepository = lawsuitStatusRepository;
+        this.claimantRepository = claimantRepository;
+        this.locationRepository = locationRepository;
+        this.defendantRepository = defendantRepository;
+        this.attorneyRepository = attorneyRepository;
+        this.inputCleaner = inputCleaner;
+        this.dateFormatValidator = dateFormatValidator;
+    }
 
     public List<String> saveLawsuitValidation(LawsuitRequestDto lawsuitRequestDto){
         List errors = new ArrayList<>();

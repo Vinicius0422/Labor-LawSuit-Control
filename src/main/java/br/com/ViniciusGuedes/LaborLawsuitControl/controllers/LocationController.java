@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Location Controller", description = "API endpoints for managing locations")
 public class LocationController {
 
-    @Autowired
     private LocationService locationService;
+
+    public LocationController(LocationService locationService) {
+        this.locationService = locationService;
+    }
 
     @GetMapping
     @Operation(summary = "Search for locations", method = "GET")

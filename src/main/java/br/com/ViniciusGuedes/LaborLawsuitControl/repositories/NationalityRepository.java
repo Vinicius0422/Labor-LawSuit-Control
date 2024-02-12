@@ -1,6 +1,5 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.repositories;
 
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.location.LocationResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.nationality.NationalityResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Nationality;
 import org.springframework.data.jpa.repository.JpaRepository;
