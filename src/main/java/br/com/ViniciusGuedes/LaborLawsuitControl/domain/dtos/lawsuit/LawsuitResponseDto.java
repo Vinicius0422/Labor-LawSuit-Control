@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LawsuitResponseDto {
-
+public class LawsuitResponseDto{
     private Long lawsuitId;
     private String lawsuitNumber;
     private String civilCourt;

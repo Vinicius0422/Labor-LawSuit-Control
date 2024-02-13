@@ -1,6 +1,5 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant;
 
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.lawsuit.LawsuitSomeFieldsResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.PersonType;
 
