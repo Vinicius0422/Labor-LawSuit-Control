@@ -35,7 +35,7 @@ public class LawsuitPhaseController {
     public ResponseEntity findAllLawsuitPhases(){
         try{
             var lawsuitPhaseResponse = lawsuitPhaseService.getAllLawsuitPhases();
-            return ResponseEntity.status(lawsuitPhaseResponse.getStatusCode()).body(lawsuitPhaseResponse);
+            return ResponseEntity.status(lawsuitPhaseResponse.statusCode()).body(lawsuitPhaseResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

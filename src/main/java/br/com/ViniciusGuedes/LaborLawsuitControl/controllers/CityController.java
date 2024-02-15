@@ -37,7 +37,7 @@ public class CityController {
     public ResponseEntity findCitiesByStateId(@Parameter(description = "ID of the state to search for cities", required = true) @PathVariable("stateId") Long stateId){
         try{
             var cityResponse = cityService.getCitiesByStateId(stateId);
-            return ResponseEntity.status(cityResponse.getStatusCode()).body(cityResponse);
+            return ResponseEntity.status(cityResponse.statusCode()).body(cityResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

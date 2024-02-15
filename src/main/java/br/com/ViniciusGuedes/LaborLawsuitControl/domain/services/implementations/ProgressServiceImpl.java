@@ -73,8 +73,8 @@ public class ProgressServiceImpl implements ProgressService {
 
     public List<String> validateProgressRequest(ProgressRequestDto progressRequestDto){
         List errors = new ArrayList<>();
-        Long lawsuitId = progressRequestDto.getLawsuitId();
-        Long lawsuitPhaseId = progressRequestDto.getLawsuitPhaseId();
+        Long lawsuitId = progressRequestDto.lawsuitId();
+        Long lawsuitPhaseId = progressRequestDto.lawsuitPhaseId();
         if(lawsuitId == null || lawsuitId.equals("")){
             errors.add("Lawsuit Id is required!");
         }
@@ -93,13 +93,13 @@ public class ProgressServiceImpl implements ProgressService {
     public Progress formatProgressDtoToEntity(ProgressRequestDto progressRequestDto){
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
-        Lawsuit lawsuit = lawsuitRepository.findById(progressRequestDto.getLawsuitId()).orElse(null);
-        LawsuitPhase lawsuitPhase = lawsuitPhaseRepository.findById(progressRequestDto.getLawsuitPhaseId()).orElse(null);
+        Lawsuit lawsuit = lawsuitRepository.findById(progressRequestDto.lawsuitId()).orElse(null);
+        LawsuitPhase lawsuitPhase = lawsuitPhaseRepository.findById(progressRequestDto.lawsuitPhaseId()).orElse(null);
         Progress progress = new Progress();
-        progress.setProgressDate(LocalDate.parse(progressRequestDto.getProgressDate(), formatterDate));
-        progress.setExpectedDate(LocalDate.parse(progressRequestDto.getExpectedDate(), formatterDate));
-        progress.setExpectedTime(LocalTime.parse(progressRequestDto.getExpectedTime(), formatterTime));
-        progress.setDescription(progressRequestDto.getDescription());
+        progress.setProgressDate(LocalDate.parse(progressRequestDto.progressDate(), formatterDate));
+        progress.setExpectedDate(LocalDate.parse(progressRequestDto.expectedDate(), formatterDate));
+        progress.setExpectedTime(LocalTime.parse(progressRequestDto.expectedTime(), formatterTime));
+        progress.setDescription(progressRequestDto.description());
         progress.setLawsuit(lawsuit);
         progress.setLawsuitPhase(lawsuitPhase);
 

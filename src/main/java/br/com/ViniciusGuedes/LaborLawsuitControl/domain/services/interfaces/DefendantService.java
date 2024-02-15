@@ -8,16 +8,16 @@ import org.springframework.stereotype.Service;
 @Service
 public interface DefendantService {
 
-    ResponseDefault getAllDefendants(int page, int size);
-
-    ResponseDefault getDefendantByName(String defendantName);
-
-    ResponseDefault getDefendantById(Long defendantId);
-
-    ResponseDefault getDefendantByCpfOrCnpj(String cpfCnpj);
+//    ResponseDefault getAllDefendants(int page, int size);
+//
+//    ResponseDefault getDefendantByName(String defendantName);
+//
+//    ResponseDefault getDefendantById(Long defendantId);
+//
+//    ResponseDefault getDefendantByCpfOrCnpj(String cpfCnpj);
 
     SaveOrUpdateResponseDefault saveDefendant(DefendantRequestDto defendantRequestDto);
 
-    SaveOrUpdateResponseDefault updateDefendant(Long id, DefendantRequestDto defendantRequestDto);
+//    SaveOrUpdateResponseDefault updateDefendant(Long id, DefendantRequestDto defendantRequestDto);
 
 }

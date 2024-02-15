@@ -64,16 +64,16 @@ public class AnnotationServiceImpl implements AnnotationService {
 
     public List<String> validateAnnotationRequest(AnnotationRequestDto annotationRequestDto){
         List errors = new ArrayList();
-        if(annotationRequestDto.getAnnotationDate().isBlank() || annotationRequestDto.getAnnotationDate() == null){
+        if(annotationRequestDto.annotationDate().isBlank() || annotationRequestDto.annotationDate() == null){
             errors.add("The field Annotation Date is required!");
         }
-        if(annotationRequestDto.getDescription().isBlank() || annotationRequestDto.getDescription() == null){
+        if(annotationRequestDto.description().isBlank() || annotationRequestDto.description() == null){
             errors.add("The field description is required!");
         }
-        if(annotationRequestDto.getLawsuitId().equals("") || annotationRequestDto.getLawsuitId() == null){
+        if(annotationRequestDto.lawsuitId().equals("") || annotationRequestDto.lawsuitId() == null){
             errors.add("Please inform which lawsuit this note is for!");
         }
-        if(!lawsuitRepository.existsByLawsuitId(annotationRequestDto.getLawsuitId())){
+        if(!lawsuitRepository.existsByLawsuitId(annotationRequestDto.lawsuitId())){
             errors.add("This lawsuit phase not exists!");
         }
         return errors;
@@ -81,10 +81,10 @@ public class AnnotationServiceImpl implements AnnotationService {
 
     public Annotation formatAnnotationDtoToEntity(AnnotationRequestDto annotationRequestDto){
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Lawsuit lawsuit = lawsuitRepository.findById(annotationRequestDto.getLawsuitId()).orElse(null);
+        Lawsuit lawsuit = lawsuitRepository.findById(annotationRequestDto.lawsuitId()).orElse(null);
         Annotation annotation = new Annotation();
-        annotation.setAnnotationDate(LocalDate.parse(annotationRequestDto.getAnnotationDate(), formatterDate));
-        annotation.setDescription(annotationRequestDto.getDescription());
+        annotation.setAnnotationDate(LocalDate.parse(annotationRequestDto.annotationDate(), formatterDate));
+        annotation.setDescription(annotationRequestDto.description());
         annotation.setLawsuit(lawsuit);
 
         return annotation;

@@ -35,7 +35,7 @@ public class LawsuitStatusController {
     public ResponseEntity findAllLawsuitStatus(){
         try{
             var lawsuitStatusResponse = lawsuitStatusService.getAllLawsuitStatus();
-            return ResponseEntity.status(lawsuitStatusResponse.getStatusCode()).body(lawsuitStatusResponse);
+            return ResponseEntity.status(lawsuitStatusResponse.statusCode()).body(lawsuitStatusResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

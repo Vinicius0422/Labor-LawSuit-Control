@@ -35,7 +35,7 @@ public class MaritalStatusController {
     public ResponseEntity findAllMaritalStatus(){
         try{
             var maritalStatusResponse = maritalStatusService.getAllMaritalStatus();
-            return ResponseEntity.status(maritalStatusResponse.getStatusCode()).body(maritalStatusResponse);
+            return ResponseEntity.status(maritalStatusResponse.statusCode()).body(maritalStatusResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

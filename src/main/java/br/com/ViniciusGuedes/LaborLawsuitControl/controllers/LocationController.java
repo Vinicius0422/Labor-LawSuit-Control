@@ -35,7 +35,7 @@ public class LocationController {
     public ResponseEntity findAllLocations(){
         try{
             var locationResponse = locationService.getAllLocations();
-            return ResponseEntity.status(locationResponse.getStatusCode()).body(locationResponse);
+            return ResponseEntity.status(locationResponse.statusCode()).body(locationResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

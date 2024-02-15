@@ -35,7 +35,7 @@ public class NationalityController {
     public ResponseEntity findAllNationalities(){
         try{
             var nationalityResponse = nationalityService.getAllNationalities();
-            return ResponseEntity.status(nationalityResponse.getStatusCode()).body(nationalityResponse);
+            return ResponseEntity.status(nationalityResponse.statusCode()).body(nationalityResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

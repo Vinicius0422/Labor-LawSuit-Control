@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class LawsuitController {
     public ResponseEntity findAllLawsuits(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         try {
             var lawsuitResponse = lawsuitService.getAllLawsuits(page, size);
-            return ResponseEntity.status(lawsuitResponse.getStatusCode()).body(lawsuitResponse);
+            return ResponseEntity.status(lawsuitResponse.statusCode()).body(lawsuitResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -48,10 +49,10 @@ public class LawsuitController {
             @ApiResponse(responseCode = "404", description = "No lawsuit found by id", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity findLawsuitById(@Parameter(description = "ID of the lawsuit", required = true) @PathVariable(value = "lawsuitId") Long lawsuitId){
+    public ResponseEntity findLawsuitById(@Parameter(description = "ID of the lawsuit", required = true) @PathVariable Long lawsuitId){
         try{
             var lawsuitResponse = lawsuitService.getLawsuitById(lawsuitId);
-            return ResponseEntity.status(lawsuitResponse.getStatusCode()).body(lawsuitResponse);
+            return ResponseEntity.status(lawsuitResponse.statusCode()).body(lawsuitResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -68,7 +69,7 @@ public class LawsuitController {
     public ResponseEntity findLawsuitByNumber(@Parameter(description = "Number of the lawsuit", required = true) @RequestParam String lawsuitNumber){
         try{
             var lawsuitResponse = lawsuitService.getLawsuitByNumber(lawsuitNumber);
-            return ResponseEntity.status(lawsuitResponse.getStatusCode()).body(lawsuitResponse);
+            return ResponseEntity.status(lawsuitResponse.statusCode()).body(lawsuitResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -85,7 +86,7 @@ public class LawsuitController {
     public ResponseEntity findLawsuitByClaimantName(@Parameter(description = "claimant name of the lawsuits", required = true) @RequestParam String claimantName){
         try{
             var lawsuitResponse = lawsuitService.getLawsuitByClaimantName(claimantName);
-            return ResponseEntity.status(lawsuitResponse.getStatusCode()).body(lawsuitResponse);
+            return ResponseEntity.status(lawsuitResponse.statusCode()).body(lawsuitResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -99,10 +100,10 @@ public class LawsuitController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public ResponseEntity saveLawsuit(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Request body containing lawsuit data", required = true,
-            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody LawsuitRequestDto lawsuitRequestDto){
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody @Valid LawsuitRequestDto lawsuitRequestDto){
         try{
             var lawsuitResponse = lawsuitService.saveLawsuit(lawsuitRequestDto);
-            return ResponseEntity.status(lawsuitResponse.getStatusCode()).body(lawsuitResponse.getMessage());
+            return ResponseEntity.status(lawsuitResponse.statusCode()).body(lawsuitResponse.message());
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -118,10 +119,10 @@ public class LawsuitController {
     })
     public ResponseEntity updateLawsuit(@Parameter(description = "ID of the lawsuit to be updated", required = true) @PathVariable(value = "id") Long id,
                                         @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Request body containing lawsuit data", required = true,
-                                                content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody LawsuitRequestDto lawsuitRequestDto){
+                                                content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody @Valid LawsuitRequestDto lawsuitRequestDto){
         try{
             var lawsuitResponse = lawsuitService.updateLawsuit(id, lawsuitRequestDto);
-            return ResponseEntity.status(lawsuitResponse.getStatusCode()).body(lawsuitResponse.getMessage());
+            return ResponseEntity.status(lawsuitResponse.statusCode()).body(lawsuitResponse.message());
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

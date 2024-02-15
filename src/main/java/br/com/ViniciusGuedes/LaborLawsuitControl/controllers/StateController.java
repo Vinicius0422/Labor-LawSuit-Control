@@ -35,7 +35,7 @@ public class StateController {
     public ResponseEntity findAllStates(){
         try{
             var stateResponse = stateService.getAllStates();
-            return ResponseEntity.status(stateResponse.getStatusCode()).body(stateResponse);
+            return ResponseEntity.status(stateResponse.statusCode()).body(stateResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

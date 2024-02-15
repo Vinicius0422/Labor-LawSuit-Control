@@ -36,7 +36,7 @@ public class AccountTypeController {
     public ResponseEntity findAllAccountTypes(){
         try{
             var accountTypesResponse = accountTypeService.getAllAccountsType();
-            return ResponseEntity.status(accountTypesResponse.getStatusCode()).body(accountTypesResponse);
+            return ResponseEntity.status(accountTypesResponse.statusCode()).body(accountTypesResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

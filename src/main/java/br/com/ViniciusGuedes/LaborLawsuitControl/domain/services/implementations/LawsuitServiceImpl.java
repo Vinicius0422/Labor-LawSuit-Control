@@ -11,13 +11,13 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.LawsuitValid
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +37,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     private AnnotationRepository annotationRepository;
     private DateFormatValidator dateFormatValidator;
     private InputCleaner inputCleaner;
+    private LawsuitValidator lawsuitValidator;
 
     public LawsuitServiceImpl(LawsuitRepository lawsuitRepository, ClaimantRepository claimantRepository,
                               DefendantRepository defendantRepository, LawsuitPhaseRepository lawsuitPhaseRepository,
@@ -58,12 +59,6 @@ public class LawsuitServiceImpl implements LawsuitService {
         this.lawsuitValidator = lawsuitValidator;
     }
 
-    @Autowired
-    public LawsuitServiceImpl(LawsuitValidator lawsuitValidator) {
-        this.lawsuitValidator = lawsuitValidator;
-    }
-    private LawsuitValidator lawsuitValidator;
-
     @Override
     @Transactional(readOnly = true)
     public ResponseDefault getAllLawsuits(int page, int size) {
@@ -79,6 +74,7 @@ public class LawsuitServiceImpl implements LawsuitService {
     @Transactional(readOnly = true)
     public ResponseDefault getLawsuitById(Long lawsuitId) {
         var lawsuitDto = lawsuitRepository.findLawsuitById(lawsuitId).orElse(null);
+
         if(lawsuitDto == null){
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
@@ -107,54 +103,55 @@ public class LawsuitServiceImpl implements LawsuitService {
         if (lawsuitDto == null) {
             return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
         }
-        var paramter = inputCleaner.cleanseNumericInput(lawsuitNumber);
-        var progress = progressRepository.findProgressByLawsuitNumber(paramter);
-        var annotations = annotationRepository.findAnnotationsByLawsuitNumber(paramter);
-        var defendants = defendantRepository.findDefendantsByLawsuitNumber(paramter);
-        var attorneys = attorneyRepository.findAttorneysByLawsuitNumber(paramter);
-
-        lawsuitDto.setProgress(progress);
-        lawsuitDto.setAnnotations(annotations);
-        lawsuitDto.setDefendants(defendants);
-        lawsuitDto.setAttorneys(attorneys);
+//        var paramter = inputCleaner.cleanseNumericInput(lawsuitNumber);
+//        var progress = progressRepository.findProgressByLawsuitNumber(paramter);
+//        var annotations = annotationRepository.findAnnotationsByLawsuitNumber(paramter);
+//        var defendants = defendantRepository.findDefendantsByLawsuitNumber(paramter);
+//        var attorneys = attorneyRepository.findAttorneysByLawsuitNumber(paramter);
+//
+//        lawsuitDto.setProgress(progress);
+//        lawsuitDto.setAnnotations(annotations);
+//        lawsuitDto.setDefendants(defendants);
+//        lawsuitDto.setAttorneys(attorneys);
 
         return new ResponseDefault(HttpStatus.OK, "Search carried out!", lawsuitDto);
     }
 
 
-    @Override
-    @Transactional(readOnly = true)
-    public ResponseDefault getLawsuitByClaimantName(String claimantName) {
-        var claimantNameFormatted = inputCleaner.removeAccents(claimantName);
-        if(claimantNameFormatted.length() < 3){
-            return new ResponseDefault(HttpStatus.BAD_REQUEST,"Enter a name with at least 3 characters!", null);
-        }
-        var lawsuitsDto = lawsuitRepository.findLawsuitByClaimantName(claimantNameFormatted);
-        if(lawsuitsDto.isEmpty()){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No results found!", null);
-        }
-
-        for (int i = 0; i < lawsuitsDto.size(); i++) {
-            var progress = progressRepository.findProgressByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
-            var annotations = annotationRepository.findAnnotationsByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
-            var defendants = defendantRepository.findDefendantsByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
-            var attorneys = attorneyRepository.findAttorneysByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
-            lawsuitsDto.get(i).setProgress(progress);
-            lawsuitsDto.get(i).setAnnotations(annotations);
-            lawsuitsDto.get(i).setDefendants(defendants);
-            lawsuitsDto.get(i).setAttorneys(attorneys);
-        }
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", lawsuitsDto);
+//    @Override
+//    @Transactional(readOnly = true)
+   public ResponseDefault getLawsuitByClaimantName(String claimantName) {
+//        var claimantNameFormatted = inputCleaner.removeAccents(claimantName);
+//        if(claimantNameFormatted.length() < 3){
+//            return new ResponseDefault(HttpStatus.BAD_REQUEST,"Enter a name with at least 3 characters!", null);
+//        }
+//        var lawsuitsDto = lawsuitRepository.findLawsuitByClaimantName(claimantNameFormatted);
+//        if(lawsuitsDto.isEmpty()){
+//            return new ResponseDefault(HttpStatus.NOT_FOUND, "No results found!", null);
+//        }
+//
+//////        for (int i = 0; i < lawsuitsDto.size(); i++) {
+//////            var progress = progressRepository.findProgressByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
+//////            var annotations = annotationRepository.findAnnotationsByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
+//////            var defendants = defendantRepository.findDefendantsByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
+//////            var attorneys = attorneyRepository.findAttorneysByLawsuitId(lawsuitsDto.get(i).getLawsuitId());
+//////            lawsuitsDto.get(i).setProgress(progress);
+//////            lawsuitsDto.get(i).setAnnotations(annotations);
+//////            lawsuitsDto.get(i).setDefendants(defendants);
+//////            lawsuitsDto.get(i).setAttorneys(attorneys);
+////        }
+       return new ResponseDefault(HttpStatus.OK, "Search carried out!", "lawsuitsDto");
     }
 
     @Override
     @Transactional
     public SaveOrUpdateResponseDefault saveLawsuit(LawsuitRequestDto lawsuitRequestDto) {
-        var validation = lawsuitValidator.saveLawsuitValidation(lawsuitRequestDto);
-        if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
-        }
+//        var validation = lawsuitValidator.saveLawsuitValidation(lawsuitRequestDto);
+//        if(!validation.isEmpty()){
+//            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
+//        }
         Lawsuit lawsuit = createLawsuitFromDto(lawsuitRequestDto);
+        lawsuit.setDistributionDate(LocalDate.now());
         lawsuit.setCreatedAt(LocalDateTime.now());
         lawsuitRepository.save(lawsuit);
         return new SaveOrUpdateResponseDefault(HttpStatus.CREATED, Collections.singletonList("Successfully created!"));
@@ -167,10 +164,10 @@ public class LawsuitServiceImpl implements LawsuitService {
         if(lawsuitToUpdate == null){
             return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No records found for this ID!"));
         }
-        var validation = lawsuitValidator.updateLawsuitValidation(id, lawsuitRequestDto);
-        if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
-        }
+//        var validation = lawsuitValidator.updateLawsuitValidation(id, lawsuitRequestDto);
+//        if(!validation.isEmpty()){
+//            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
+//        }
         Lawsuit existingLawsuit = lawsuitToUpdate;
         updateLawsuitFields(existingLawsuit, lawsuitRequestDto);
         existingLawsuit.setUpdatedAt(LocalDateTime.now());
@@ -180,50 +177,50 @@ public class LawsuitServiceImpl implements LawsuitService {
 
     public Lawsuit createLawsuitFromDto(LawsuitRequestDto lawsuitRequestDto) {
         Lawsuit lawsuit = new Lawsuit();
-        lawsuit.setLawsuitNumber(lawsuitRequestDto.getLawsuitNumber());
-        lawsuit.setCivilCourt(lawsuitRequestDto.getLawsuitNumber().substring(lawsuitRequestDto.getLawsuitNumber().length() - 4));
-        lawsuit.setDistributionDate(dateFormatValidator.parseLocalDate(lawsuitRequestDto.getDistributionDate()));
-        lawsuit.setValueCase(lawsuitRequestDto.getValueCase());
+        lawsuit.setLawsuitNumber(lawsuitRequestDto.lawsuitNumber());
+        lawsuit.setCivilCourt(lawsuitRequestDto.lawsuitNumber().substring(lawsuitRequestDto.lawsuitNumber().length() - 4));
+//        lawsuit.setDistributionDate(dateFormatValidator.parseLocalDate(lawsuitRequestDto.distributionDate()));
+        lawsuit.setValueCase(lawsuitRequestDto.valueCase());
 
-        if(lawsuitRequestDto.getLawsuitPhaseId() == null || lawsuitPhaseRepository.existsByLawsuitPhaseId(lawsuitRequestDto.getLawsuitPhaseId()) == false){
+        if(lawsuitRequestDto.lawsuitPhaseId() == null || !lawsuitPhaseRepository.existsByLawsuitPhaseId(lawsuitRequestDto.lawsuitPhaseId())){
             var lawsuitPhase = lawsuitPhaseRepository.findById(1L).orElseThrow(() -> new EntityNotFoundException("Lawsuit Phase not found"));
             lawsuit.setLawsuitPhase(lawsuitPhase);
         } else {
-            var lawsuitPhase = lawsuitPhaseRepository.findById(lawsuitRequestDto.getLawsuitPhaseId())
+            var lawsuitPhase = lawsuitPhaseRepository.findById(lawsuitRequestDto.lawsuitPhaseId())
                     .orElseThrow(() -> new EntityNotFoundException("Lawsuit Phase not found"));
             lawsuit.setLawsuitPhase(lawsuitPhase);
         }
 
-        if(lawsuitRequestDto.getLawsuitStatusId() == null || lawsuitStatusRepository.existsByLawsuitStatusId(lawsuitRequestDto.getLawsuitPhaseId()) == false){
+        if(lawsuitRequestDto.lawsuitStatusId() == null || !lawsuitStatusRepository.existsByLawsuitStatusId(lawsuitRequestDto.lawsuitStatusId())){
             var lawsuitStatus = lawsuitStatusRepository.findById(1L).orElseThrow(() -> new EntityNotFoundException("Lawsuit Status not found"));
             lawsuit.setLawsuitStatus(lawsuitStatus);
         } else {
-            var lawsuitStatus = lawsuitStatusRepository.findById(lawsuitRequestDto.getLawsuitStatusId())
+            var lawsuitStatus = lawsuitStatusRepository.findById(lawsuitRequestDto.lawsuitStatusId())
                     .orElseThrow(() -> new EntityNotFoundException("Lawsuit Status not found"));
             lawsuit.setLawsuitStatus(lawsuitStatus);
         }
 
-        if(lawsuitRequestDto.getLocationId() == null || locationRepository.existsByLocationId(lawsuitRequestDto.getLocationId()) == false){
+        if(lawsuitRequestDto.locationId() == null || !locationRepository.existsByLocationId(lawsuitRequestDto.locationId())){
             var location = locationRepository.findById(3L).orElseThrow(() -> new EntityNotFoundException("Location not found"));
             lawsuit.setLocation(location);
         } else {
-            var location = locationRepository.findById(lawsuitRequestDto.getLocationId()).orElseThrow(() -> new EntityNotFoundException("Location not found"));
+            var location = locationRepository.findById(lawsuitRequestDto.locationId()).orElseThrow(() -> new EntityNotFoundException("Location not found"));
             lawsuit.setLocation(location);
         }
 
-        var claimant = claimantRepository.findByCpfEquals(inputCleaner.cleanseNumericInput(lawsuitRequestDto.getCpfClaimant()));
+        var claimant = claimantRepository.findByCpfEquals(inputCleaner.cleanseNumericInput(lawsuitRequestDto.cpfClaimant()));
         lawsuit.setClaimant(claimant);
 
         List defendants = new ArrayList<>();
-        for (int i = 0; i < lawsuitRequestDto.getCpfCnpjDefendants().size(); i++) {
-            var defendant = defendantRepository.findByCpfCnpjEquals(inputCleaner.cleanseNumericInput(lawsuitRequestDto.getCpfCnpjDefendants().get(i)));
+        for (int i = 0; i < lawsuitRequestDto.cpfCnpjDefendants().size(); i++) {
+            var defendant = defendantRepository.findByCpfCnpjEquals(inputCleaner.cleanseNumericInput(lawsuitRequestDto.cpfCnpjDefendants().get(i)));
             defendants.add(defendant);
         }
         lawsuit.setDefendants(defendants);
 
         List attorneys = new ArrayList<>();
-        for (int i = 0; i < lawsuitRequestDto.getAttorneys().size(); i++) {
-            var attorney = attorneyRepository.findById(lawsuitRequestDto.getAttorneys().get(i)).orElse(null);
+        for (int i = 0; i < lawsuitRequestDto.attorneys().size(); i++) {
+            var attorney = attorneyRepository.findById(lawsuitRequestDto.attorneys().get(i)).orElse(null);
             attorneys.add(attorney);
         }
         lawsuit.setAttorneys(attorneys);
@@ -232,52 +229,53 @@ public class LawsuitServiceImpl implements LawsuitService {
     }
 
     public void updateLawsuitFields(Lawsuit existingLawsuit, LawsuitRequestDto lawsuitRequestDto){
-        existingLawsuit.setLawsuitNumber(lawsuitRequestDto.getLawsuitNumber());
-        existingLawsuit.setCivilCourt(lawsuitRequestDto.getLawsuitNumber().substring(lawsuitRequestDto.getLawsuitNumber().length() - 4));
-        existingLawsuit.setDistributionDate(dateFormatValidator.parseLocalDate(lawsuitRequestDto.getDistributionDate()));
-        existingLawsuit.setValueCase(lawsuitRequestDto.getValueCase());
-        if(lawsuitRequestDto.getLawsuitPhaseId() == null || lawsuitPhaseRepository.existsByLawsuitPhaseId(lawsuitRequestDto.getLawsuitPhaseId()) == false){
-            var lawsuitPhase = lawsuitPhaseRepository.findById(1L).orElseThrow(() -> new EntityNotFoundException("Lawsuit Phase not found"));
-            existingLawsuit.setLawsuitPhase(lawsuitPhase);
-        } else {
-            var lawsuitPhase = lawsuitPhaseRepository.findById(lawsuitRequestDto.getLawsuitPhaseId())
-                    .orElseThrow(() -> new EntityNotFoundException("Lawsuit Phase not found"));
-            existingLawsuit.setLawsuitPhase(lawsuitPhase);
-        }
-
-        if(lawsuitRequestDto.getLawsuitStatusId() == null || lawsuitStatusRepository.existsByLawsuitStatusId(lawsuitRequestDto.getLawsuitPhaseId()) == false){
-            var lawsuitStatus = lawsuitStatusRepository.findById(1L).orElseThrow(() -> new EntityNotFoundException("Lawsuit Status not found"));
-            existingLawsuit.setLawsuitStatus(lawsuitStatus);
-        } else {
-            var lawsuitStatus = lawsuitStatusRepository.findById(lawsuitRequestDto.getLawsuitStatusId())
-                    .orElseThrow(() -> new EntityNotFoundException("Lawsuit Status not found"));
-            existingLawsuit.setLawsuitStatus(lawsuitStatus);
-        }
-
-        if(lawsuitRequestDto.getLocationId() == null || locationRepository.existsByLocationId(lawsuitRequestDto.getLocationId()) == false){
-            var location = locationRepository.findById(3L).orElseThrow(() -> new EntityNotFoundException("Location not found"));
-            existingLawsuit.setLocation(location);
-        } else {
-            var location = locationRepository.findById(lawsuitRequestDto.getLocationId()).orElseThrow(() -> new EntityNotFoundException("Location not found"));
-            existingLawsuit.setLocation(location);
-        }
-        var claimantId = claimantRepository.findByCpfEquals(inputCleaner.cleanseNumericInput(lawsuitRequestDto.getCpfClaimant())).getClaimantId();
-        var claimant = claimantRepository.findById(claimantId).orElseThrow(() -> new EntityNotFoundException("Claimant not found"));
-        existingLawsuit.setClaimant(claimant);
-
-        List defendants = new ArrayList<>();
-        for (int i = 0; i < lawsuitRequestDto.getCpfCnpjDefendants().size(); i++) {
-            var cpfCnpjFormatted = inputCleaner.cleanseNumericInput(lawsuitRequestDto.getCpfCnpjDefendants().get(i));
-            var defendant = defendantRepository.findByCpfCnpjEquals(cpfCnpjFormatted);
-            defendants.add(defendant);
-        }
-        existingLawsuit.setDefendants(defendants);
-
-        List attorneys = new ArrayList<>();
-        for (int i = 0; i < lawsuitRequestDto.getAttorneys().size(); i++) {
-            var attorney = attorneyRepository.findById(lawsuitRequestDto.getAttorneys().get(i)).orElseThrow(() -> new EntityNotFoundException("Attorney not found"));
-            attorneys.add(attorney);
-        }
-        existingLawsuit.setAttorneys(attorneys);
     }
+//        existingLawsuit.setLawsuitNumber(lawsuitRequestDto.getLawsuitNumber());
+//        existingLawsuit.setCivilCourt(lawsuitRequestDto.getLawsuitNumber().substring(lawsuitRequestDto.getLawsuitNumber().length() - 4));
+//        existingLawsuit.setDistributionDate(dateFormatValidator.parseLocalDate(lawsuitRequestDto.getDistributionDate()));
+//        existingLawsuit.setValueCase(lawsuitRequestDto.getValueCase());
+//        if(lawsuitRequestDto.getLawsuitPhaseId() == null || lawsuitPhaseRepository.existsByLawsuitPhaseId(lawsuitRequestDto.getLawsuitPhaseId()) == false){
+//            var lawsuitPhase = lawsuitPhaseRepository.findById(1L).orElseThrow(() -> new EntityNotFoundException("Lawsuit Phase not found"));
+//            existingLawsuit.setLawsuitPhase(lawsuitPhase);
+//        } else {
+//            var lawsuitPhase = lawsuitPhaseRepository.findById(lawsuitRequestDto.getLawsuitPhaseId())
+//                    .orElseThrow(() -> new EntityNotFoundException("Lawsuit Phase not found"));
+//            existingLawsuit.setLawsuitPhase(lawsuitPhase);
+//        }
+//
+//        if(lawsuitRequestDto.getLawsuitStatusId() == null || lawsuitStatusRepository.existsByLawsuitStatusId(lawsuitRequestDto.getLawsuitPhaseId()) == false){
+//            var lawsuitStatus = lawsuitStatusRepository.findById(1L).orElseThrow(() -> new EntityNotFoundException("Lawsuit Status not found"));
+//            existingLawsuit.setLawsuitStatus(lawsuitStatus);
+//        } else {
+//            var lawsuitStatus = lawsuitStatusRepository.findById(lawsuitRequestDto.getLawsuitStatusId())
+//                    .orElseThrow(() -> new EntityNotFoundException("Lawsuit Status not found"));
+//            existingLawsuit.setLawsuitStatus(lawsuitStatus);
+//        }
+//
+//        if(lawsuitRequestDto.getLocationId() == null || locationRepository.existsByLocationId(lawsuitRequestDto.getLocationId()) == false){
+//            var location = locationRepository.findById(3L).orElseThrow(() -> new EntityNotFoundException("Location not found"));
+//            existingLawsuit.setLocation(location);
+//        } else {
+//            var location = locationRepository.findById(lawsuitRequestDto.getLocationId()).orElseThrow(() -> new EntityNotFoundException("Location not found"));
+//            existingLawsuit.setLocation(location);
+//        }
+//        var claimantId = claimantRepository.findByCpfEquals(inputCleaner.cleanseNumericInput(lawsuitRequestDto.getCpfClaimant())).getClaimantId();
+//        var claimant = claimantRepository.findById(claimantId).orElseThrow(() -> new EntityNotFoundException("Claimant not found"));
+//        existingLawsuit.setClaimant(claimant);
+//
+//        List defendants = new ArrayList<>();
+//        for (int i = 0; i < lawsuitRequestDto.getCpfCnpjDefendants().size(); i++) {
+//            var cpfCnpjFormatted = inputCleaner.cleanseNumericInput(lawsuitRequestDto.getCpfCnpjDefendants().get(i));
+//            var defendant = defendantRepository.findByCpfCnpjEquals(cpfCnpjFormatted);
+//            defendants.add(defendant);
+//        }
+//        existingLawsuit.setDefendants(defendants);
+//
+//        List attorneys = new ArrayList<>();
+//        for (int i = 0; i < lawsuitRequestDto.getAttorneys().size(); i++) {
+//            var attorney = attorneyRepository.findById(lawsuitRequestDto.getAttorneys().get(i)).orElseThrow(() -> new EntityNotFoundException("Attorney not found"));
+//            attorneys.add(attorney);
+//        }
+//        existingLawsuit.setAttorneys(attorneys);
+//    }
 }

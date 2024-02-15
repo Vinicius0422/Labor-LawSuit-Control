@@ -59,139 +59,139 @@ public class DefendantServiceImpl implements DefendantService {
         this.inputCleaner = inputCleaner;
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public ResponseDefault getAllDefendants(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        var defendants = defendantRepository.findAllDefendants(pageable);
-        if(defendants.isEmpty()){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", defendants);
-        }
-        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", defendants);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public ResponseDefault getDefendantById(Long defendantId) {
-        var defendant = defendantRepository.findDefendantById(defendantId).orElse(null);
-        if(defendant == null){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
-        }
-        var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendantId);
-        defendant.setLawsuits(lawsuitsDto);
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendant);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public ResponseDefault getDefendantByCpfOrCnpj(String cpfCnpj) {
-        String cpfCnpjFormatted = inputCleaner.cleanseNumericInput(cpfCnpj);
-        if(cpfCnpjFormatted.length() != 11 && cpfCnpjFormatted.length() != 14){
-            return new ResponseDefault(HttpStatus.BAD_REQUEST, "The CPF/CNPJ provided does not meet the requirements");
-        }
-        var defendant = defendantRepository.findDefendantByCpfOrCnpj(cpfCnpjFormatted).orElse(null);
-        if(defendant == null){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
-        }
-        var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendant.getDefendantId());
-        defendant.setLawsuits(lawsuitsDto);
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendant);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public ResponseDefault getDefendantByName(String defendantName) {
-        if(defendantName.length() < 3){
-            return new ResponseDefault(HttpStatus.BAD_REQUEST,"Enter a name with at least 3 characters!", null);
-        }
-        var defendants = defendantRepository.findDefendantByNameContains(defendantName);
-        if(defendants.isEmpty()){
-            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", defendants);
-        }
-        for (int i = 0; i < defendants.size(); i++) {
-            var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendants.get(i).getDefendantId());
-            defendants.get(i).setLawsuits(lawsuitsDto);
-        }
-        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendants);
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public ResponseDefault getAllDefendants(int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        var defendants = defendantRepository.findAllDefendants(pageable);
+//        if(defendants.isEmpty()){
+//            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", defendants);
+//        }
+//        return new ResponseDefault<>(HttpStatus.OK, "Search carried out!", defendants);
+//    }
+//
+//    @Override
+//    @Transactional(readOnly = true)
+//    public ResponseDefault getDefendantById(Long defendantId) {
+//        var defendant = defendantRepository.findDefendantById(defendantId).orElse(null);
+//        if(defendant == null){
+//            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
+//        }
+//        var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendantId);
+//        defendant.setLawsuits(lawsuitsDto);
+//        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendant);
+//    }
+//
+//    @Override
+//    @Transactional(readOnly = true)
+//    public ResponseDefault getDefendantByCpfOrCnpj(String cpfCnpj) {
+//        String cpfCnpjFormatted = inputCleaner.cleanseNumericInput(cpfCnpj);
+//        if(cpfCnpjFormatted.length() != 11 && cpfCnpjFormatted.length() != 14){
+//            return new ResponseDefault(HttpStatus.BAD_REQUEST, "The CPF/CNPJ provided does not meet the requirements");
+//        }
+//        var defendant = defendantRepository.findDefendantByCpfOrCnpj(cpfCnpjFormatted).orElse(null);
+//        if(defendant == null){
+//            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", null);
+//        }
+//        var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendant.getDefendantId());
+//        defendant.setLawsuits(lawsuitsDto);
+//        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendant);
+//    }
+//
+//    @Override
+//    @Transactional(readOnly = true)
+//    public ResponseDefault getDefendantByName(String defendantName) {
+//        if(defendantName.length() < 3){
+//            return new ResponseDefault(HttpStatus.BAD_REQUEST,"Enter a name with at least 3 characters!", null);
+//        }
+//        var defendants = defendantRepository.findDefendantByNameContains(defendantName);
+//        if(defendants.isEmpty()){
+//            return new ResponseDefault(HttpStatus.NOT_FOUND, "No records found!", defendants);
+//        }
+//        for (int i = 0; i < defendants.size(); i++) {
+//            var lawsuitsDto = lawsuitRepository.findLawsuitByDefendatId(defendants.get(i).getDefendantId());
+//            defendants.get(i).setLawsuits(lawsuitsDto);
+//        }
+//        return new ResponseDefault(HttpStatus.OK, "Search carried out!", defendants);
+//    }
 
     @Override
     @Transactional
     public SaveOrUpdateResponseDefault saveDefendant(DefendantRequestDto defendantRequestDto) {
-        var validation = defendantValidator.validationSaveDefendantRequestDto(defendantRequestDto);
-        if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
-        }
+//        var validation = defendantValidator.validationSaveDefendantRequestDto(defendantRequestDto);
+//        if(!validation.isEmpty()){
+//            return new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
+//        }
         Defendant defendant = defendantDtoToEntity(defendantRequestDto);
         defendant.setCreatedAt(LocalDateTime.now());
         defendantRepository.save(defendant);
         return new SaveOrUpdateResponseDefault(HttpStatus.CREATED, Collections.singletonList("Successfully created!"));
     }
 
-    @Override
-    @Transactional
-    public SaveOrUpdateResponseDefault updateDefendant(Long id, DefendantRequestDto defendantRequestDto) {
-        var defendantToUpdate = defendantRepository.findById(id).orElse(null);
-        if(defendantToUpdate == null){
-            return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No records found for this ID!"));
-        }
-        var validation = defendantValidator.validationUpdateDefendantRequestDto(id, defendantRequestDto);
-        if(!validation.isEmpty()) {
-            return  new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
-        }
-        Defendant existingDefendant = defendantToUpdate;
-        updateDefendantFields(existingDefendant, defendantRequestDto);
-        existingDefendant.setUpdatedAt(LocalDateTime.now());
-        defendantRepository.save(existingDefendant);
-        return new SaveOrUpdateResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
-    }
+//    @Override
+//    @Transactional
+//    public SaveOrUpdateResponseDefault updateDefendant(Long id, DefendantRequestDto defendantRequestDto) {
+//        var defendantToUpdate = defendantRepository.findById(id).orElse(null);
+//        if(defendantToUpdate == null){
+//            return new SaveOrUpdateResponseDefault(HttpStatus.NOT_FOUND, Collections.singletonList("No records found for this ID!"));
+//        }
+//        var validation = defendantValidator.validationUpdateDefendantRequestDto(id, defendantRequestDto);
+//        if(!validation.isEmpty()) {
+//            return  new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
+//        }
+//        Defendant existingDefendant = defendantToUpdate;
+//        updateDefendantFields(existingDefendant, defendantRequestDto);
+//        existingDefendant.setUpdatedAt(LocalDateTime.now());
+//        defendantRepository.save(existingDefendant);
+//        return new SaveOrUpdateResponseDefault(HttpStatus.OK, Collections.singletonList("Updated successfully!"));
+//    }
 
-    public void updateDefendantFields(Defendant existingDefendant, DefendantRequestDto defendantRequestDto){
-        State state = stateRepository.findById(defendantRequestDto.getStateId()).orElse(null);
-        City city = cityRepository.findById(defendantRequestDto.getCityId()).orElse(null);
-
-        existingDefendant.setDefendantName(inputCleaner.removeAccents(defendantRequestDto.getDefendantName()));
-        PersonType personType;
-        if(defendantRequestDto.getPersonType() == "FISICA"){
-            personType = PersonType.FISICA;
-        } else {
-            personType = PersonType.JURIDICA;
-        }
-        existingDefendant.setPersonType(personType);
-        existingDefendant.setCpfCnpj(defendantRequestDto.getCpfCnpj());
-        existingDefendant.setAddress(inputCleaner.removeAccents(defendantRequestDto.getAddress()));
-        existingDefendant.setState(state);
-        existingDefendant.setCity(city);
-        existingDefendant.setNeighborhood(inputCleaner.removeAccents(defendantRequestDto.getNeighborhood()));
-        existingDefendant.setUf(city.getUf());
-        existingDefendant.setCep(defendantRequestDto.getCep());
-        existingDefendant.setContact(inputCleaner.removeAccents(defendantRequestDto.getContact()));
-        existingDefendant.setEmail(inputCleaner.removeAccents(defendantRequestDto.getEmail()));
-    }
+//    public void updateDefendantFields(Defendant existingDefendant, DefendantRequestDto defendantRequestDto){
+//        State state = stateRepository.findById(defendantRequestDto.getStateId()).orElse(null);
+//        City city = cityRepository.findById(defendantRequestDto.getCityId()).orElse(null);
+//
+//        existingDefendant.setDefendantName(inputCleaner.removeAccents(defendantRequestDto.getDefendantName()));
+//        PersonType personType;
+//        if(defendantRequestDto.getPersonType() == "FISICA"){
+//            personType = PersonType.FISICA;
+//        } else {
+//            personType = PersonType.JURIDICA;
+//        }
+//        existingDefendant.setPersonType(personType);
+//        existingDefendant.setCpfCnpj(defendantRequestDto.getCpfCnpj());
+//        existingDefendant.setAddress(inputCleaner.removeAccents(defendantRequestDto.getAddress()));
+//        existingDefendant.setState(state);
+//        existingDefendant.setCity(city);
+//        existingDefendant.setNeighborhood(inputCleaner.removeAccents(defendantRequestDto.getNeighborhood()));
+//        existingDefendant.setUf(city.getUf());
+//        existingDefendant.setCep(defendantRequestDto.getCep());
+//        existingDefendant.setContact(inputCleaner.removeAccents(defendantRequestDto.getContact()));
+//        existingDefendant.setEmail(inputCleaner.removeAccents(defendantRequestDto.getEmail()));
+//    }
 
     public Defendant defendantDtoToEntity(DefendantRequestDto defendantRequestDto){
         Defendant defendant = new Defendant();
 
-        State state = stateRepository.findById(defendantRequestDto.getStateId()).orElse(null);
-        City city = cityRepository.findById(defendantRequestDto.getCityId()).orElse(null);
+        State state = stateRepository.findById(defendantRequestDto.stateId()).orElse(null);
+        City city = cityRepository.findById(defendantRequestDto.cityId()).orElse(null);
 
-        defendant.setDefendantName(inputCleaner.removeAccents(defendantRequestDto.getDefendantName()));
+        defendant.setDefendantName(inputCleaner.removeAccents(defendantRequestDto.defendantName()));
         PersonType personType;
-        if(defendantRequestDto.getPersonType() == "FISICA"){
+        if(defendantRequestDto.personType() == "FISICA"){
             personType = PersonType.FISICA;
         } else {
             personType = PersonType.JURIDICA;
         }
         defendant.setPersonType(personType);
-        defendant.setCpfCnpj(defendantRequestDto.getCpfCnpj());
-        defendant.setAddress(inputCleaner.removeAccents(defendantRequestDto.getAddress()));
+        defendant.setCpfCnpj(defendantRequestDto.cpfCnpj());
+        defendant.setAddress(inputCleaner.removeAccents(defendantRequestDto.address()));
         defendant.setState(state);
         defendant.setCity(city);
-        defendant.setNeighborhood(inputCleaner.removeAccents(defendantRequestDto.getNeighborhood()));
+        defendant.setNeighborhood(inputCleaner.removeAccents(defendantRequestDto.neighborhood()));
         defendant.setUf(city.getUf());
-        defendant.setCep(defendantRequestDto.getCep());
-        defendant.setContact(inputCleaner.removeAccents(defendantRequestDto.getContact()));
-        defendant.setEmail(inputCleaner.removeAccents(defendantRequestDto.getEmail()));
+        defendant.setCep(defendantRequestDto.cep());
+        defendant.setContact(inputCleaner.removeAccents(defendantRequestDto.contact()));
+        defendant.setEmail(inputCleaner.removeAccents(defendantRequestDto.email()));
 
         return defendant;
     }

@@ -36,7 +36,7 @@ public class AnnotationController {
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody AnnotationRequestDto annotationRequestDto){
         try{
             var annotationResponse = annotationService.saveAnnotation(annotationRequestDto);
-            return ResponseEntity.status(annotationResponse.getStatusCode()).body(annotationResponse);
+            return ResponseEntity.status(annotationResponse.statusCode()).body(annotationResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -55,7 +55,7 @@ public class AnnotationController {
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody AnnotationRequestDto annotationRequestDto){
         try{
             var annotationResponse = annotationService.updateAnnotation(id, annotationRequestDto);
-            return ResponseEntity.status(annotationResponse.getStatusCode()).body(annotationResponse);
+            return ResponseEntity.status(annotationResponse.statusCode()).body(annotationResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

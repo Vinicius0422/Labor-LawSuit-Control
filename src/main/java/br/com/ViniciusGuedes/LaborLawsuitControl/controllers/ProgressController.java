@@ -35,7 +35,7 @@ public class ProgressController {
     public ResponseEntity saveProgress(@RequestBody ProgressRequestDto progressRequestDto){
         try{
             var progressResponse = progressService.saveProgress(progressRequestDto);
-            return ResponseEntity.status(progressResponse.getStatusCode()).body(progressResponse);
+            return ResponseEntity.status(progressResponse.statusCode()).body(progressResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -54,7 +54,7 @@ public class ProgressController {
                                                  content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody ProgressRequestDto progressRequestDto){
         try{
             var progressResponse = progressService.updateProgress(id, progressRequestDto);
-            return ResponseEntity.status(progressResponse.getStatusCode()).body(progressResponse);
+            return ResponseEntity.status(progressResponse.statusCode()).body(progressResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
