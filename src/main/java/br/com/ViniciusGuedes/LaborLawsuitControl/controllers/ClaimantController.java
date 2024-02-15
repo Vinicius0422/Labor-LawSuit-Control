@@ -1,6 +1,9 @@
 package br.com.ViniciusGuedes.LaborLawsuitControl.controllers;
 
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.SaveOrUpdateResponseDefault;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantRequestDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.ClaimantResponseDto;
+import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.claimant.OnlyClaimantResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.ClaimantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -8,14 +11,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/claimant", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/v1/claimants", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Claimant Controller", description = "API endpoints for managing claimants")
 public class ClaimantController {
 
@@ -34,8 +39,8 @@ public class ClaimantController {
     })
     public ResponseEntity findAllClaimants(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         try{
-            var claimantResponse = claimantService.getAllClaimants(page, size);
-            return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse);
+            Page<OnlyClaimantResponseDto> claimantResponse = claimantService.getAllClaimants(page, size);
+            return ResponseEntity.ok(claimantResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -50,8 +55,8 @@ public class ClaimantController {
     })
     public ResponseEntity findClaimantById(@Parameter(description = "ID of the claimant", required = true) @PathVariable(value = "claimantId") Long claimantId){
         try{
-            var claimantResponse = claimantService.getClaimantById(claimantId);
-            return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse);
+            ClaimantResponseDto claimantResponse = claimantService.getClaimantById(claimantId);
+            return ResponseEntity.ok(claimantResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -67,8 +72,8 @@ public class ClaimantController {
     })
     public ResponseEntity findClaimantByCpf(@Parameter(description = "CPF of the claimant", required = true) @RequestParam String cpf){
         try{
-            var claimantResponse = claimantService.getByCpf(cpf);
-            return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse);
+            ClaimantResponseDto claimantResponse = claimantService.getByCpf(cpf);
+            return ResponseEntity.ok(claimantResponse);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -83,10 +88,11 @@ public class ClaimantController {
             @ApiResponse(responseCode = "404", description = "No claimants found by name", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity findClaimantByName(@Parameter(description = "Name of the claimant", required = true) @RequestParam String claimantName){
+    public ResponseEntity findClaimantByName(@Parameter(description = "Name of the claimant", required = true) @RequestParam String claimantName,
+    @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         try{
-            var claimantResponse = claimantService.getByName(claimantName);
-            return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse);
+            Page<ClaimantResponseDto> claimantResponse = claimantService.getByName(claimantName, page, size);
+            return ResponseEntity.ok(claimantResponse);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -100,10 +106,10 @@ public class ClaimantController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public ResponseEntity saveClaimant(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Request body containing claimant data", required = true,
-            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody ClaimantRequestDto claimantRequestDto){
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody @Valid ClaimantRequestDto claimantRequestDto){
         try{
-            var claimantResponse = claimantService.saveClaimant(claimantRequestDto);
-            return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse.getMessage());
+            SaveOrUpdateResponseDefault claimantResponse = claimantService.saveClaimant(claimantRequestDto);
+            return ResponseEntity.status(claimantResponse.statusCode()).body(claimantResponse.message());
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -120,10 +126,10 @@ public class ClaimantController {
     })
     public ResponseEntity updateClaimant(@Parameter(description = "ID of the claimant to be updated", required = true) @PathVariable(value = "id") Long id,
                                          @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Request body containing claimant data", required = true,
-                                                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody ClaimantRequestDto claimantRequestDto){
+                                                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @RequestBody @Valid ClaimantRequestDto claimantRequestDto){
         try{
-            var claimantResponse = claimantService.updateClaimant(id, claimantRequestDto);
-            return ResponseEntity.status(claimantResponse.getStatusCode()).body(claimantResponse.getMessage());
+            SaveOrUpdateResponseDefault claimantResponse = claimantService.updateClaimant(id, claimantRequestDto);
+            return ResponseEntity.status(claimantResponse.statusCode()).body(claimantResponse.message());
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

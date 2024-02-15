@@ -60,7 +60,7 @@ public interface ClaimantRepository extends JpaRepository<Claimant, Long> {
             "LEFT JOIN c.maritalStatus m " +
             "LEFT JOIN c.accountType a " +
             "WHERE c.claimantName LIKE %:claimantName%")
-    List<ClaimantResponseDto> findClaimantByNameContains(@Param("claimantName") String claimantName);
+    Page<ClaimantResponseDto> findClaimantByNameContains(@Param("claimantName") String claimantName, Pageable pageable);
 
     boolean existsByCpf(String cpf);
     boolean existsByRg(String rg);
