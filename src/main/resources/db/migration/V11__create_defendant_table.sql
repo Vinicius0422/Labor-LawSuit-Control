@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS defendant (
     city_id BIGINT UNSIGNED DEFAULT 1 NOT NULL,
     neighborhood VARCHAR(50),
     uf VARCHAR(2),
-    cep VARCHAR(8),
+    cep VARCHAR(10),
     contact VARCHAR(255),
     email VARCHAR(150),
     created_at TIMESTAMP NOT NULL,
