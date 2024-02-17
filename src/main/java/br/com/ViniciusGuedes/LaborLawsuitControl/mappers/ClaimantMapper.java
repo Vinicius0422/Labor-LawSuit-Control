@@ -36,39 +36,6 @@ public class ClaimantMapper {
         this.dateFormatValidator = dateFormatValidator;
     }
 
-    public void updateClaimantFields(Claimant existingClaimant, ClaimantRequestDto claimantRequestDto){
-        Nationality nationality = nationalityRepository.findById(claimantRequestDto.nationalityId()).orElse(null);
-        MaritalStatus maritalStatus = maritalStatusRepository.findById(claimantRequestDto.maritalStatusId()).orElse(null);
-        AccountType accountType = accountTypeRepository.findById(claimantRequestDto.accountTypeId()).orElse(null);
-        State state = stateRepository.findById(claimantRequestDto.stateId()).orElse(null);
-        City city = cityRepository.findById(claimantRequestDto.cityId()).orElse(null);
-        existingClaimant.setClaimantName(claimantRequestDto.claimantName());
-        existingClaimant.setBirthDate(dateFormatValidator.parseLocalDate(claimantRequestDto.birthDate()));
-        existingClaimant.setOccupation(claimantRequestDto.occupation());
-        existingClaimant.setCtps(claimantRequestDto.cpf().substring(0,7));
-        existingClaimant.setSerieCtps(claimantRequestDto.cpf().substring(7,11));
-        existingClaimant.setRg(claimantRequestDto.rg());
-        existingClaimant.setOrgaoRg(claimantRequestDto.orgaoRg());
-        existingClaimant.setCpf(claimantRequestDto.cpf());
-        existingClaimant.setPis(claimantRequestDto.pis());
-        existingClaimant.setAddress(claimantRequestDto.address());
-        existingClaimant.setNeighborhood(claimantRequestDto.neighborhood());
-        existingClaimant.setCep(claimantRequestDto.cep());
-        existingClaimant.setBank(claimantRequestDto.bank());
-        existingClaimant.setAgency(claimantRequestDto.agency());
-        existingClaimant.setOperation(claimantRequestDto.operation());
-        existingClaimant.setAccount(claimantRequestDto.account());
-        existingClaimant.setContact(claimantRequestDto.contact());
-        existingClaimant.setEmail(claimantRequestDto.email());
-        // Setar outras propriedades conforme necessário
-        existingClaimant.setNationality(nationality);
-        existingClaimant.setMaritalStatus(maritalStatus);
-        existingClaimant.setAccountType(accountType);
-        existingClaimant.setState(state);
-        existingClaimant.setCity(city);
-        existingClaimant.setUf(city.getUf());
-    }
-
     public Claimant createClaimantFromDto(ClaimantRequestDto claimantRequestDto){
         Nationality nationality = nationalityRepository.findById(claimantRequestDto.nationalityId()).orElse(null);
         MaritalStatus maritalStatus = maritalStatusRepository.findById(claimantRequestDto.maritalStatusId()).orElse(null);
@@ -106,4 +73,38 @@ public class ClaimantMapper {
 
         return claimant;
     }
+
+    public void updateClaimantFields(Claimant existingClaimant, ClaimantRequestDto claimantRequestDto){
+        Nationality nationality = nationalityRepository.findById(claimantRequestDto.nationalityId()).orElse(null);
+        MaritalStatus maritalStatus = maritalStatusRepository.findById(claimantRequestDto.maritalStatusId()).orElse(null);
+        AccountType accountType = accountTypeRepository.findById(claimantRequestDto.accountTypeId()).orElse(null);
+        State state = stateRepository.findById(claimantRequestDto.stateId()).orElse(null);
+        City city = cityRepository.findById(claimantRequestDto.cityId()).orElse(null);
+        existingClaimant.setClaimantName(claimantRequestDto.claimantName());
+        existingClaimant.setBirthDate(dateFormatValidator.parseLocalDate(claimantRequestDto.birthDate()));
+        existingClaimant.setOccupation(claimantRequestDto.occupation());
+        existingClaimant.setCtps(claimantRequestDto.cpf().substring(0,7));
+        existingClaimant.setSerieCtps(claimantRequestDto.cpf().substring(7,11));
+        existingClaimant.setRg(claimantRequestDto.rg());
+        existingClaimant.setOrgaoRg(claimantRequestDto.orgaoRg());
+        existingClaimant.setCpf(claimantRequestDto.cpf());
+        existingClaimant.setPis(claimantRequestDto.pis());
+        existingClaimant.setAddress(claimantRequestDto.address());
+        existingClaimant.setNeighborhood(claimantRequestDto.neighborhood());
+        existingClaimant.setCep(claimantRequestDto.cep());
+        existingClaimant.setBank(claimantRequestDto.bank());
+        existingClaimant.setAgency(claimantRequestDto.agency());
+        existingClaimant.setOperation(claimantRequestDto.operation());
+        existingClaimant.setAccount(claimantRequestDto.account());
+        existingClaimant.setContact(claimantRequestDto.contact());
+        existingClaimant.setEmail(claimantRequestDto.email());
+        // Setar outras propriedades conforme necessário
+        existingClaimant.setNationality(nationality);
+        existingClaimant.setMaritalStatus(maritalStatus);
+        existingClaimant.setAccountType(accountType);
+        existingClaimant.setState(state);
+        existingClaimant.setCity(city);
+        existingClaimant.setUf(city.getUf());
+    }
+
 }

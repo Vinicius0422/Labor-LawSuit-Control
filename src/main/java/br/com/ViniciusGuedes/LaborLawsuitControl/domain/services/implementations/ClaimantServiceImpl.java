@@ -10,7 +10,7 @@ import br.com.ViniciusGuedes.LaborLawsuitControl.domain.services.interfaces.Clai
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.utils.InputCleaner;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.ClaimantValidator;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.validations.DateFormatValidator;
-import br.com.ViniciusGuedes.LaborLawsuitControl.exceptions.NotFoundExecption;
+import br.com.ViniciusGuedes.LaborLawsuitControl.exceptions.ResourceNotFoundException;
 import br.com.ViniciusGuedes.LaborLawsuitControl.mappers.ClaimantMapper;
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.ClaimantRepository;
 import br.com.ViniciusGuedes.LaborLawsuitControl.repositories.LawsuitRepository;
@@ -63,7 +63,7 @@ public class ClaimantServiceImpl implements ClaimantService {
     @Transactional(readOnly = true)
     public ClaimantResponseDto getClaimantById(Long claimantId) {
         ClaimantResponseDto claimant = claimantRepository.findClaimantById(claimantId)
-                .orElseThrow(() -> new NotFoundExecption("Claimant is not exists for given id!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Claimant is not exists for given id!"));
         List<LawsuitSomeFieldsResponseDto> lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimantId);
         claimant.setLawsuits(lawsuitsDto);
         return claimant;
@@ -77,7 +77,7 @@ public class ClaimantServiceImpl implements ClaimantService {
             throw new ConstraintViolationException("The CPF provided does not meet the requirements", null);
         }
         ClaimantResponseDto claimant = claimantRepository.findClaimantByCpf(cpfFormatted)
-                .orElseThrow(() -> new NotFoundExecption("Claimant is not exists for given cpf!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Claimant is not exists for given cpf!"));
         List<LawsuitSomeFieldsResponseDto> lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimant.getClaimantId());
         claimant.setLawsuits(lawsuitsDto);
         return claimant;
@@ -87,8 +87,8 @@ public class ClaimantServiceImpl implements ClaimantService {
     @Transactional(readOnly = true)
     public Page<ClaimantResponseDto> getByName(String claimantName, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        if (claimantName == null || claimantName.length() < 3) {
-            throw new IllegalArgumentException("The claimant name must have at least 3 characters");
+        if (claimantName.isBlank() || claimantName.length() < 3) {
+            throw new IllegalArgumentException("Enter a claimant name with at least 3 characters!");
         }
         Page<ClaimantResponseDto> claimantsDto = claimantRepository.findClaimantByNameContains(claimantName, pageable).map((claimant) -> {
             List<LawsuitSomeFieldsResponseDto> lawsuitsDto = lawsuitRepository.findLawsuitByClaimantId(claimant.getClaimantId());
@@ -102,9 +102,9 @@ public class ClaimantServiceImpl implements ClaimantService {
     @Override
     @Transactional
     public SaveOrUpdateResponseDefault saveClaimant(ClaimantRequestDto claimantRequestDto) {
-        List<String> validation = claimantValidator.validationSaveClaimantRequestDto(claimantRequestDto);
-        if(!validation.isEmpty()){
-            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, validation);
+        List<String> errors = claimantValidator.validationSaveClaimantRequestDto(claimantRequestDto);
+        if(!errors.isEmpty()){
+            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, errors);
         }
         Claimant claimant = claimantMapper.createClaimantFromDto(claimantRequestDto);
         claimantRepository.save(claimant);
@@ -115,10 +115,10 @@ public class ClaimantServiceImpl implements ClaimantService {
     @Transactional
     public SaveOrUpdateResponseDefault updateClaimant(Long id, ClaimantRequestDto claimantRequestDto) {
         Claimant claimantToUpdate = claimantRepository.findById(id)
-                .orElseThrow(() -> new NotFoundExecption("Claimant is not exists for given cpf!"));
-        List<String> validation = claimantValidator.validationUpdateClaimantRequestDto(id, claimantRequestDto);
-        if(!validation.isEmpty()) {
-            return  new SaveOrUpdateResponseDefault(HttpStatus.UNPROCESSABLE_ENTITY, validation);
+                .orElseThrow(() -> new ResourceNotFoundException("Claimant is not exists for given id!"));
+        List<String> errors = claimantValidator.validationUpdateClaimantRequestDto(id, claimantRequestDto);
+        if(!errors.isEmpty()) {
+            return new SaveOrUpdateResponseDefault(HttpStatus.BAD_REQUEST, errors);
         }
         Claimant existingClaimant = claimantToUpdate;
         claimantMapper.updateClaimantFields(existingClaimant, claimantRequestDto);
