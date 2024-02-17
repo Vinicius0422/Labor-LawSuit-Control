@@ -33,7 +33,7 @@ public class Defendant {
     @Column(length = 2)
     private String uf;
 
-    @Column(length = 8)
+    @Column(length = 10)
     private String cep;
 
     private String contact;
@@ -61,9 +61,8 @@ public class Defendant {
     public Defendant() {
     }
 
-    public Defendant(Long defendantId, String defendantName, PersonType personType, String cpfCnpj, String address, String neighborhood, String uf, String cep,
-                     String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, State state, City city, List<Lawsuit> lawsuits) {
-        this.defendantId = defendantId;
+    public Defendant(String defendantName, PersonType personType, String cpfCnpj, String address, String neighborhood, String uf, String cep,
+                     String contact, String email, LocalDateTime createdAt, LocalDateTime updatedAt, State state, City city) {
         this.defendantName = defendantName;
         this.personType = personType;
         this.cpfCnpj = cpfCnpj;
@@ -77,7 +76,6 @@ public class Defendant {
         this.updatedAt = updatedAt;
         this.state = state;
         this.city = city;
-        this.lawsuits = lawsuits;
     }
 
     public Long getDefendantId() {

@@ -2,7 +2,6 @@ package br.com.ViniciusGuedes.LaborLawsuitControl.repositories;
 
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantSomeFieldsResponseDto;
-import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Claimant;
 import br.com.ViniciusGuedes.LaborLawsuitControl.domain.entities.Defendant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +27,7 @@ public interface DefendantRepository extends JpaRepository<Defendant, Long> {
             "LEFT JOIN d.state s " +
             "LEFT JOIN d.city ci " +
             "WHERE d.defendantName LIKE %:defendantName%")
-    List<DefendantResponseDto> findDefendantByNameContains(@Param("defendantName") String defendantName);
+    Page<DefendantResponseDto> findDefendantByNameContains(@Param("defendantName") String defendantName, Pageable pageable);
 
     @Query("SELECT new br.com.ViniciusGuedes.LaborLawsuitControl.domain.dtos.defendant.DefendantResponseDto(" +
             "d.defendantId, d.defendantName, d.personType, d.cpfCnpj, d.address, s.stateName, ci.cityName, ci.uf, d.neighborhood, " +

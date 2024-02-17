@@ -10,7 +10,7 @@ public record DefendantRequestDto(
         @NotBlank(message = "The person type is required")
         String personType,
         @NotBlank(message = "The CPF/CNPJ is required")
-        @Size(max = 14, min = 14, message = "The CPF/CNPJ must have a maximum of 14 characters")
+        @Size(max = 14, min = 11, message = "The CPF must have 11 characters, CNPJ 14 characters")
         String cpfCnpj,
         String address,
         Long stateId,
